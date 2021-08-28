@@ -7,13 +7,13 @@ namespace Client
     {
         static void Main(string[] args)
         {
-#if DEBUG
+#if RELEASE
             try
             {
 #endif
                 using var game = new GameClient();
                 game.Run();
-#if DEBUG
+#if RELEASE
             }
             catch (Exception ex)
             {

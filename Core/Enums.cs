@@ -1,5 +1,11 @@
 ﻿namespace FinalFrontier
 {
+    public enum GameStateType
+    {
+        Menu,
+        Play,
+    }
+
     public enum AudioType
     {
         Music,
