@@ -62,6 +62,7 @@ namespace FinalFrontier
 
             Window.Resizable = false;
 
+            Globals.Load();
             UICursors.Setup();
             UICursors.SetCursor(UICursorType.Normal);
 

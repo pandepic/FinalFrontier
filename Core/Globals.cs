@@ -1,4 +1,5 @@
 ﻿using ElementEngine;
+using ElementEngine.TexturePacker;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,6 +57,15 @@ namespace FinalFrontier
             LocalisationManager.SetLanguage($"Languages/{language}.json");
             SettingsManager.UpdateSetting("UI", "Language", language);
             CurrentLanguage = language;
+        }
+
+        public static TexturePackerAtlas UIAtlas;
+        public static TexturePackerAtlas EntityAtlas;
+
+        public static void Load()
+        {
+            UIAtlas = AssetManager.LoadTexturePackerAtlas("Textures/ui_atlas.png", "Textures/ui_atlas.json");
+            EntityAtlas = AssetManager.LoadTexturePackerAtlas("Textures/entity_atlas.png", "Textures/entity_atlas.json");
         }
 
     } // Globals
