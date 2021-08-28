@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>FinalFrontier</RootNamespace>
+
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <TieredCompilation>false</TieredCompilation>
+    <AssemblyName>FinalFrontier</AssemblyName>
+
+    <BeautyLibsDir>Libraries</BeautyLibsDir>
+    <DisableBeauty>False</DisableBeauty>
+    <ForceBeauty>False</ForceBeauty>
+    <DisablePatch>False</DisablePatch>
+    <BeautyLogLevel>Error</BeautyLogLevel>
+    <BeautyExcludes>SDL2.dll</BeautyExcludes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ElementEngine\ElementEngine.csproj" />
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="nulastudio.NetCoreBeauty" Version="1.2.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Content\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Settings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Content\" />
+  </ItemGroup>
+
+</Project>

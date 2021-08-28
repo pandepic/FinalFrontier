@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Settings>
+  <Section Name="Window">
+    <Setting Name="Width" Value="1600" />
+    <Setting Name="Height" Value="900" />
+    <Setting Name="BorderlessFullscreen" Value="false" />
+    <Setting Name="Vsync" Value="true" />
+  </Section>
+  <Section Name="Sound">
+    <Setting Name="MasterVolume" Value="0.5" />
+    <Setting Name="MusicVolume" Value="0.0" />
+    <Setting Name="SFXVolume" Value="0.3" />
+    <Setting Name="UIVolume" Value="0.2" />
+  </Section>
+  <Section Name="UI">
+    <Setting Name="Language" Value="English" />
+  </Section>
+  <Section Name="Account">
+    <Setting Name="Username" Value="" />
+    <Setting Name="Salt" Value="" />
+  </Section>
+  <Section Name="Gameplay">
+    <Setting Name="ZoomToCursor" Value="true" />
+  </Section>
+  <Section Name="Controls">
+    <Setting Name="Interact" Value="Left" Type="Mouse" />
+    <Setting Name="Command" Value="Right" Type="Mouse" />
+
+    <Setting Name="DragCamera" Value="Middle" Type="Mouse" />
+    <Setting Name="ZoomIn" Value="WheelUp" Type="Mouse" />
+    <Setting Name="ZoomOut" Value="WheelDown" Type="Mouse" />
+
+    <Setting Name="Cancel" Value="Escape" Type="Keyboard" />
+
+  </Section>
+</Settings>
