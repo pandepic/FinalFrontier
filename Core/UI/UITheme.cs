@@ -32,6 +32,11 @@ namespace FinalFrontier
         public static UIDropdownListStyle BaseDropdownListStyle;
         #endregion
 
+        #region Containers
+        public static UIContainerStyle ClearInnerContainerStyle;
+        public static UIContainerStyle ClearInnerContainerStyle_DEBUG;
+        #endregion
+
         static UITheme()
         {
             FontRoboto = new UIFontFamily("Roboto");
@@ -192,7 +197,11 @@ namespace FinalFrontier
                 itemButtonLabelStyle: dropdownLabelStyle);
             #endregion
 
+            #region Containers
+            ClearInnerContainerStyle = new UIContainerStyle(new UISpriteColor(RgbaByte.Clear));
+            ClearInnerContainerStyle_DEBUG = new UIContainerStyle(new UISpriteColor(RgbaByte.Red));
+            #endregion
         } // constructor
 
-    } // UITheme
+} // UITheme
 }

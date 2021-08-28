@@ -9,6 +9,13 @@ namespace FinalFrontier
 {
     public class GameStatePlay : GameState
     {
+        public GameClient Client;
+
+        public GameStatePlay(GameClient client)
+        {
+            Client = client;
+        }
+
         public override void Initialize()
         {
         }

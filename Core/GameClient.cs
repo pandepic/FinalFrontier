@@ -51,14 +51,14 @@ namespace FinalFrontier
                     Globals.PossibleResolutions.RemoveAt(i);
             }
 
-            SetupWindow(windowRect, "Far Horizons", vsync: vsync, windowState: windowState);
+            SetupWindow(windowRect, "Final Frontier", vsync: vsync, windowState: windowState);
             AssetManager.Load("Content", LoadAssetsMode.AutoPrependDir | LoadAssetsMode.AutoFind);
             Globals.SetLanguage(SettingsManager.GetSetting<string>("UI", "Language"));
 
             InputManager.LoadGameControls();
 
             GameStates.Add(GameStateType.Menu, new GameStateMenu(this));
-            GameStates.Add(GameStateType.Play, new GameStatePlay());
+            GameStates.Add(GameStateType.Play, new GameStatePlay(this));
 
             Window.Resizable = false;
 

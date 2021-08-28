@@ -3,10 +3,11 @@
   "Username": "Username",
   "Password": "Password",
   "PasswordInfo": "Password will be securely hashed.",
+  "RememberUsername": "Remember Username",
   "Login": "Login",
   "Register": "Register",
   "Settings": "Settings",
   "Exit": "Exit",
 
-  "ServerStatus": "Server Status"
+  "ServerStatus": "Server Status: {STATUS}"
 }
