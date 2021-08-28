@@ -25,6 +25,7 @@ namespace FinalFrontier
             screen.AddChild(title);
 
             BuildLoginContainer(screen, menu);
+            UIBuilderMenuSettings.Build(screen, menu);
 
             var menuButtonContainerStyle = new UIContainerStyle(UITheme.ClearInnerContainerStyle)
             {
@@ -139,6 +140,8 @@ namespace FinalFrontier
                     SettingsManager.UpdateSetting("Account", "Username", txtUsername.Text);
                 else
                     SettingsManager.UpdateSetting("Account", "Username", "");
+
+                GameClient.SaveSettings();
 
                 // TODO : login
             };

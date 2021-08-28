@@ -46,10 +46,16 @@ namespace FinalFrontier
             new Resolution(1280, 800),
         };
 
+        public static void SaveResolution(Resolution resolution)
+        {
+            SettingsManager.UpdateSetting("Window", "Width", resolution.Width.ToString());
+            SettingsManager.UpdateSetting("Window", "Height", resolution.Height.ToString());
+        }
+
         public static string CurrentLanguage = "";
         public static List<string> Languages = new List<string>()
         {
-            "English", "German",
+            "English",
         };
 
         public static void SetLanguage(string language)
@@ -62,10 +68,17 @@ namespace FinalFrontier
         public static TexturePackerAtlas UIAtlas;
         public static TexturePackerAtlas EntityAtlas;
 
+        public static string ServerAddress = "localhost";
+        public static int ServerPort = 21461;
+
         public static void Load()
         {
             UIAtlas = AssetManager.LoadTexturePackerAtlas("Textures/ui_atlas.png", "Textures/ui_atlas.json");
             EntityAtlas = AssetManager.LoadTexturePackerAtlas("Textures/entity_atlas.png", "Textures/entity_atlas.json");
+
+#if DEBUG
+            ServerAddress = "localhost";
+#endif
         }
 
     } // Globals

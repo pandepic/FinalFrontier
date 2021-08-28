@@ -260,6 +260,21 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../../../Assets/UI/12 Options/General UI Elements/heading_holo.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>125,10,249,19</rect>
+                <key>scale9Paddings</key>
+                <rect>125,10,249,19</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../../../Assets/UI/12 Options/General UI Elements/radio_ch.png</key>
             <key type="filename">../../../Assets/UI/12 Options/General UI Elements/radio_h.png</key>
             <key type="filename">../../../Assets/UI/12 Options/General UI Elements/radio_n.png</key>
@@ -423,7 +438,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../../../Assets/UI/12 Options/options_box_merge1.png</key>
+            <key type="filename">../../../Assets/UI/12 Options/options_box_merge2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -432,9 +447,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>235,177,469,353</rect>
+                <rect>235,175,469,349</rect>
                 <key>scale9Paddings</key>
-                <rect>235,177,469,353</rect>
+                <rect>235,175,469,349</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -537,21 +552,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../../../Assets/UI/Scroll_H/scrollg_rail.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>131,5,261,9</rect>
-                <key>scale9Paddings</key>
-                <rect>131,5,261,9</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">../../../Assets/UI/Scroll_H/scrollh_left_h.png</key>
             <key type="filename">../../../Assets/UI/Scroll_H/scrollh_left_n.png</key>
             <key type="filename">../../../Assets/UI/Scroll_H/scrollh_left_p.png</key>
@@ -611,21 +611,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../../../Assets/UI/Scroll_V/scrollv_rail.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>5,131,9,261</rect>
-                <key>scale9Paddings</key>
-                <rect>5,131,9,261</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">../../../Assets/UI/Scroll_V/scrollv_rail_bottom.png</key>
             <key type="filename">../../../Assets/UI/Scroll_V/scrollv_rail_center.png</key>
             <key type="filename">../../../Assets/UI/Scroll_V/scrollv_rail_top.png</key>
@@ -665,7 +650,6 @@
             <filename>../../../Assets/UI/Scroll_Dropdown/dd_rail.png</filename>
             <filename>../../../Assets/UI/Scroll_Dropdown/dd_slide_h.png</filename>
             <filename>../../../Assets/UI/Scroll_Dropdown/dd_slide_n.png</filename>
-            <filename>../../../Assets/UI/Scroll_H/scrollg_rail.png</filename>
             <filename>../../../Assets/UI/Scroll_H/scrollh_left_h.png</filename>
             <filename>../../../Assets/UI/Scroll_H/scrollh_left_n.png</filename>
             <filename>../../../Assets/UI/Scroll_H/scrollh_left_p.png</filename>
@@ -680,7 +664,6 @@
             <filename>../../../Assets/UI/Scroll_V/scrollv_down_h.png</filename>
             <filename>../../../Assets/UI/Scroll_V/scrollv_down_n.png</filename>
             <filename>../../../Assets/UI/Scroll_V/scrollv_down_p.png</filename>
-            <filename>../../../Assets/UI/Scroll_V/scrollv_rail.png</filename>
             <filename>../../../Assets/UI/Scroll_V/scrollv_rail_bottom.png</filename>
             <filename>../../../Assets/UI/Scroll_V/scrollv_rail_center.png</filename>
             <filename>../../../Assets/UI/Scroll_V/scrollv_rail_top.png</filename>
@@ -725,7 +708,6 @@
             <filename>../../../Assets/UI/12 Options/icon_keybindings.png</filename>
             <filename>../../../Assets/UI/12 Options/icon_settings.png</filename>
             <filename>../../../Assets/UI/12 Options/icon_visuals.png</filename>
-            <filename>../../../Assets/UI/12 Options/options_box_merge1.png</filename>
             <filename>../../../Assets/UI/12 Options/tab_h.png</filename>
             <filename>../../../Assets/UI/12 Options/tab_n.png</filename>
             <filename>../../../Assets/UI/12 Options/tab_p.png</filename>
@@ -734,6 +716,8 @@
             <filename>../../../Assets/UI/12 Options/button_normal_h.png</filename>
             <filename>../../../Assets/UI/12 Options/button_normal_n.png</filename>
             <filename>../../../Assets/UI/12 Options/button_normal_p.png</filename>
+            <filename>../../../Assets/UI/12 Options/options_box_merge2.png</filename>
+            <filename>../../../Assets/UI/12 Options/General UI Elements/heading_holo.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

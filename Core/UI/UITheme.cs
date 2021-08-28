@@ -20,6 +20,7 @@ namespace FinalFrontier
         #region Buttons
         public static UIButtonStyle BaseNormalButtonStyle;
         public static UIButtonStyle BaseWideButtonStyle;
+        public static UIButtonStyle BaseCloseButtonStyle;
         #endregion
 
         #region Form controls
@@ -35,6 +36,38 @@ namespace FinalFrontier
         #region Containers
         public static UIContainerStyle ClearInnerContainerStyle;
         public static UIContainerStyle ClearInnerContainerStyle_DEBUG;
+        #endregion
+
+        #region Scrollbars
+        // vertical container scrollbar
+        public static readonly UIScrollbarStyleV ContainerScrollbarVStyle;
+        public static readonly UIImageStyle ContainerScrollbarVRailStyle;
+        public static readonly UIButtonStyle ContainerScrollbarVSliderStyle;
+        public static readonly UIButtonStyle ContainerScrollbarVButtonUpStyle;
+        public static readonly UIButtonStyle ContainerScrollbarVButtonDownStyle;
+
+        // horizontal container scrollbar
+        public static readonly UIScrollbarStyleH ContainerScrollbarHStyle;
+        public static readonly UIImageStyle ContainerScrollbarHRailStyle;
+        public static readonly UIButtonStyle ContainerScrollbarHSliderStyle;
+        public static readonly UIButtonStyle ContainerScrollbarHButtonLeftStyle;
+        public static readonly UIButtonStyle ContainerScrollbarHButtonRightStyle;
+        #endregion
+
+        #region Settings
+        public static readonly UIContainerStyle ClearScrollableContainerStyle;
+        public static readonly UIContainerStyle ClearScrollableContainerStyle_DEBUG;
+        public static readonly UIImageStyle ClearScrollableContainerHeadingHoloStyle;
+        public static readonly UILabelStyle ClearScrollableContainerHeadingLabelStyle;
+        public static readonly UIContainerStyle SettingsFullSectionContainerStyle;
+
+        public static readonly UIScrollbarStyleH SettingsScrollbarHStyle;
+        public static readonly UIImageStyle SettingsScrollbarHRailStyle;
+        public static readonly UIImageStyle SettingsScrollbarHRailFillStyle;
+        public static readonly UIButtonStyle SettingsScrollbarHSliderStyle;
+
+        public static UIButtonStyle SettingsTabButtonStyle;
+        public static UIPosition SettingsTabButtonIconPosition;
         #endregion
 
         static UITheme()
@@ -100,6 +133,11 @@ namespace FinalFrontier
                 spritePressed: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("wide_button_p.png"))),
                 spriteHover: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("wide_button_h.png"))),
                 spriteDisabled: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("wide_button_d.png"))));
+
+            BaseCloseButtonStyle = new UIButtonStyle(
+                spriteNormal: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("close_n.png"))),
+                spritePressed: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("close_p.png"))),
+                spriteHover: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("close_h.png"))));
             #endregion
 
             #region Form controls
@@ -201,6 +239,145 @@ namespace FinalFrontier
             ClearInnerContainerStyle = new UIContainerStyle(new UISpriteColor(RgbaByte.Clear));
             ClearInnerContainerStyle_DEBUG = new UIContainerStyle(new UISpriteColor(RgbaByte.Red));
             #endregion
+
+            #region Scrollbars
+            // vertical container scrollbar
+            ContainerScrollbarVRailStyle = new UIImageStyle(
+                new UISprite3SliceVertical(
+                    top: Globals.UIAtlas.GetUITexture("scrollv_rail_top.png"),
+                    bottom: Globals.UIAtlas.GetUITexture("scrollv_rail_bottom.png"),
+                    center: Globals.UIAtlas.GetUITexture("scrollv_rail_center.png")));
+
+            ContainerScrollbarVSliderStyle = new UIButtonStyle(
+                spriteNormal: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollv_slider_n.png"))),
+                spritePressed: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollv_slider_n.png"))),
+                spriteHover: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollv_slider_h.png"))));
+
+            ContainerScrollbarVButtonUpStyle = new UIButtonStyle(
+                spriteNormal: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollv_up_n.png"))),
+                spritePressed: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollv_up_p.png"))),
+                spriteHover: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollv_up_h.png"))));
+
+            ContainerScrollbarVButtonDownStyle = new UIButtonStyle(
+                spriteNormal: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollv_down_n.png"))),
+                spritePressed: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollv_down_p.png"))),
+                spriteHover: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollv_down_h.png"))));
+
+            ContainerScrollbarVStyle = new UIScrollbarStyleV(
+                    rail: ContainerScrollbarVRailStyle,
+                    slider: ContainerScrollbarVSliderStyle,
+                    buttonUp: ContainerScrollbarVButtonUpStyle,
+                    buttonDown: ContainerScrollbarVButtonDownStyle,
+                    buttonType: UIScrollbarButtonType.CenterRailEdge,
+                    sliderType: UIScrollbarSliderType.Contain);
+
+            // horizontal container scrollbar
+            ContainerScrollbarHRailStyle = new UIImageStyle(
+                new UISprite3SliceHorizontal(
+                    left: Globals.UIAtlas.GetUITexture("scrollh_rail_left.png"),
+                    right: Globals.UIAtlas.GetUITexture("scrollh_rail_right.png"),
+                    center: Globals.UIAtlas.GetUITexture("scrollh_rail_center.png")));
+
+            ContainerScrollbarHSliderStyle = new UIButtonStyle(
+                spriteNormal: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollh_slider_n.png"))),
+                spritePressed: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollh_slider_n.png"))),
+                spriteHover: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollh_slider_h.png"))));
+
+            ContainerScrollbarHButtonLeftStyle = new UIButtonStyle(
+                spriteNormal: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollh_left_n.png"))),
+                spritePressed: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollh_left_p.png"))),
+                spriteHover: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollh_left_h.png"))));
+
+            ContainerScrollbarHButtonRightStyle = new UIButtonStyle(
+                spriteNormal: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollh_right_n.png"))),
+                spritePressed: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollh_right_p.png"))),
+                spriteHover: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("scrollh_right_h.png"))));
+
+            ContainerScrollbarHStyle = new UIScrollbarStyleH(
+                    rail: ContainerScrollbarHRailStyle,
+                    slider: ContainerScrollbarHSliderStyle,
+                    buttonLeft: ContainerScrollbarHButtonLeftStyle,
+                    buttonRight: ContainerScrollbarHButtonRightStyle,
+                    buttonType: UIScrollbarButtonType.CenterRailEdge,
+                    sliderType: UIScrollbarSliderType.Contain);
+            #endregion
+
+            #region Settings
+            ClearScrollableContainerStyle = new UIContainerStyle(
+                background: new UISpriteColor(RgbaByte.Clear),
+                scrollbarV: ContainerScrollbarVStyle)
+            {
+                OverflowType = OverflowType.Scroll,
+            };
+
+            ClearScrollableContainerStyle_DEBUG = new UIContainerStyle(
+                background: new UISpriteColor(RgbaByte.Red),
+                scrollbarV: ContainerScrollbarVStyle)
+            {
+                OverflowType = OverflowType.Scroll,
+            };
+
+            ClearScrollableContainerHeadingHoloStyle = new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("heading_holo.png")))
+            {
+                IgnoreParentPadding = true,
+                IgnoreOverflow = true,
+                UISize = new UISize() { ParentWidth = true },
+            };
+
+            ClearScrollableContainerHeadingLabelStyle = new UILabelStyle(
+                fontFamily: FontRoboto,
+                color: RgbaByte.White,
+                fontSize: 24,
+                outline: 1,
+                fontStyle: UIFontStyle.Normal,
+                fontWeight: UIFontWeight.Black)
+            {
+                IgnoreParentPadding = true,
+                IgnoreOverflow = true,
+                UIPosition = new UIPosition()
+                {
+                    Position = new Vector2I(0, 5),
+                    CenterX = true,
+                }
+            };
+
+            SettingsFullSectionContainerStyle = new UIContainerStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("full_segment_bg.png")))
+            {
+                UIPosition = new UIPosition() { Position = new Vector2I(0, 0) },
+                Margins = new UISpacing(0, 0, 0, 10),
+                Padding = new UISpacing(10),
+                UISize = new UISize() { ParentWidth = true, AutoHeight = true },
+            };
+
+            SettingsScrollbarHRailStyle = new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("slider_empty_frame.png")));
+            SettingsScrollbarHRailFillStyle = new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("slider_fill_blue.png"))) { ScaleType = UIScaleType.Crop };
+
+            SettingsScrollbarHSliderStyle = new UIButtonStyle(
+                spriteNormal: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("slide_normal.png"))),
+                spritePressed: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("slide_normal.png"))),
+                spriteHover: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("slide_h.png"))));
+
+            SettingsScrollbarHStyle = new UIScrollbarStyleH(
+                    rail: SettingsScrollbarHRailStyle,
+                    slider: SettingsScrollbarHSliderStyle,
+                    buttonType: UIScrollbarButtonType.InsideRail,
+                    sliderType: UIScrollbarSliderType.Contain,
+                    railFill: SettingsScrollbarHRailFillStyle,
+                    railFillPadding: 5);
+
+            SettingsTabButtonStyle = new UIButtonStyle(
+                spriteNormal: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("tab_n.png"))),
+                spritePressed: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("tab_p.png"))),
+                spriteHover: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("tab_h.png"))),
+                spriteSelected: new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("tab_s.png"))));
+
+            SettingsTabButtonIconPosition = new UIPosition()
+            {
+                Position = new Vector2I(20, 0),
+                CenterY = true,
+            };
+            #endregion
+
         } // constructor
 
 } // UITheme

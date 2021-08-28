@@ -7,6 +7,24 @@
   "Register": "Register",
   "Settings": "Settings",
   "Exit": "Exit",
+  "Apply": "Apply",
+  "Close": "Close",
 
-  "ServerStatus": "Server Status: {STATUS}"
+  "ServerStatus": "Server Status: {STATUS}",
+
+  // Settings
+  "Language": "Language",
+  "ZoomToCursor": "Zoom To Cursor",
+  "Resolution": "Resolution",
+  "BorderlessFullscreen": "Borderless Fullscreen",
+  "Vsync": "Vsync",
+  "MasterVolume": "Master Volume",
+  "MusicVolume": "Music Volume",
+  "SFXVolume": "SFX Volume",
+  "UIVolume": "UI Volume",
+
+  // Settings tabs
+  "GeneralSettings": "General Settings",
+  "VideoSettings": "Video Settings",
+  "AudioSettings": "Audio Settings"
 }

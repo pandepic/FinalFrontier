@@ -50,6 +50,10 @@ namespace FinalFrontier
         #region UI Callbacks
         public void Settings_OnClick(UIOnClickArgs args)
         {
+            UIBuilderMenuSettings.ResetSettings();
+
+            var settingsContainer = UIScreen.FindChildByName<UIContainer>("SettingsContainer", true);
+            settingsContainer.ShowEnable();
         }
 
         public void Exit_OnClick(UIOnClickArgs args)

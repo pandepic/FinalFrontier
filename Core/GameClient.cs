@@ -1,4 +1,5 @@
 ﻿using ElementEngine;
+using System;
 using System.Collections.Generic;
 
 namespace FinalFrontier
@@ -52,21 +53,27 @@ namespace FinalFrontier
             }
 
             SetupWindow(windowRect, "Final Frontier", vsync: vsync, windowState: windowState);
-            AssetManager.Load("Content", LoadAssetsMode.AutoPrependDir | LoadAssetsMode.AutoFind);
-            Globals.SetLanguage(SettingsManager.GetSetting<string>("UI", "Language"));
+            Window.Resizable = false;
 
+            AssetManager.Load("Content", LoadAssetsMode.AutoPrependDir | LoadAssetsMode.AutoFind);
             InputManager.LoadGameControls();
+
+            Globals.Load();
+            Globals.SetLanguage(SettingsManager.GetSetting<string>("UI", "Language"));
 
             GameStates.Add(GameStateType.Menu, new GameStateMenu(this));
             GameStates.Add(GameStateType.Play, new GameStatePlay(this));
 
-            Window.Resizable = false;
-
-            Globals.Load();
             UICursors.Setup();
             UICursors.SetCursor(UICursorType.Normal);
 
             UpdateAudioVolume();
+
+            if (SettingsManager.GetSetting<string>("Account", "Salt").Length == 0)
+            {
+                SettingsManager.UpdateSetting("Account", "Salt", Guid.NewGuid().ToString());
+                SaveSettings();
+            }
 
             SetGameState(GameStateType.Menu);
 
@@ -82,8 +89,10 @@ namespace FinalFrontier
 
         public override void Exit()
         {
-            SettingsManager.Save("Settings.xml");
+            SaveSettings();
         }
+
+        public static void SaveSettings() => SettingsManager.Save("Settings.xml");
 
         public static void UpdateAudioVolume()
         {
