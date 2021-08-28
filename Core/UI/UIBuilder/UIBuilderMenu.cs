@@ -1,5 +1,7 @@
 ﻿using ElementEngine;
 using ElementEngine.ElementUI;
+using System;
+using System.Collections.Generic;
 using Veldrid;
 
 using Rectangle = ElementEngine.Rectangle;
@@ -8,7 +10,7 @@ namespace FinalFrontier
 {
     public static class UIBuilderMenu
     {
-        public static UIScreen Build()
+        public static UIScreen Build(GameStateMenu menu)
         {
             var screen = new UIScreen();
 
@@ -23,6 +25,35 @@ namespace FinalFrontier
             screen.AddChild(title);
 
             BuildLoginContainer(screen);
+
+            var menuButtonContainerStyle = new UIContainerStyle(new UISpriteColor(RgbaByte.Clear))
+            {
+                UIPosition = new UIPosition() { AnchorBottom = true, AnchorRight = true },
+                UISize = new UISize() { AutoWidth = true, AutoHeight = true },
+                Padding = new UISpacing(25),
+            };
+
+            var menuButtonContainer = new UIContainer("MenuButtonContainer", menuButtonContainerStyle);
+            screen.AddChild(menuButtonContainer);
+
+            var menuButtons = new List<(string Name, string Label, Action<UIOnClickArgs> Callback)>()
+            {
+                ("Settings", LocalisationManager.GetString("Settings"), menu.Settings_OnClick),
+                ("Exit", LocalisationManager.GetString("Exit"), menu.Exit_OnClick),
+            };
+
+            foreach (var (name, label, callback) in menuButtons)
+            {
+                var button = new UIButton(name, UITheme.BaseWideButtonStyle);
+                var buttonLabel = new UILabel($"{name}Label", UITheme.BaseButtonLabelStyle, label);
+
+                button.SetPosition(0, 0);
+                button.MarginBottom = 5;
+                button.OnClick += callback;
+
+                button.AddChild(buttonLabel);
+                menuButtonContainer.AddChild(button);
+            }
 
             return screen;
         }

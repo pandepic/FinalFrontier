@@ -10,13 +10,19 @@ namespace FinalFrontier
 {
     public class GameStateMenu : GameState
     {
+        public GameClient Client;
         public UIScreen UIScreen;
         public SpriteBatch2D SpriteBatch;
+
+        public GameStateMenu(GameClient client)
+        {
+            Client = client;
+        }
 
         public override void Initialize()
         {
             SpriteBatch = new SpriteBatch2D();
-            UIScreen = UIBuilderMenu.Build();
+            UIScreen = UIBuilderMenu.Build(this);
         }
 
         public override void Load()
@@ -40,6 +46,17 @@ namespace FinalFrontier
             UIScreen?.Draw(SpriteBatch);
             SpriteBatch.End();
         }
+
+        #region UI Callbacks
+        public void Settings_OnClick(UIOnClickArgs args)
+        {
+        }
+
+        public void Exit_OnClick(UIOnClickArgs args)
+        {
+            Client.Quit();
+        }
+        #endregion
 
     } // GameStateMenu
 }

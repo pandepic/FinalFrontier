@@ -57,7 +57,7 @@ namespace FinalFrontier
 
             InputManager.LoadGameControls();
 
-            GameStates.Add(GameStateType.Menu, new GameStateMenu());
+            GameStates.Add(GameStateType.Menu, new GameStateMenu(this));
             GameStates.Add(GameStateType.Play, new GameStatePlay());
 
             Window.Resizable = false;
