@@ -24,7 +24,7 @@ namespace FinalFrontier
             var title = new UILabel("Title", UITheme.TitleLabelStyle, LocalisationManager.GetString("Title"));
             screen.AddChild(title);
 
-            BuildLoginContainer(screen);
+            BuildLoginContainer(screen, menu);
 
             var menuButtonContainerStyle = new UIContainerStyle(UITheme.ClearInnerContainerStyle)
             {
@@ -64,7 +64,7 @@ namespace FinalFrontier
             return screen;
         }
 
-        public static void BuildLoginContainer(UIScreen screen)
+        public static void BuildLoginContainer(UIScreen screen, GameStateMenu menu)
         {
             var loginContainerStyle = new UIContainerStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("login_box.png")));
             var loginContainer = new UIContainer("LoginContainer", loginContainerStyle);
@@ -91,7 +91,7 @@ namespace FinalFrontier
             lblUsername.MarginBottom = 5;
             loginFormContainer.AddChild(lblUsername);
 
-            var txtUsername = new UITextbox("txtUsername", UITheme.BaseTextboxStyle, "");
+            var txtUsername = new UITextbox("txtUsername", UITheme.BaseTextboxStyle, SettingsManager.GetSetting<string>("Account", "Username"));
             txtUsername.CenterX = true;
             txtUsername.SetPosition(0, 0);
             txtUsername.MarginBottom = 5;
@@ -115,6 +115,9 @@ namespace FinalFrontier
             chkRememberUsername.MarginBottom = 5;
             loginFormContainer.AddChild(chkRememberUsername);
 
+            if (SettingsManager.GetSetting<string>("Account", "Username").Length > 0)
+                chkRememberUsername.IsChecked = true;
+
             var btnLogin = new UIButton("btnLogin", UITheme.BaseWideButtonStyle);
             btnLogin.CenterX = true;
             btnLogin.AnchorBottom = true;
@@ -129,6 +132,21 @@ namespace FinalFrontier
             var btnRegisterLabel = new UILabel("btnRegisterLabel", UITheme.BaseButtonLabelStyle, LocalisationManager.GetString("Register"));
             btnRegister.AddChild(btnRegisterLabel);
             loginFormContainer.AddChild(btnRegister);
+
+            btnLogin.OnClick += (args) =>
+            {
+                if (chkRememberUsername.IsChecked)
+                    SettingsManager.UpdateSetting("Account", "Username", txtUsername.Text);
+                else
+                    SettingsManager.UpdateSetting("Account", "Username", "");
+
+                // TODO : login
+            };
+
+            btnRegister.OnClick += (args) =>
+            {
+                // TODO : register
+            };
         }
     } // UIBuilderMenu
 }
