@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElementEngine.ECS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,7 @@ namespace FinalFrontier.Networking
         public string Username;
         public string Password;
         public uint Money;
+
+        public Entity Ship;
     }
 }

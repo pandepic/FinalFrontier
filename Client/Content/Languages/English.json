@@ -1,0 +1,12 @@
+{
+  "Title": "Final Frontier",
+  "Username": "Username",
+  "Password": "Password",
+  "PasswordInfo": "Password will be securely hashed.",
+  "Login": "Login",
+  "Register": "Register",
+  "Settings": "Settings",
+  "Exit": "Exit",
+
+  "ServerStatus": "Server Status"
+}
