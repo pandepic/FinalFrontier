@@ -11,9 +11,9 @@ namespace FinalFrontier.Networking
 {
     public class Database
     {
-        public static readonly string DateFormatString = "YYYY-MM-dd HH:mm:ss";
+        public static readonly string DateFormatString = "yyyy-MM-dd HH:mm:ss";
 
-        public readonly string DatabasePath = "FFDB.sqlite";
+        public readonly string DatabasePath = "C:/FinalFrontier/FFDB.sqlite";
 
         public Dictionary<string, User> Users = new Dictionary<string, User>();
 
@@ -33,6 +33,10 @@ namespace FinalFrontier.Networking
 
         public void CreateDatabase()
         {
+            var fileInfo = new FileInfo(DatabasePath);
+            if (!fileInfo.Directory.Exists)
+                fileInfo.Directory.Create();
+
             SQLiteConnection.CreateFile(DatabasePath);
 
             using var connection = CreateConnection();
