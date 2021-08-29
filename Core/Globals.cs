@@ -70,6 +70,7 @@ namespace FinalFrontier
 
         public static string ServerAddress = "localhost";
         public static int ServerPort = 21461;
+        public const string ConnectionKey = "b0beb091-902e-418d-b60c-2c7f4156696a";
 
         public static void Load()
         {

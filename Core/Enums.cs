@@ -1,5 +1,12 @@
 ﻿namespace FinalFrontier
 {
+    public enum NetworkPacketDataType
+    {
+        ServerStatus,
+        Login,
+        Register,
+    }
+
     public enum GameStateType
     {
         Menu,

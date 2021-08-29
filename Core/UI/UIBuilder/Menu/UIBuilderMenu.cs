@@ -56,7 +56,7 @@ namespace FinalFrontier
                 menuButtonContainer.AddChild(button);
             }
 
-            var serverStatusLabel = new UILabel("ServerStatus", UITheme.BaseLabelStyle, LocalisationManager.GetString("ServerStatus", ("STATUS", "OFFLINE")));
+            var serverStatusLabel = new UILabel("ServerStatus", UITheme.BaseLabelStyle, LocalisationManager.GetString("ServerStatus", ("STATUS", "Offline")));
             serverStatusLabel.AnchorLeft = true;
             serverStatusLabel.AnchorBottom = true;
             serverStatusLabel.SetMargins(25, 0, 0, 25);

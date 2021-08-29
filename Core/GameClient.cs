@@ -1,4 +1,5 @@
 ﻿using ElementEngine;
+using FinalFrontier.Networking;
 using System;
 using System.Collections.Generic;
 
@@ -6,6 +7,8 @@ namespace FinalFrontier
 {
     public class GameClient : BaseGame
     {
+        public static NetworkClient NetworkClient;
+
         public Dictionary<GameStateType, GameState> GameStates { get; set; } = new Dictionary<GameStateType, GameState>();
 
         public override void Load()
@@ -75,12 +78,14 @@ namespace FinalFrontier
                 SaveSettings();
             }
 
+            NetworkClient = new NetworkClient();
             SetGameState(GameStateType.Menu);
 
         } // Load
 
         public override void Update(GameTimer gameTimer)
         {
+            NetworkClient.Update(gameTimer);
         }
 
         public override void Draw(GameTimer gameTimer)

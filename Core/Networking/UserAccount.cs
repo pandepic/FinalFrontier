@@ -1,4 +1,5 @@
 ﻿using ElementEngine.ECS;
+using FinalFrontier.Database.Tables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,7 @@ namespace FinalFrontier.Networking
 {
     public class UserAccount
     {
-        public string Username;
-        public string Password;
-        public uint Money;
-
+        public User User;
         public Entity Ship;
     }
 }
