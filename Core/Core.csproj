@@ -14,8 +14,4 @@
     <PackageReference Include="System.Data.SQLite" Version="1.0.115" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Networking\ServerPackets\" />
-  </ItemGroup>
-
 </Project>
