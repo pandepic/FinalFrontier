@@ -2,6 +2,7 @@
 {
     public enum NetworkPacketDataType
     {
+        None,
         ServerStatus,
         Login,
         Register,

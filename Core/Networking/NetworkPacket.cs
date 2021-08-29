@@ -1,12 +1,13 @@
 ﻿using ElementEngine;
 using LiteNetLib;
 using LiteNetLib.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace FinalFrontier.Networking
 {
-    public class NetworkPacket
+    public class NetworkPacket : IDisposable
     {
         protected static NetDataWriter _netDataWriter = new NetDataWriter();
 

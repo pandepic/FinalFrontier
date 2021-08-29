@@ -8,38 +8,25 @@ using System.Threading.Tasks;
 
 namespace FinalFrontier.Networking.Packets
 {
-    public struct ServerStatusRequest : IPacketData
+    public static class ServerStatusRequest
     {
-        public static NetworkPacketDataType PacketType = NetworkPacketDataType.ServerStatus;
-
-        public void Write(NetworkPacket packet)
+        public static void Write(NetworkPacket packet)
         {
-            packet.Writer.Write((int)PacketType);
-            packet.DataCount += 1;
+            PacketUtil.WriteHeader(packet, NetworkPacketDataType.ServerStatus);
         }
     }
 
-    public struct ServerStatusReply : IPacketData
+    public static class ServerStatusReply
     {
-        public static NetworkPacketDataType PacketType = NetworkPacketDataType.ServerStatus;
-
-        public int Players;
-
-        public ServerStatusReply(int players)
+        public static void Write(NetworkPacket packet, int players)
         {
-            Players = players;
+            PacketUtil.WriteHeader(packet, NetworkPacketDataType.ServerStatus);
+            packet.Writer.Write(players);
         }
 
-        public ServerStatusReply(BinaryReader reader)
+        public static void Read(BinaryReader reader, out int players)
         {
-            Players = reader.ReadInt32();
-        }
-
-        public void Write(NetworkPacket packet)
-        {
-            packet.Writer.Write((int)PacketType);
-            packet.Writer.Write(Players);
-            packet.DataCount += 1;
+            players = reader.ReadInt32();
         }
     }
 }

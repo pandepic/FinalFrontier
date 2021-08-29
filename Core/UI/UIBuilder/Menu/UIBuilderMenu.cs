@@ -1,5 +1,6 @@
 ﻿using ElementEngine;
 using ElementEngine.ElementUI;
+using FinalFrontier.Networking;
 using System;
 using System.Collections.Generic;
 using Veldrid;
@@ -104,7 +105,7 @@ namespace FinalFrontier
             lblPassword.MarginBottom = 5;
             loginFormContainer.AddChild(lblPassword);
 
-            var txtPassword = new UITextbox("txtPassword", UITheme.BaseTextboxStyle, "");
+            var txtPassword = new UITextbox("txtPassword", UITheme.BasePasswordTextboxStyle, "");
             txtPassword.CenterX = true;
             txtPassword.SetPosition(0, 0);
             txtPassword.MarginBottom = 5;
@@ -142,13 +143,12 @@ namespace FinalFrontier
                     SettingsManager.UpdateSetting("Account", "Username", "");
 
                 GameClient.SaveSettings();
-
-                // TODO : login
+                ClientPacketSender.Login(txtUsername.Text, txtPassword.Text);
             };
 
             btnRegister.OnClick += (args) =>
             {
-                // TODO : register
+                ClientPacketSender.Register(txtUsername.Text, txtPassword.Text);
             };
         }
     } // UIBuilderMenu

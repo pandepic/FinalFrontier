@@ -26,5 +26,9 @@
   // Settings tabs
   "GeneralSettings": "General Settings",
   "VideoSettings": "Video Settings",
-  "AudioSettings": "Audio Settings"
+  "AudioSettings": "Audio Settings",
+
+  // Errors
+  "UsernameTaken": "Username is already taken.",
+  "InvalidUsernamePassword": "Invalid username or password."
 }

@@ -17,6 +17,8 @@ namespace FinalFrontier.Database.Tables
         public DateTime Registered;
         public DateTime LastLogin;
 
+        public User() { }
+
         public User(SQLiteDataReader reader)
         {
             Username = reader["Username"].ToString();
@@ -33,13 +35,21 @@ namespace FinalFrontier.Database.Tables
                 insert into User (Username, Password, Money, AuthToken, Registered, LastLogin)
                 values
                 (
-                    {Username},
-                    {Password},
-                    {Money},
-                    {AuthToken},
-                    {Registered.ToString(Networking.Database.DateFormatString)},
-                    {LastLogin.ToString(Networking.Database.DateFormatString)},
+                    @Username,
+                    @Password,
+                    @Money,
+                    @AuthToken,
+                    @Registered,
+                    @LastLogin
                 )";
+
+            command.Parameters.AddWithValue("@Username", Username);
+            command.Parameters.AddWithValue("@Password", Password);
+            command.Parameters.AddWithValue("@Money", Money);
+            command.Parameters.AddWithValue("@AuthToken", AuthToken);
+            command.Parameters.AddWithValue("@Registered", Registered.ToString(Networking.Database.DateFormatString));
+            command.Parameters.AddWithValue("@LastLogin", LastLogin.ToString(Networking.Database.DateFormatString));
+            command.Prepare();
 
             return command.ExecuteNonQuery() > 0;
         }
@@ -49,11 +59,18 @@ namespace FinalFrontier.Database.Tables
             command.CommandText = @$"
                 UPDATE User
                 SET
-                    Money = {Money},
-                    AuthToken = {AuthToken},
-                    Registered = {Registered.ToString(Networking.Database.DateFormatString)},
-                    LastLogin = {LastLogin.ToString(Networking.Database.DateFormatString)},
-                WHERE Username = '{Username}'";
+                    Money = @Money,
+                    AuthToken = @AuthToken,
+                    Registered = @Registered,
+                    LastLogin = @LastLogin
+                WHERE Username = @Username";
+
+            command.Parameters.AddWithValue("@Username", Username);
+            command.Parameters.AddWithValue("@Money", Money);
+            command.Parameters.AddWithValue("@AuthToken", AuthToken);
+            command.Parameters.AddWithValue("@Registered", Registered.ToString(Networking.Database.DateFormatString));
+            command.Parameters.AddWithValue("@LastLogin", LastLogin.ToString(Networking.Database.DateFormatString));
+            command.Prepare();
 
             return command.ExecuteNonQuery() > 0;
         }

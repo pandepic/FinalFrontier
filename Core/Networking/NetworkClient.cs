@@ -97,8 +97,21 @@ namespace FinalFrontier.Networking
             {
                 case NetworkPacketDataType.ServerStatus:
                     {
-                        var reply = new ServerStatusReply(reader);
-                        ServerPlayers = reply.Players;
+                        ServerStatusReply.Read(reader, out ServerPlayers);
+                    }
+                    break;
+
+                case NetworkPacketDataType.Register:
+                    {
+                        RegisterReply.Read(reader, out var error);
+                        Console.WriteLine($"Register: {error}");
+                    }
+                    break;
+
+                case NetworkPacketDataType.Login:
+                    {
+                        LoginReply.Read(reader, out var authToken, out var error);
+                        Console.WriteLine($"Login: {authToken} {error}");
                     }
                     break;
             }

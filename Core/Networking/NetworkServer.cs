@@ -1,4 +1,5 @@
 ﻿using ElementEngine;
+using FinalFrontier.Database.Tables;
 using FinalFrontier.Networking;
 using FinalFrontier.Networking.Packets;
 using LiteNetLib;
@@ -123,12 +124,73 @@ namespace FinalFrontier.Networking
             {
                 case NetworkPacketDataType.ServerStatus:
                     {
-                        var request = new ServerStatusRequest();
-                        var reply = new ServerStatusReply(ConnectedPeers.Count);
-
-                        var packet = new NetworkPacket();
-                        reply.Write(packet);
+                        using var packet = new NetworkPacket();
+                        ServerStatusReply.Write(packet, ConnectedPeers.Count);
                         packet.Send(peer);
+                    }
+                    break;
+
+                case NetworkPacketDataType.Register:
+                    {
+                        RegisterRequest.Read(reader, out var username, out var password);
+
+                        if (Database.Users.ContainsKey(username))
+                        {
+                            using var packet = new NetworkPacket();
+                            RegisterReply.Write(packet, "UsernameTaken");
+                            packet.Send(peer);
+                            return;
+                        }
+
+                        using var connection = Database.CreateConnection();
+                        using var command = connection.CreateCommand();
+
+                        var user = new User()
+                        {
+                            Username = username,
+                            Password = password,
+                            Money = 0,
+                            AuthToken = "",
+                            Registered = DateTime.UtcNow,
+                            LastLogin = DateTime.UtcNow,
+                        };
+
+                        user.Insert(command);
+                        Database.Users.Add(username, user);
+                        connection.Close();
+
+                        Logging.Information("User registered: {username}.", username);
+                    }
+                    break;
+
+                case NetworkPacketDataType.Login:
+                    {
+                        LoginRequest.Read(reader, out var username, out var password);
+
+                        if (!Database.Users.TryGetValue(username, out var user))
+                        {
+                            using var packetError = new NetworkPacket();
+                            LoginReply.Write(packetError, "", "InvalidUsernamePassword");
+                            packetError.Send(peer);
+                            return;
+                        }
+
+                        if (password != user.Password)
+                        {
+                            using var packetError = new NetworkPacket();
+                            LoginReply.Write(packetError, "", "InvalidUsernamePassword");
+                            packetError.Send(peer);
+                            return;
+                        }
+
+                        var authToken = Guid.NewGuid().ToString();
+                        user.AuthToken = authToken;
+                        
+                        using var packet = new NetworkPacket();
+                        LoginReply.Write(packet, authToken, "");
+                        packet.Send(peer);
+
+                        Logging.Information("User logged in: {username}.", username);
                     }
                     break;
             }

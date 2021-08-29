@@ -79,11 +79,7 @@ namespace FinalFrontier
             if (!GameClient.NetworkClient.IsConnected)
                 return;
 
-            var statusRequest = new ServerStatusRequest();
-
-            var packet = new NetworkPacket();
-            statusRequest.Write(packet);
-            packet.Send(GameClient.NetworkClient.Server);
+            ClientPacketSender.ServerStatus();
         }
         #endregion
 

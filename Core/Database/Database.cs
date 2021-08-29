@@ -23,8 +23,6 @@ namespace FinalFrontier.Networking
                 CreateDatabase();
 
             using var connection = CreateConnection();
-            connection.Open();
-
             using var command = connection.CreateCommand();
 
             Users = User.GetUsers(command);
@@ -38,7 +36,6 @@ namespace FinalFrontier.Networking
             SQLiteConnection.CreateFile(DatabasePath);
 
             using var connection = CreateConnection();
-            connection.Open();
 
             using var command = connection.CreateCommand();
 
@@ -51,7 +48,10 @@ namespace FinalFrontier.Networking
 
         public SQLiteConnection CreateConnection()
         {
-            return new SQLiteConnection($"Data Source={DatabasePath};Version=3;");
+            var connection = new SQLiteConnection($"Data Source={DatabasePath};Version=3;");
+            connection.Open();
+
+            return connection;
         }
 
     } // Database

@@ -27,6 +27,7 @@ namespace FinalFrontier
         public static UICheckboxStyle BaseCheckboxStyle;
         public static UICheckboxStyle BaseRadioButtonStyle;
         public static UITextboxStyle BaseTextboxStyle;
+        public static UITextboxStyle BasePasswordTextboxStyle;
         #endregion
 
         #region Dropdown list
@@ -158,6 +159,11 @@ namespace FinalFrontier
                 spriteHover: new UISpriteStatic(Globals.UIAtlas.GetUITexture("radio_h.png")));
 
             BaseTextboxStyle = new UITextboxStyle(BaseTextboxLabelStyle, new UISpriteStatic(Globals.UIAtlas.GetUITexture("normal_form.png")))
+            {
+                Padding = new UISpacing(10, 0),
+            };
+
+            BasePasswordTextboxStyle = new UITextboxStyle(new UILabelStyle(BaseTextboxLabelStyle, true) { LabelDisplayMode = LabelDisplayMode.Password }, new UISpriteStatic(Globals.UIAtlas.GetUITexture("normal_form.png")))
             {
                 Padding = new UISpacing(10, 0),
             };
