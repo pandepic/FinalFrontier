@@ -1,0 +1,44 @@
+{
+  "Asteroid1": {
+    "Name": "Asteroid1",
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Asteroid 1.png",
+    "Weighting": 5,
+    "Scale": 0.5
+  },
+  "Asteroid2": {
+    "Name": "Asteroid2",
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Asteroid 2.png",
+    "Weighting": 5,
+    "Scale": 0.5
+  },
+  "Asteroid3": {
+    "Name": "Asteroid3",
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Asteroid 3.png",
+    "Weighting": 5,
+    "Scale": 0.5
+  },
+  "Asteroid4": {
+    "Name": "Asteroid4",
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Asteroid 4.png",
+    "Weighting": 5,
+    "Scale": 0.5
+  },
+  "Asteroid5": {
+    "Name": "Asteroid5",
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Asteroid 5.png",
+    "Weighting": 5,
+    "Scale": 0.5
+  },
+  "Asteroid6": {
+    "Name": "Asteroid6",
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Asteroid 6.png",
+    "Weighting": 5,
+    "Scale": 0.5
+  }
+}

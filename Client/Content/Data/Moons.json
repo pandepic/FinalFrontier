@@ -1,0 +1,8 @@
+{
+  "RockyMoon": {
+    "Name": "RockyMoon",
+    "Sprite": "Moons/RockyMoon.png",
+    "Weighting": 5,
+    "Scale": 0.25
+  }
+}

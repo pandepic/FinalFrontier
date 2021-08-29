@@ -1,0 +1,390 @@
+{
+  "Patrol Cutter": {
+    "RequiredRank": 0,
+    "Name": "Patrol Cutter",
+    "Cost": 0,
+    "Class": 0,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Frigate 1.png",
+    "Scale": 1.0,
+    "HasHangar": false,
+    "Turrets": [
+      {
+        "Class": 0,
+        "Position": {
+          "X": -55.0,
+          "Y": -20.0
+        }
+      },
+      {
+        "Class": 0,
+        "Position": {
+          "X": 55.0,
+          "Y": -20.0
+        }
+      }
+    ]
+  },
+  "Corvette": {
+    "RequiredRank": 1,
+    "Name": "Corvette",
+    "Cost": 5000,
+    "Class": 0,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Frigate 2.png",
+    "Scale": 1.0,
+    "HasHangar": false,
+    "Turrets": [
+      {
+        "Class": 0,
+        "Position": {
+          "X": 0.0,
+          "Y": -50.0
+        }
+      },
+      {
+        "Class": 0,
+        "Position": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      },
+      {
+        "Class": 0,
+        "Position": {
+          "X": 0.0,
+          "Y": 50.0
+        }
+      }
+    ]
+  },
+  "Destroyer": {
+    "RequiredRank": 2,
+    "Name": "Destroyer",
+    "Cost": 10000,
+    "Class": 1,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Destroyer 2.png",
+    "Scale": 1.0,
+    "HasHangar": false,
+    "Turrets": [
+      {
+        "Class": 0,
+        "Position": {
+          "X": 0.0,
+          "Y": -75.0
+        }
+      },
+      {
+        "Class": 1,
+        "Position": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      },
+      {
+        "Class": 0,
+        "Position": {
+          "X": -30.0,
+          "Y": 75.0
+        }
+      },
+      {
+        "Class": 0,
+        "Position": {
+          "X": 30.0,
+          "Y": 75.0
+        }
+      }
+    ]
+  },
+  "Frigate": {
+    "RequiredRank": 3,
+    "Name": "Frigate",
+    "Cost": 20000,
+    "Class": 1,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Destroyer 1.png",
+    "Scale": 1.0,
+    "HasHangar": false,
+    "Turrets": [
+      {
+        "Class": 1,
+        "Position": {
+          "X": -50.0,
+          "Y": 95.0
+        }
+      },
+      {
+        "Class": 1,
+        "Position": {
+          "X": 50.0,
+          "Y": 95.0
+        }
+      },
+      {
+        "Class": 0,
+        "Position": {
+          "X": 0.0,
+          "Y": -90.0
+        }
+      },
+      {
+        "Class": 0,
+        "Position": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      }
+    ]
+  },
+  "Cruiser": {
+    "RequiredRank": 4,
+    "Name": "Cruiser",
+    "Cost": 40000,
+    "Class": 1,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Cruiser 2.png",
+    "Scale": 1.0,
+    "HasHangar": false,
+    "Turrets": [
+      {
+        "Class": 1,
+        "Position": {
+          "X": 0.0,
+          "Y": -100.0
+        }
+      },
+      {
+        "Class": 1,
+        "Position": {
+          "X": 0.0,
+          "Y": -45.0
+        }
+      },
+      {
+        "Class": 1,
+        "Position": {
+          "X": 0.0,
+          "Y": 115.0
+        }
+      },
+      {
+        "Class": 0,
+        "Position": {
+          "X": -80.0,
+          "Y": -2.0
+        }
+      },
+      {
+        "Class": 0,
+        "Position": {
+          "X": 80.0,
+          "Y": -2.0
+        }
+      }
+    ]
+  },
+  "Carrier": {
+    "RequiredRank": 5,
+    "Name": "Carrier",
+    "Cost": 80000,
+    "Class": 2,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Carrier 1.png",
+    "Scale": 1.0,
+    "HasHangar": false,
+    "Turrets": [
+      {
+        "Class": 0,
+        "Position": {
+          "X": 0.0,
+          "Y": -25.0
+        }
+      },
+      {
+        "Class": 0,
+        "Position": {
+          "X": 0.0,
+          "Y": 50.0
+        }
+      },
+      {
+        "Class": 1,
+        "Position": {
+          "X": 57.0,
+          "Y": 50.0
+        }
+      },
+      {
+        "Class": 1,
+        "Position": {
+          "X": -25.0,
+          "Y": 115.0
+        }
+      }
+    ]
+  },
+  "Battleship": {
+    "RequiredRank": 6,
+    "Name": "Battleship",
+    "Cost": 150000,
+    "Class": 2,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Cruiser 1.png",
+    "Scale": 1.0,
+    "HasHangar": false,
+    "Turrets": [
+      {
+        "Class": 1,
+        "Position": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      },
+      {
+        "Class": 2,
+        "Position": {
+          "X": -47.0,
+          "Y": 80.0
+        }
+      },
+      {
+        "Class": 2,
+        "Position": {
+          "X": 47.0,
+          "Y": 80.0
+        }
+      },
+      {
+        "Class": 1,
+        "Position": {
+          "X": 0.0,
+          "Y": -100.0
+        }
+      }
+    ]
+  },
+  "Battlecruiser": {
+    "RequiredRank": 6,
+    "Name": "Battlecruiser",
+    "Cost": 250000,
+    "Class": 2,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Huge 1.png",
+    "Scale": 1.0,
+    "HasHangar": false,
+    "Turrets": [
+      {
+        "Class": 1,
+        "Position": {
+          "X": 0.0,
+          "Y": 100.0
+        }
+      },
+      {
+        "Class": 1,
+        "Position": {
+          "X": 0.0,
+          "Y": -100.0
+        }
+      },
+      {
+        "Class": 2,
+        "Position": {
+          "X": -60.0,
+          "Y": 115.0
+        }
+      },
+      {
+        "Class": 2,
+        "Position": {
+          "X": 60.0,
+          "Y": 115.0
+        }
+      },
+      {
+        "Class": 2,
+        "Position": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      },
+      {
+        "Class": 1,
+        "Position": {
+          "X": 0.0,
+          "Y": 180.0
+        }
+      }
+    ]
+  },
+  "Leviathan": {
+    "RequiredRank": 6,
+    "Name": "Leviathan",
+    "Cost": 500000,
+    "Class": 2,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Alien 3.png",
+    "Scale": 1.0,
+    "HasHangar": false,
+    "Turrets": [
+      {
+        "Class": 2,
+        "Position": {
+          "X": -80.0,
+          "Y": 80.0
+        }
+      },
+      {
+        "Class": 2,
+        "Position": {
+          "X": 80.0,
+          "Y": 80.0
+        }
+      },
+      {
+        "Class": 2,
+        "Position": {
+          "X": 0.0,
+          "Y": 80.0
+        }
+      },
+      {
+        "Class": 2,
+        "Position": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      },
+      {
+        "Class": 2,
+        "Position": {
+          "X": 0.0,
+          "Y": -80.0
+        }
+      },
+      {
+        "Class": 1,
+        "Position": {
+          "X": 0.0,
+          "Y": 200.0
+        }
+      },
+      {
+        "Class": 1,
+        "Position": {
+          "X": 0.0,
+          "Y": -180.0
+        }
+      },
+      {
+        "Class": 1,
+        "Position": {
+          "X": 0.0,
+          "Y": 150.0
+        }
+      }
+    ]
+  }
+}

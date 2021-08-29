@@ -1,0 +1,37 @@
+{
+  "BarrenPlanet": {
+    "CanHaveRings": true,
+    "Name": "BarrenPlanet",
+    "Sprite": "Planets/BarrenPlanet.png",
+    "Weighting": 5,
+    "Scale": 1.0
+  },
+  "DesertPlanet": {
+    "CanHaveRings": true,
+    "Name": "DesertPlanet",
+    "Sprite": "Planets/DesertPlanet.png",
+    "Weighting": 5,
+    "Scale": 1.0
+  },
+  "EarthlikePlanet": {
+    "CanHaveRings": true,
+    "Name": "EarthlikePlanet",
+    "Sprite": "Planets/EarthlikePlanet.png",
+    "Weighting": 5,
+    "Scale": 1.0
+  },
+  "GasPlanet": {
+    "CanHaveRings": true,
+    "Name": "GasPlanet",
+    "Sprite": "Planets/GasPlanet.png",
+    "Weighting": 5,
+    "Scale": 1.0
+  },
+  "IcePlanet": {
+    "CanHaveRings": true,
+    "Name": "IcePlanet",
+    "Sprite": "Planets/IcePlanet.png",
+    "Weighting": 5,
+    "Scale": 1.0
+  }
+}

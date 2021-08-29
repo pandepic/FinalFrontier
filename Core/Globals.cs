@@ -68,7 +68,7 @@ namespace FinalFrontier
         public static TexturePackerAtlas UIAtlas;
         public static TexturePackerAtlas EntityAtlas;
 
-        public static string ServerAddress = "localhost";
+        public static string ServerAddress = "66.70.191.87";
         public static int ServerPort = 21461;
         public const string ConnectionKey = "b0beb091-902e-418d-b60c-2c7f4156696a";
 
