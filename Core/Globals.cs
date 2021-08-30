@@ -1,5 +1,6 @@
 ﻿using ElementEngine;
 using ElementEngine.TexturePacker;
+using SharpNeat.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,8 @@ namespace FinalFrontier
 
     public static class Globals
     {
+        public static FastRandom RNG = new FastRandom();
+
         public static List<Resolution> PossibleResolutions = new List<Resolution>()
         {
             new Resolution(7680, 4320),

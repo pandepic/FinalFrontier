@@ -21,6 +21,7 @@ namespace Editor
         private string _newSprite = "";
         private int _newWeighting = 1;
         private bool _newCanHaveRings = true;
+        private bool _newIsColonisable = false;
         private float _newScale = 0.5f;
 
         public PlanetData EditingPlanet;
@@ -43,6 +44,7 @@ namespace Editor
             ImGui.InputText("Sprite##NewPlanet", ref _newSprite, 200);
             ImGui.InputInt("Weighting##NewPlanet", ref _newWeighting);
             ImGui.Checkbox("Can Have Rings##NewPlanet", ref _newCanHaveRings);
+            ImGui.Checkbox("Is Colonisable##NewPlanet", ref _newIsColonisable);
             ImGui.InputFloat("Scale##NewPlanet", ref _newScale);
 
             if (ImGui.Button("Add Planet"))
@@ -53,6 +55,7 @@ namespace Editor
                     Sprite = _newSprite,
                     Weighting = _newWeighting,
                     CanHaveRings = _newCanHaveRings,
+                    IsColonisable = _newIsColonisable,
                     Scale = _newScale,
                 });
             }
@@ -85,6 +88,7 @@ namespace Editor
 
                 ImGui.InputInt("Weighting##EditPlanet", ref EditingPlanet.Weighting);
                 ImGui.Checkbox("Can Have Rings##EditPlanet", ref EditingPlanet.CanHaveRings);
+                ImGui.Checkbox("Is Colonisable##NewPlanet", ref EditingPlanet.IsColonisable);
                 ImGui.InputFloat("Scale##EditPlanet", ref EditingPlanet.Scale);
 
                 ImGui.NewLine();

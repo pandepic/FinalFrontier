@@ -1,35 +1,45 @@
 {
   "BarrenPlanet": {
     "CanHaveRings": true,
+    "IsColonisable": false,
     "Name": "BarrenPlanet",
+    "Atlas": null,
     "Sprite": "Planets/BarrenPlanet.png",
     "Weighting": 5,
     "Scale": 1.0
   },
   "DesertPlanet": {
     "CanHaveRings": true,
+    "IsColonisable": false,
     "Name": "DesertPlanet",
+    "Atlas": null,
     "Sprite": "Planets/DesertPlanet.png",
     "Weighting": 5,
     "Scale": 1.0
   },
   "EarthlikePlanet": {
     "CanHaveRings": true,
+    "IsColonisable": true,
     "Name": "EarthlikePlanet",
+    "Atlas": null,
     "Sprite": "Planets/EarthlikePlanet.png",
     "Weighting": 5,
     "Scale": 1.0
   },
   "GasPlanet": {
     "CanHaveRings": true,
+    "IsColonisable": false,
     "Name": "GasPlanet",
+    "Atlas": null,
     "Sprite": "Planets/GasPlanet.png",
     "Weighting": 5,
     "Scale": 1.0
   },
   "IcePlanet": {
     "CanHaveRings": true,
+    "IsColonisable": false,
     "Name": "IcePlanet",
+    "Atlas": null,
     "Sprite": "Planets/IcePlanet.png",
     "Weighting": 5,
     "Scale": 1.0

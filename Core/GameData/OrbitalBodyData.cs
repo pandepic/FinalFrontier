@@ -22,6 +22,7 @@ namespace FinalFrontier.GameData
     public class PlanetData : OrbitalBodyData
     {
         public bool CanHaveRings = true;
+        public bool IsColonisable = false;
     }
 
     public class MoonData : OrbitalBodyData

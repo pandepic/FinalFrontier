@@ -72,7 +72,7 @@
         Large,
     }
     
-    public enum ProjectileDamageType
+    public enum DamageType
     {
         Kinetic, // 50% to shields
         Explosive, // 100% to both
