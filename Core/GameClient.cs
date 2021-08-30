@@ -63,6 +63,7 @@ namespace FinalFrontier
 
             Globals.Load();
             Globals.SetLanguage(SettingsManager.GetSetting<string>("UI", "Language"));
+            GameDataManager.Load();
 
             GameStates.Add(GameStateType.Menu, new GameStateMenu(this));
             GameStates.Add(GameStateType.Play, new GameStatePlay(this));

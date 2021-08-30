@@ -16,7 +16,7 @@ namespace Editor
 {
     public class ShipsWindow : EditorWindow
     {
-        public static Dictionary<string, ShipData> Ships;
+        public Dictionary<string, ShipData> Ships;
 
         private string _newShipName = "";
         private ShipData _editingShip;
@@ -181,7 +181,7 @@ namespace Editor
                 _editingShip.Sprite = sprite;
         }
 
-        public static void Save()
+        public void Save()
         {
             File.WriteAllText(AssetManager.GetAssetPath("Data/Ships.json"), JsonConvert.SerializeObject(Ships, Formatting.Indented));
         }

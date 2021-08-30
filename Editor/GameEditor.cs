@@ -43,7 +43,7 @@ namespace Editor
             ClearColor = RgbaFloat.CornflowerBlue;
 
             EditorGlobals.AssetsRoot = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "..\\..\\..\\..\\Client\\Content").FullName;
-            EditorGlobals.ServerDataRoot = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "..\\..\\..\\..\\Server\\Data").FullName;
+            EditorGlobals.ServerDataRoot = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "..\\..\\..\\..\\Server\\Content\\Data").FullName;
             AssetManager.Load(EditorGlobals.AssetsRoot, LoadAssetsMode.AutoPrependDir | LoadAssetsMode.AutoFind);
 
             IMGUIManager.Setup();

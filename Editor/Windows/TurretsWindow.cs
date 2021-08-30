@@ -16,7 +16,7 @@ namespace Editor
 {
     public class TurretsWindow : EditorWindow
     {
-        public static Dictionary<string, TurretData> Turrets;
+        public Dictionary<string, TurretData> Turrets;
 
         private string _newTurretName = "";
         private IMGUIEnumCombo<ClassType> _newTurretClassDropdown = new IMGUIEnumCombo<ClassType>("Turret Class");
@@ -135,7 +135,7 @@ namespace Editor
 
         } // DrawTurrets
 
-        public static void SaveTurrets()
+        public void SaveTurrets()
         {
             File.WriteAllText(AssetManager.GetAssetPath("Data/Turrets.json"), JsonConvert.SerializeObject(Turrets, Formatting.Indented));
         }

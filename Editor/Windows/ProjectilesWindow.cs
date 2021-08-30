@@ -16,7 +16,7 @@ namespace Editor
 {
     public class ProjectilesWindow : EditorWindow
     {
-        public static Dictionary<string, ProjectileData> Projectiles;
+        public Dictionary<string, ProjectileData> Projectiles;
 
         private string _newProjectileName = "";
 
@@ -124,7 +124,7 @@ namespace Editor
 
         } // DrawProjectiles
 
-        public static void SaveProjectiles()
+        public void SaveProjectiles()
         {
             File.WriteAllText(AssetManager.GetAssetPath("Data/Projectiles.json"), JsonConvert.SerializeObject(Projectiles, Formatting.Indented));
         }
