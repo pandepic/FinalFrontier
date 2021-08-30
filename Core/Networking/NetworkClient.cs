@@ -113,6 +113,13 @@ namespace FinalFrontier.Networking
                 case NetworkPacketDataType.Login:
                     {
                         LoginReply.Read(reader, out var authToken, out var error, out var worldSeed);
+
+                        if (!string.IsNullOrEmpty(error))
+                        {
+                            // todo : error notification
+                            return;
+                        }
+
                         GameClient.LoginSuccess(worldSeed);
                     }
                     break;

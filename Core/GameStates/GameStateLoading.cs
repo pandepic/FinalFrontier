@@ -2,6 +2,7 @@
 using ElementEngine.ECS;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,7 +42,11 @@ namespace FinalFrontier
 
             if (IdleFrames == 5)
             {
+                Logging.Information("Generating galaxy...");
+                var stopWatch = Stopwatch.StartNew();
                 Client.GalaxyGenerator.GenerateGalaxy();
+                stopWatch.Stop();
+                Logging.Information("Generated galaxy with {stars} stars in {time:0.00} ms.", Client.GalaxyGenerator.GalaxyStars.Count, stopWatch.ElapsedMilliseconds);
                 Client.SetGameState(GameStateType.Play);
             }
         }

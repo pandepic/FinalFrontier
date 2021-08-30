@@ -18,7 +18,6 @@
   </Section>
   <Section Name="Account">
     <Setting Name="Username" Value="" />
-    <Setting Name="Salt" Value="" />
   </Section>
   <Section Name="Gameplay">
     <Setting Name="ZoomToCursor" Value="true" />

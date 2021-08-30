@@ -79,12 +79,6 @@ namespace FinalFrontier
 
             UpdateAudioVolume();
 
-            if (SettingsManager.GetSetting<string>("Account", "Salt").Length == 0)
-            {
-                SettingsManager.UpdateSetting("Account", "Salt", Guid.NewGuid().ToString());
-                SaveSettings();
-            }
-
             NetworkClient = new NetworkClient(this);
             SetGameState(GameStateType.Menu);
 

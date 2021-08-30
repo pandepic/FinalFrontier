@@ -27,21 +27,15 @@ namespace FinalFrontier.Networking
 
         public static void Login(string username, string password)
         {
-            var salt = SettingsManager.GetSetting<string>("Account", "Salt");
-            var hashedPassword = Encoding.UTF8.GetString(StringCryptography.GetSaltedHashedValue(password, salt));
-
             using var packet = new NetworkPacket();
-            LoginRequest.Write(packet, username, hashedPassword);
+            LoginRequest.Write(packet, username, password);
             SendPacket(packet);
         }
 
         public static void Register(string username, string password)
         {
-            var salt = SettingsManager.GetSetting<string>("Account", "Salt");
-            var hashedPassword = Encoding.UTF8.GetString(StringCryptography.GetSaltedHashedValue(password, salt));
-
             using var packet = new NetworkPacket();
-            RegisterRequest.Write(packet, username, hashedPassword);
+            RegisterRequest.Write(packet, username, password);
             SendPacket(packet);
         }
         

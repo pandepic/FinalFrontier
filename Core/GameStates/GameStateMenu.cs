@@ -53,7 +53,7 @@ namespace FinalFrontier
             string serverStatus;
 
             if (GameClient.NetworkClient.IsConnected)
-                serverStatus = $"Online - {GameClient.NetworkClient.ServerPlayers} Players";
+                serverStatus = $"Online - {GameClient.NetworkClient.ServerPlayers} Player(s)";
             else
                 serverStatus = "Offline";
 

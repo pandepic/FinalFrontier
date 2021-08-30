@@ -38,7 +38,7 @@ namespace FinalFrontier
             GalaxyGenerator = new GalaxyGenerator(Registry, WorldSeed, true);
             GalaxyGenerator.GenerateGalaxy();
             stopWatch.Stop();
-            Logging.Information("Generated galaxy with {stars} stars in {time:0.00} ms.", GalaxyGenerator.GalaxyStars.Count);
+            Logging.Information("Generated galaxy with {stars} stars in {time:0.00} ms.", GalaxyGenerator.GalaxyStars.Count, stopWatch.ElapsedMilliseconds);
 
             NetworkServer = new NetworkServer(this);
             NetworkServer.Load();

@@ -2,6 +2,7 @@
 using FinalFrontier.Database.Tables;
 using FinalFrontier.Networking;
 using FinalFrontier.Networking.Packets;
+using FinalFrontier.Utility;
 using LiteNetLib;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,13 @@ namespace FinalFrontier.Networking
     public class PeerInfo
     {
         public int ID;
+        public NetPeer Peer;
     }
 
     public class NetworkServer
     {
+        public static StringCryptography StringCryptography = new StringCryptography();
+
         public const int TicksPerSecond = 60;
         public const float SecondsPerTick = 1f / TicksPerSecond;
 
@@ -77,11 +81,13 @@ namespace FinalFrontier.Networking
         private void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
         {
             Logging.Information("Client disconnected: {id}, {ip}, {port}", peer.Id, peer.EndPoint.Address.ToString(), peer.EndPoint.Port.ToString());
+            ConnectedPeers.Remove(peer.Id);
         }
 
         private void OnPeerConnected(NetPeer peer)
         {
             Logging.Information("New connection: {id}, {ip}, {port}", peer.Id, peer.EndPoint.Address.ToString(), peer.EndPoint.Port.ToString());
+            ConnectedPeers.Add(peer.Id, new PeerInfo() { ID = peer.Id, Peer = peer });
         }
 
         private void OnRequest(ConnectionRequest request)
@@ -152,10 +158,14 @@ namespace FinalFrontier.Networking
                         using var connection = Database.CreateConnection();
                         using var command = connection.CreateCommand();
 
+                        var salt = Guid.NewGuid().ToString();
+                        var hashedPassword = StringCryptography.GetSaltedHashedValueAsString(password, salt);
+
                         var user = new User()
                         {
                             Username = username,
-                            Password = password,
+                            Password = hashedPassword,
+                            Salt = salt,
                             Money = 0,
                             AuthToken = "",
                             Registered = DateTime.UtcNow,
@@ -182,7 +192,9 @@ namespace FinalFrontier.Networking
                             return;
                         }
 
-                        if (password != user.Password)
+                        var hashedPassword = StringCryptography.GetSaltedHashedValueAsString(password, user.Salt);
+
+                        if (hashedPassword != user.Password)
                         {
                             using var packetError = new NetworkPacket();
                             LoginReply.Write(packetError, "", "InvalidUsernamePassword", "");

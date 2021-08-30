@@ -12,6 +12,7 @@ namespace FinalFrontier.Database.Tables
     {
         public string Username;
         public string Password;
+        public string Salt;
         public uint Money;
         public string AuthToken;
         public DateTime Registered;
@@ -23,6 +24,7 @@ namespace FinalFrontier.Database.Tables
         {
             Username = reader["Username"].ToString();
             Password = reader["Password"].ToString();
+            Salt = reader["Salt"].ToString();
             Money = reader["Money"].ConvertTo<uint>();
             AuthToken = reader["AuthToken"].ToString();
             Registered = DateTime.Parse(reader["Registered"].ToString());
@@ -32,11 +34,12 @@ namespace FinalFrontier.Database.Tables
         public override bool Insert(SQLiteCommand command)
         {
             command.CommandText = @$"
-                insert into User (Username, Password, Money, AuthToken, Registered, LastLogin)
+                insert into User (Username, Password, Salt, Money, AuthToken, Registered, LastLogin)
                 values
                 (
                     @Username,
                     @Password,
+                    @Salt,
                     @Money,
                     @AuthToken,
                     @Registered,
@@ -45,6 +48,7 @@ namespace FinalFrontier.Database.Tables
 
             command.Parameters.AddWithValue("@Username", Username);
             command.Parameters.AddWithValue("@Password", Password);
+            command.Parameters.AddWithValue("@Salt", Salt);
             command.Parameters.AddWithValue("@Money", Money);
             command.Parameters.AddWithValue("@AuthToken", AuthToken);
             command.Parameters.AddWithValue("@Registered", Registered.ToString(Networking.Database.DateFormatString));
@@ -77,7 +81,7 @@ namespace FinalFrontier.Database.Tables
 
         public static string CreateTable()
         {
-            return "create table User (Username TEXT, Password TEXT, Money INTEGER, AuthToken TEXT, Registered TEXT, LastLogin TEXT)";
+            return "create table User (Username TEXT, Password TEXT, Salt TEXT, Money INTEGER, AuthToken TEXT, Registered TEXT, LastLogin TEXT)";
         }
 
         public static Dictionary<string, User> GetUsers(SQLiteCommand command)
