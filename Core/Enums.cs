@@ -12,6 +12,7 @@
     {
         Menu,
         Play,
+        Loading,
     }
 
     public enum AudioType

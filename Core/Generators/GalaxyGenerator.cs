@@ -16,10 +16,11 @@ namespace FinalFrontier
         public string ID;
         public Vector2I SectorPosition;
         public Entity Star;
+        public List<Entity> Entities = new List<Entity>();
         public List<Entity> Planets = new List<Entity>();
         public List<Entity> Moons = new List<Entity>();
         public List<Entity> Asteroids = new List<Entity>();
-
+        
         public GalaxySectorData(string id, Vector2I sectorPosition)
         {
             ID = id;
@@ -67,6 +68,9 @@ namespace FinalFrontier
         private List<PlanetData> _randomPlanetList = new List<PlanetData>();
         private List<MoonData> _randomMoonList = new List<MoonData>();
         private List<AsteroidData> _randomAsteroidList = new List<AsteroidData>();
+
+        private int _currentDrawLayer = 0;
+        private List<Vector2> _tempVector2List = new List<Vector2>();
 
         public GalaxyGenerator(Registry registry, string seed, bool serverMode)
         {
@@ -224,6 +228,7 @@ namespace FinalFrontier
                         if (!GalaxyStars.ContainsKey(starPos))
                         {
                             GalaxyStars.Add(starPos, new GalaxySectorData("S" + stars.ToString(), starPos));
+                            GenerateSolarSystem(starPos);
                             stars += 1;
                         }
                     }
@@ -231,6 +236,129 @@ namespace FinalFrontier
             }
 
         } // GenerateGalaxy
+
+        public void GenerateSolarSystem(Vector2I sectorPosition)
+        {
+            var data = GalaxyStars[sectorPosition];
+
+            var rng = new FastRandom(MathHelper.GetSeedFromString(Seed + sectorPosition.X.ToString() + sectorPosition.Y.ToString()));
+            var star = GalaxyPrefabs.BuildStar(Registry, data.ID, sectorPosition, sectorPosition.ToVector2() + new Vector2(Globals.GalaxySectorScale / 2), _randomStarList.GetRandomItem(rng), _currentDrawLayer, ServerMode);
+            _currentDrawLayer += 1;
+
+            data.Star = star;
+            data.Entities.Add(star);
+
+            var planets = rng.Next(_minPlanets, _maxPlanets + 1);
+            var nextMinPlanetOrbit = _planetSpacingFromStar;
+
+            for (var i = 0; i < planets; i++)
+            {
+                var moons = rng.Next(_minMoons, _maxMoons + 1);
+                var planetOrbit = rng.Next(nextMinPlanetOrbit, nextMinPlanetOrbit + _planetOrbitRandomSpacing);
+
+                var planetData = _randomPlanetList.GetRandomItem(rng);
+                var planetID = data.ID + "_P" + i.ToString();
+                
+                var planet = GalaxyPrefabs.BuildPlanet(Registry, planetID, sectorPosition, star, planetOrbit, planetData, rng, _currentDrawLayer, ServerMode);
+                _currentDrawLayer += 1;
+
+                data.Entities.Add(planet);
+                data.Planets.Add(planet);
+
+                var ringSpacing = 0;
+
+                if (planetData.CanHaveRings && rng.Next(0, 100) < _ringChance)
+                {
+                    var ringOrbit = rng.Next(_minRingSpacingFromPlanet, _maxRingSpacingFromPlanet);
+                    ringSpacing = ringOrbit;
+
+                    GenerateAsteroidBelt(
+                        planetID,
+                        sectorPosition,
+                        planet,
+                        rng,
+                        ringOrbit,
+                        rng.Next(_minRingAsteroids, _maxRingAsteroids + 1),
+                        _ringThickness,
+                        data);
+                }
+
+                var maxMoonOrbit = 0;
+                var nextMinMoonOrbit = _moonSpacingFromPlanet + ringSpacing;
+
+                for (var m = 0; m < moons; m++)
+                {
+                    var moonOrbit = rng.Next(nextMinMoonOrbit, nextMinMoonOrbit + _moonOrbitRandomSpacing);
+
+                    var moonID = planetID + "_M" + m.ToString();
+                    var moon = GalaxyPrefabs.BuildMoon(Registry, moonID, sectorPosition, planet, moonOrbit, _randomMoonList.GetRandomItem(rng), rng, _currentDrawLayer, ServerMode);
+                    _currentDrawLayer += 1;
+
+                    data.Entities.Add(moon);
+                    data.Moons.Add(moon);
+
+                    nextMinMoonOrbit = moonOrbit + _spaceBetweenMoons;
+                    maxMoonOrbit = nextMinMoonOrbit;
+                }
+
+                nextMinPlanetOrbit = planetOrbit + maxMoonOrbit + rng.Next(_minSpaceBetweenPlanets, _maxSpaceBetweenPlanets);
+            }
+
+            Logging.Information($"Generated system at sector {sectorPosition} with radius {nextMinPlanetOrbit + _asteroidBeltPlanetsSpacing}");
+
+            GenerateAsteroidBelt(
+                data.ID,
+                sectorPosition,
+                star,
+                rng,
+                nextMinPlanetOrbit + _asteroidBeltPlanetsSpacing,
+                rng.Next(_minAsteroids, _maxAsteroids + 1),
+                _asteroidBeltThickness,
+                data);
+
+        } // GenerateSolarSystem
+
+        public void GenerateAsteroidBelt(string baseID, Vector2I sector, Entity parent, FastRandom rng, float orbit, int asteroids, int thickness, GalaxySectorData data)
+        {
+            _tempVector2List.Clear();
+            thickness = thickness / 2;
+
+            for (var i = 0f; i < 2 * MathF.PI; i += 2 * MathF.PI / asteroids)
+            {
+                var asteroidOffset = new Vector2(rng.Next(-thickness, thickness), rng.Next(-thickness, thickness));
+
+                _tempVector2List.Add(new Vector2(
+                    MathF.Cos(i) * orbit + asteroidOffset.X,
+                    MathF.Sin(i) * orbit + asteroidOffset.Y));
+            }
+
+            var asteroidIndex = 0;
+
+            foreach (var asteroidPosition in _tempVector2List)
+            {
+                float orbitStart = rng.Next(1, asteroids) / asteroids;
+                var asteroidID = baseID + "_A" + asteroidIndex.ToString();
+
+                var asteroid = GalaxyPrefabs.BuildAsteroid(
+                    Registry,
+                    asteroidID,
+                    sector,
+                    parent,
+                    orbitStart,
+                    Vector2.Distance(Vector2.Zero, asteroidPosition),
+                    _randomAsteroidList.GetRandomItem(rng),
+                    rng,
+                    _currentDrawLayer,
+                    ServerMode);
+
+                _currentDrawLayer += 1;
+
+                data.Entities.Add(asteroid);
+                data.Asteroids.Add(asteroid);
+
+                asteroidIndex += 1;
+            }
+        } // GenerateAsteroidBelt
 
     } // GalaxyGenerator
 }

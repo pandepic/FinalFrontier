@@ -29,7 +29,6 @@ namespace FinalFrontier
             Window.Resizable = false;
 
             AssetManager.Load("Content", LoadAssetsMode.AutoPrependDir | LoadAssetsMode.AutoFind);
-            Globals.Load();
             GameDataManager.Load();
 
             Registry = new Registry();
@@ -41,7 +40,7 @@ namespace FinalFrontier
             stopWatch.Stop();
             Logging.Information("Generated galaxy with {stars} stars in {time:0.00} ms.", GalaxyGenerator.GalaxyStars.Count);
 
-            NetworkServer = new NetworkServer();
+            NetworkServer = new NetworkServer(this);
             NetworkServer.Load();
         }
 

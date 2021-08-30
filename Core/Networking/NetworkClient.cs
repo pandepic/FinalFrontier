@@ -15,6 +15,8 @@ namespace FinalFrontier.Networking
 {
     public class NetworkClient
     {
+        public readonly GameClient GameClient;
+
         public NetManager NetManager;
         public EventBasedNetListener Listener;
 
@@ -23,8 +25,9 @@ namespace FinalFrontier.Networking
         public NetPeer Server => NetManager.FirstPeer;
         public bool IsConnected => NetManager.FirstPeer != null && NetManager.FirstPeer.ConnectionState == ConnectionState.Connected;
 
-        public NetworkClient()
+        public NetworkClient(GameClient gameClient)
         {
+            GameClient = gameClient;
             Listener = new EventBasedNetListener();
             NetManager = new NetManager(Listener);
 
@@ -104,14 +107,13 @@ namespace FinalFrontier.Networking
                 case NetworkPacketDataType.Register:
                     {
                         RegisterReply.Read(reader, out var error);
-                        Console.WriteLine($"Register: {error}");
                     }
                     break;
 
                 case NetworkPacketDataType.Login:
                     {
-                        LoginReply.Read(reader, out var authToken, out var error);
-                        Console.WriteLine($"Login: {authToken} {error}");
+                        LoginReply.Read(reader, out var authToken, out var error, out var worldSeed);
+                        GameClient.LoginSuccess(worldSeed);
                     }
                     break;
             }

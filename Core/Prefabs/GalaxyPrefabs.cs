@@ -19,9 +19,8 @@ namespace FinalFrontier
             return MathHelper.GetPointOnCircle(Vector2.Zero, orbit, 0, 200);
         }
 
-        public static Entity BuildStar(Registry registry, string id, Vector2I sectorPosition, Vector2 position, StarData data, int drawLayer)
+        public static Entity BuildStar(Registry registry, string id, Vector2I sectorPosition, Vector2 position, StarData data, int drawLayer, bool serverMode)
         {
-            var texture = AssetManager.LoadTexture2D(data.Sprite);
             var entity = registry.CreateEntity();
 
             entity.TryAddComponent(new Star());
@@ -36,25 +35,30 @@ namespace FinalFrontier
                 ID = id,
                 Sector = sectorPosition,
             });
-            entity.TryAddComponent(new Drawable()
+
+            if (!serverMode)
             {
-                AtlasRect = new Rectangle(Vector2I.Zero, texture.Size),
-                Origin = texture.SizeF / 2f,
-                Scale = new Vector2(data.Scale),
-                Texture = data.Sprite,
-                TextureReference = texture,
-                Layer = drawLayer,
-                MinSize = new Vector2(10),
-                MaxZoomLevel = 0,
-            });
+                var texture = AssetManager.LoadTexture2D(data.Sprite);
+
+                entity.TryAddComponent(new Drawable()
+                {
+                    AtlasRect = new Rectangle(Vector2I.Zero, texture.Size),
+                    Origin = texture.SizeF / 2f,
+                    Scale = new Vector2(data.Scale),
+                    Texture = data.Sprite,
+                    TextureReference = texture,
+                    Layer = drawLayer,
+                    MinSize = new Vector2(10),
+                    MaxZoomLevel = 0,
+                });
+            }
 
             return entity;
 
         } // BuildStar
 
-        public static Entity BuildPlanet(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbit, PlanetData data, FastRandom rng, int drawLayer)
+        public static Entity BuildPlanet(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbit, PlanetData data, FastRandom rng, int drawLayer, bool serverMode)
         {
-            var texture = AssetManager.LoadTexture2D(data.Sprite);
             var entity = registry.CreateEntity();
 
             entity.TryAddComponent(new Planet());
@@ -76,25 +80,30 @@ namespace FinalFrontier
                 Parent = parent,
                 Sector = sectorPosition,
             });
-            entity.TryAddComponent(new Drawable()
+
+            if (!serverMode)
             {
-                AtlasRect = new Rectangle(Vector2I.Zero, texture.Size),
-                Origin = texture.SizeF / 2f,
-                Scale = new Vector2(data.Scale),
-                Texture = data.Sprite,
-                TextureReference = AssetManager.LoadTexture2D(data.Sprite),
-                Layer = drawLayer,
-                MinSize = new Vector2(2),
-                MaxZoomLevel = 14,
-            });
+                var texture = AssetManager.LoadTexture2D(data.Sprite);
+
+                entity.TryAddComponent(new Drawable()
+                {
+                    AtlasRect = new Rectangle(Vector2I.Zero, texture.Size),
+                    Origin = texture.SizeF / 2f,
+                    Scale = new Vector2(data.Scale),
+                    Texture = data.Sprite,
+                    TextureReference = AssetManager.LoadTexture2D(data.Sprite),
+                    Layer = drawLayer,
+                    MinSize = new Vector2(2),
+                    MaxZoomLevel = 14,
+                });
+            }
 
             return entity;
 
         } // BuildPlanet
 
-        public static Entity BuildMoon(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbit, MoonData data, FastRandom rng, int drawLayer)
+        public static Entity BuildMoon(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbit, MoonData data, FastRandom rng, int drawLayer, bool serverMode)
         {
-            var texture = AssetManager.LoadTexture2D(data.Sprite);
             var entity = registry.CreateEntity();
 
             entity.TryAddComponent(new Moon());
@@ -116,25 +125,30 @@ namespace FinalFrontier
                 Parent = parent,
                 Sector = sectorPosition,
             });
-            entity.TryAddComponent(new Drawable()
+
+            if (!serverMode)
             {
-                AtlasRect = new Rectangle(Vector2I.Zero, texture.Size),
-                Origin = texture.SizeF / 2f,
-                Scale = new Vector2(data.Scale),
-                Texture = data.Sprite,
-                TextureReference = AssetManager.LoadTexture2D(data.Sprite),
-                Layer = drawLayer,
-                MinSize = new Vector2(2),
-                MaxZoomLevel = 10,
-            });
+                var texture = AssetManager.LoadTexture2D(data.Sprite);
+
+                entity.TryAddComponent(new Drawable()
+                {
+                    AtlasRect = new Rectangle(Vector2I.Zero, texture.Size),
+                    Origin = texture.SizeF / 2f,
+                    Scale = new Vector2(data.Scale),
+                    Texture = data.Sprite,
+                    TextureReference = AssetManager.LoadTexture2D(data.Sprite),
+                    Layer = drawLayer,
+                    MinSize = new Vector2(2),
+                    MaxZoomLevel = 10,
+                });
+            }
 
             return entity;
 
         } // BuildMoon
 
-        public static Entity BuildAsteroid(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbitStart, float orbit, AsteroidData data, FastRandom rng, int drawLayer)
+        public static Entity BuildAsteroid(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbitStart, float orbit, AsteroidData data, FastRandom rng, int drawLayer, bool serverMode)
         {
-            var atlasRect = Globals.EntityAtlas.GetSpriteRect(data.Sprite);
             var entity = registry.CreateEntity();
 
             var orbitLength = 2f * MathF.PI * orbit;
@@ -159,17 +173,23 @@ namespace FinalFrontier
                 Parent = parent,
                 Sector = sectorPosition,
             });
-            entity.TryAddComponent(new Drawable()
+
+            if (!serverMode)
             {
-                AtlasRect = atlasRect,
-                Origin = atlasRect.SizeF / 2f,
-                Scale = new Vector2(data.Scale),
-                Texture = data.Sprite,
-                TextureReference = AssetManager.LoadTexture2D(Globals.EntityAtlas.TextureAsset),
-                Layer = drawLayer,
-                MinSize = new Vector2(1),
-                MaxZoomLevel = 10,
-            });
+                var atlasRect = Globals.EntityAtlas.GetSpriteRect(data.Sprite);
+
+                entity.TryAddComponent(new Drawable()
+                {
+                    AtlasRect = atlasRect,
+                    Origin = atlasRect.SizeF / 2f,
+                    Scale = new Vector2(data.Scale),
+                    Texture = data.Sprite,
+                    TextureReference = AssetManager.LoadTexture2D(Globals.EntityAtlas.TextureAsset),
+                    Layer = drawLayer,
+                    MinSize = new Vector2(1),
+                    MaxZoomLevel = 10,
+                });
+            }
 
             if (parent.HasComponent<Planet>())
                 entity.TryAddComponent(new RingAsteroid(parent));

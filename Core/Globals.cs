@@ -27,6 +27,8 @@ namespace FinalFrontier
 
     public static class Globals
     {
+        public static readonly float GalaxySectorScale = 1000000;
+
         public static FastRandom RNG = new FastRandom();
 
         public static List<Resolution> PossibleResolutions = new List<Resolution>()

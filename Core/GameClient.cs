@@ -1,4 +1,5 @@
 ﻿using ElementEngine;
+using ElementEngine.ECS;
 using FinalFrontier.Networking;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,10 @@ namespace FinalFrontier
         public static NetworkClient NetworkClient;
 
         public Dictionary<GameStateType, GameState> GameStates { get; set; } = new Dictionary<GameStateType, GameState>();
+
+        public string WorldSeed;
+        public GalaxyGenerator GalaxyGenerator;
+        public Registry Registry;
 
         public override void Load()
         {
@@ -67,6 +72,7 @@ namespace FinalFrontier
 
             GameStates.Add(GameStateType.Menu, new GameStateMenu(this));
             GameStates.Add(GameStateType.Play, new GameStatePlay(this));
+            GameStates.Add(GameStateType.Loading, new GameStateLoading(this));
 
             UICursors.Setup();
             UICursors.SetCursor(UICursorType.Normal);
@@ -79,7 +85,7 @@ namespace FinalFrontier
                 SaveSettings();
             }
 
-            NetworkClient = new NetworkClient();
+            NetworkClient = new NetworkClient(this);
             SetGameState(GameStateType.Menu);
 
         } // Load
@@ -111,6 +117,12 @@ namespace FinalFrontier
         public void SetGameState(GameStateType type)
         {
             SetGameState(GameStates[type]);
+        }
+
+        public void LoginSuccess(string worldSeed)
+        {
+            WorldSeed = worldSeed;
+            SetGameState(GameStateType.Loading);
         }
 
     } // GameClient

@@ -21,6 +21,8 @@ namespace FinalFrontier.Networking
         public const int TicksPerSecond = 60;
         public const float SecondsPerTick = 1f / TicksPerSecond;
 
+        public readonly GameServer GameServer;
+
         public NetManager NetManager;
         public EventBasedNetListener Listener;
         public NetworkPacket NextPacket;
@@ -29,6 +31,11 @@ namespace FinalFrontier.Networking
         public Database Database;
 
         public Dictionary<int, PeerInfo> ConnectedPeers = new Dictionary<int, PeerInfo>();
+
+        public NetworkServer(GameServer gameServer)
+        {
+            GameServer = gameServer;
+        }
 
         public void Load()
         {
@@ -170,7 +177,7 @@ namespace FinalFrontier.Networking
                         if (!Database.Users.TryGetValue(username, out var user))
                         {
                             using var packetError = new NetworkPacket();
-                            LoginReply.Write(packetError, "", "InvalidUsernamePassword");
+                            LoginReply.Write(packetError, "", "InvalidUsernamePassword", "");
                             packetError.Send(peer);
                             return;
                         }
@@ -178,7 +185,7 @@ namespace FinalFrontier.Networking
                         if (password != user.Password)
                         {
                             using var packetError = new NetworkPacket();
-                            LoginReply.Write(packetError, "", "InvalidUsernamePassword");
+                            LoginReply.Write(packetError, "", "InvalidUsernamePassword", "");
                             packetError.Send(peer);
                             return;
                         }
@@ -187,7 +194,7 @@ namespace FinalFrontier.Networking
                         user.AuthToken = authToken;
                         
                         using var packet = new NetworkPacket();
-                        LoginReply.Write(packet, authToken, "");
+                        LoginReply.Write(packet, authToken, "", GameServer.WorldSeed);
                         packet.Send(peer);
 
                         Logging.Information("User logged in: {username}.", username);
