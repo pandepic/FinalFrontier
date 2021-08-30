@@ -41,6 +41,7 @@ namespace Editor
             ClearColor = RgbaFloat.CornflowerBlue;
 
             EditorGlobals.AssetsRoot = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "..\\..\\..\\..\\Client\\Content").FullName;
+            EditorGlobals.ServerDataRoot = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "..\\..\\..\\..\\Server\\Data").FullName;
             AssetManager.Load(EditorGlobals.AssetsRoot, LoadAssetsMode.AutoPrependDir | LoadAssetsMode.AutoFind);
 
             IMGUIManager.Setup();
@@ -85,6 +86,17 @@ namespace Editor
             {
                 if (ImGui.Selectable(type.ToString(), window.IsActive))
                     ToggleEditorWindow(type);
+            }
+
+            ImGui.NewLine();
+
+            if (ImGui.Button("Copy to Server"))
+            {
+                File.Copy(Path.Combine(EditorGlobals.AssetsRoot, "Data/Stars.json"), Path.Combine(EditorGlobals.ServerDataRoot, "Stars.json"), true);
+                File.Copy(Path.Combine(EditorGlobals.AssetsRoot, "Data/Planets.json"), Path.Combine(EditorGlobals.ServerDataRoot, "Planets.json"), true);
+                File.Copy(Path.Combine(EditorGlobals.AssetsRoot, "Data/Moons.json"), Path.Combine(EditorGlobals.ServerDataRoot, "Moons.json"), true);
+                File.Copy(Path.Combine(EditorGlobals.AssetsRoot, "Data/Asteroids.json"), Path.Combine(EditorGlobals.ServerDataRoot, "Asteroids.json"), true);
+                File.Copy(Path.Combine(EditorGlobals.AssetsRoot, "Data/Ships.json"), Path.Combine(EditorGlobals.ServerDataRoot, "Ships.json"), true);
             }
 
             ImGui.End();

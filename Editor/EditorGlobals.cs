@@ -10,6 +10,7 @@ namespace Editor
     public static class EditorGlobals
     {
         public static string AssetsRoot = "";
+        public static string ServerDataRoot = "";
         public static Dictionary<string, IntPtr> TexturePtrs = new Dictionary<string, IntPtr>();
         public static TexturePackerAtlas WorldAssetsAtlas;
         public static IntPtr WorldAssetsAtlasPtr;

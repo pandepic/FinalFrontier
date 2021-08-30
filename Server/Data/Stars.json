@@ -1,0 +1,20 @@
+{
+  "YellowStar": {
+    "Name": "YellowStar",
+    "Sprite": "Stars/YellowStar.png",
+    "Weighting": 5,
+    "Scale": 10.0
+  },
+  "BrownDwarfStar": {
+    "Name": "BrownDwarfStar",
+    "Sprite": "Stars/BrownDwarfStar.png",
+    "Weighting": 5,
+    "Scale": 10.0
+  },
+  "DwarfStar": {
+    "Name": "DwarfStar",
+    "Sprite": "Stars/DwarfStar.png",
+    "Weighting": 5,
+    "Scale": 10.0
+  }
+}
