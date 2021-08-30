@@ -6,6 +6,7 @@
         ServerStatus,
         Login,
         Register,
+        JoinGame,
     }
 
     public enum GameStateType

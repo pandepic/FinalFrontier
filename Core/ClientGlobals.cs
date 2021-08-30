@@ -8,5 +8,7 @@ namespace FinalFrontier
 {
     public static class ClientGlobals
     {
+        public static string Username;
+        public static string AuthToken;
     }
 }

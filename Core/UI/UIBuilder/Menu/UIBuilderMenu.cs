@@ -144,6 +144,7 @@ namespace FinalFrontier
 
                 GameClient.SaveSettings();
                 ClientPacketSender.Login(txtUsername.Text, txtPassword.Text);
+                ClientGlobals.Username = txtUsername.Text;
             };
 
             btnRegister.OnClick += (args) =>

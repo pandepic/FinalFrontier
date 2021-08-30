@@ -38,6 +38,13 @@ namespace FinalFrontier.Networking
             RegisterRequest.Write(packet, username, password);
             SendPacket(packet);
         }
+
+        public static void JoinGame()
+        {
+            using var packet = new NetworkPacket();
+            JoinGameRequest.Write(packet);
+            SendPacket(packet);
+        }
         
     } // ClientPackets
 }

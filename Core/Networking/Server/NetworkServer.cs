@@ -1,7 +1,9 @@
 ﻿using ElementEngine;
+using ElementEngine.ECS;
 using FinalFrontier.Database.Tables;
 using FinalFrontier.Networking;
 using FinalFrontier.Networking.Packets;
+using FinalFrontier.Networking.Server;
 using FinalFrontier.Utility;
 using LiteNetLib;
 using System;
@@ -12,12 +14,6 @@ using System.Net.Sockets;
 
 namespace FinalFrontier.Networking
 {
-    public class PeerInfo
-    {
-        public int ID;
-        public NetPeer Peer;
-    }
-
     public class NetworkServer
     {
         public static StringCryptography StringCryptography = new StringCryptography();
@@ -33,9 +29,8 @@ namespace FinalFrontier.Networking
         public float CurrentTickTime = 0f;
 
         public Database Database;
-
-        public Dictionary<int, PeerInfo> ConnectedPeers = new Dictionary<int, PeerInfo>();
-
+        public PlayerManager PlayerManager = new PlayerManager();
+        
         public NetworkServer(GameServer gameServer)
         {
             GameServer = gameServer;
@@ -81,13 +76,13 @@ namespace FinalFrontier.Networking
         private void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
         {
             Logging.Information("Client disconnected: {id}, {ip}, {port}", peer.Id, peer.EndPoint.Address.ToString(), peer.EndPoint.Port.ToString());
-            ConnectedPeers.Remove(peer.Id);
+            PlayerManager.RemovePlayer(peer);
         }
 
         private void OnPeerConnected(NetPeer peer)
         {
             Logging.Information("New connection: {id}, {ip}, {port}", peer.Id, peer.EndPoint.Address.ToString(), peer.EndPoint.Port.ToString());
-            ConnectedPeers.Add(peer.Id, new PeerInfo() { ID = peer.Id, Peer = peer });
+            PlayerManager.AddPlayer(peer);
         }
 
         private void OnRequest(ConnectionRequest request)
@@ -110,7 +105,14 @@ namespace FinalFrontier.Networking
 
                 if (NextPacket.DataCount > 0)
                 {
-                    NextPacket.SendAll(NetManager);
+                    foreach (var player in PlayerManager.Players)
+                    {
+                        if (!player.IsPlaying)
+                            continue;
+
+                        NextPacket.Send(player.Peer);
+                    }
+
                     NextPacket?.Dispose();
                     NextPacket = new NetworkPacket();
                 }
@@ -138,7 +140,7 @@ namespace FinalFrontier.Networking
                 case NetworkPacketDataType.ServerStatus:
                     {
                         using var packet = new NetworkPacket();
-                        ServerStatusReply.Write(packet, ConnectedPeers.Count);
+                        ServerStatusReply.Write(packet, PlayerManager.Players.Count);
                         packet.Send(peer);
                     }
                     break;
@@ -204,7 +206,11 @@ namespace FinalFrontier.Networking
 
                         var authToken = Guid.NewGuid().ToString();
                         user.AuthToken = authToken;
-                        
+
+                        var player = PlayerManager.GetPlayer(username);
+                        player.User = user;
+                        player.IsLoggedIn = true;
+
                         using var packet = new NetworkPacket();
                         LoginReply.Write(packet, authToken, "", GameServer.WorldSeed);
                         packet.Send(peer);
@@ -212,8 +218,34 @@ namespace FinalFrontier.Networking
                         Logging.Information("User logged in: {username}.", username);
                     }
                     break;
+
+                case NetworkPacketDataType.JoinGame:
+                    {
+                        var auth = CheckAuth(reader, out var player);
+
+                        if (!auth)
+                            return;
+
+                        player.IsPlaying = true;
+                        // todo : send one off sync data
+                    }
+                    break;
             }
         } // HandlePacketData
+
+        public bool CheckAuth(BinaryReader reader, out Player player)
+        {
+            PacketUtil.ReadAuth(reader, out var username, out var authToken);
+            
+            player = PlayerManager.GetPlayer(username);
+
+            if (player == null)
+                return false;
+            if (player.User.AuthToken != authToken)
+                return false;
+
+            return true;
+        }
 
     } // NetworkServer
 }

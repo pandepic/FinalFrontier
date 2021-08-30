@@ -120,6 +120,7 @@ namespace FinalFrontier.Networking
                             return;
                         }
 
+                        ClientGlobals.AuthToken = authToken;
                         GameClient.LoginSuccess(worldSeed);
                     }
                     break;

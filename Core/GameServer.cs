@@ -1,5 +1,6 @@
 ﻿using ElementEngine;
 using ElementEngine.ECS;
+using FinalFrontier.Database.Tables;
 using FinalFrontier.Networking;
 using System;
 using System.Diagnostics;
