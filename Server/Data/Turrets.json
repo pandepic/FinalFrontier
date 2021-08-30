@@ -1,0 +1,90 @@
+{
+  "Small 1": {
+    "Name": "Small 1",
+    "Class": 0,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Turret Small 3.png",
+    "Scale": 1.0,
+    "ProjectileSpawnPosition": {
+      "X": 0.0,
+      "Y": -20.0
+    }
+  },
+  "Small 2": {
+    "Name": "Small 2",
+    "Class": 0,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Turret Small 1.png",
+    "Scale": 1.0,
+    "ProjectileSpawnPosition": {
+      "X": 0.0,
+      "Y": -20.0
+    }
+  },
+  "Medium 1": {
+    "Name": "Medium 1",
+    "Class": 0,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Turret Medium 2.png",
+    "Scale": 1.0,
+    "ProjectileSpawnPosition": {
+      "X": 0.0,
+      "Y": -20.0
+    }
+  },
+  "Medium 2": {
+    "Name": "Medium 2",
+    "Class": 0,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Turret Medium 3.png",
+    "Scale": 1.0,
+    "ProjectileSpawnPosition": {
+      "X": 0.0,
+      "Y": -20.0
+    }
+  },
+  "Medium 3": {
+    "Name": "Medium 3",
+    "Class": 0,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Turret Medium 4.png",
+    "Scale": 1.0,
+    "ProjectileSpawnPosition": {
+      "X": 0.0,
+      "Y": -20.0
+    }
+  },
+  "Large 1": {
+    "Name": "Large 1",
+    "Class": 0,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Turret Medium 1.png",
+    "Scale": 1.0,
+    "ProjectileSpawnPosition": {
+      "X": 0.0,
+      "Y": -20.0
+    }
+  },
+  "Large 2": {
+    "Name": "Large 2",
+    "Class": 0,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Turret Large 2.png",
+    "Scale": 1.0,
+    "ProjectileSpawnPosition": {
+      "X": 0.0,
+      "Y": -25.0
+    }
+  },
+  "Large 3": {
+    "Name": "Large 3",
+    "Class": 0,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Turret Large 1.png",
+    "Scale": 1.0,
+    "ProjectileSpawnPosition": {
+      "X": 0.0,
+      "Y": -25.0
+    }
+  }
+}

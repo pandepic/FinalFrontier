@@ -19,6 +19,8 @@ namespace Editor
         Asteroids,
         Ships,
         Weapons,
+        Turrets,
+        Projectiles,
     }
 
     public class GameEditor : BaseGame
@@ -54,6 +56,8 @@ namespace Editor
             EditorWindows.Add(EditorWindowType.Moons, new MoonsWindow());
             EditorWindows.Add(EditorWindowType.Asteroids, new AsteroidsWindow());
             EditorWindows.Add(EditorWindowType.Ships, new ShipsWindow());
+            EditorWindows.Add(EditorWindowType.Turrets, new TurretsWindow());
+            EditorWindows.Add(EditorWindowType.Projectiles, new ProjectilesWindow());
         }
 
         public void ToggleEditorWindow(EditorWindowType type)
@@ -97,6 +101,8 @@ namespace Editor
                 File.Copy(Path.Combine(EditorGlobals.AssetsRoot, "Data/Moons.json"), Path.Combine(EditorGlobals.ServerDataRoot, "Moons.json"), true);
                 File.Copy(Path.Combine(EditorGlobals.AssetsRoot, "Data/Asteroids.json"), Path.Combine(EditorGlobals.ServerDataRoot, "Asteroids.json"), true);
                 File.Copy(Path.Combine(EditorGlobals.AssetsRoot, "Data/Ships.json"), Path.Combine(EditorGlobals.ServerDataRoot, "Ships.json"), true);
+                File.Copy(Path.Combine(EditorGlobals.AssetsRoot, "Data/Turrets.json"), Path.Combine(EditorGlobals.ServerDataRoot, "Turrets.json"), true);
+                File.Copy(Path.Combine(EditorGlobals.AssetsRoot, "Data/Projectiles.json"), Path.Combine(EditorGlobals.ServerDataRoot, "Projectiles.json"), true);
             }
 
             ImGui.End();
