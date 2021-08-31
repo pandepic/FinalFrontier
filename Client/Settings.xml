@@ -25,11 +25,12 @@
   <Section Name="Controls">
     <Setting Name="Interact" Value="Left" Type="Mouse" />
     <Setting Name="Command" Value="Right" Type="Mouse" />
-
+    
     <Setting Name="DragCamera" Value="Middle" Type="Mouse" />
     <Setting Name="ZoomIn" Value="WheelUp" Type="Mouse" />
     <Setting Name="ZoomOut" Value="WheelDown" Type="Mouse" />
 
+    <Setting Name="LockCamera" Value="Space" Type="Keyboard" />
     <Setting Name="Cancel" Value="Escape" Type="Keyboard" />
 
   </Section>

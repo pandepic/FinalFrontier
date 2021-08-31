@@ -27,6 +27,7 @@ namespace FinalFrontier.Networking
         public EventBasedNetListener Listener;
         public NetworkPacket NextPacket;
         public float CurrentTickTime = 0f;
+        public double WorldTime = 10000000;
 
         public Database Database;
         public PlayerManager PlayerManager = new PlayerManager();
@@ -81,7 +82,7 @@ namespace FinalFrontier.Networking
 
         private void OnPeerConnected(NetPeer peer)
         {
-            Logging.Information("New connection: {id}, {ip}, {port}", peer.Id, peer.EndPoint.Address.ToString(), peer.EndPoint.Port.ToString());
+            Logging.Information("Client connected: {id}, {ip}, {port}", peer.Id, peer.EndPoint.Address.ToString(), peer.EndPoint.Port.ToString());
             PlayerManager.AddPlayer(peer);
         }
 
@@ -95,13 +96,14 @@ namespace FinalFrontier.Networking
 
         public void Update(GameTimer gameTimer)
         {
+            WorldTime += gameTimer.DeltaS;
             NetManager.PollEvents();
 
             CurrentTickTime += gameTimer.DeltaS;
 
             while (CurrentTickTime > SecondsPerTick)
             {
-                // todo: add packet data
+                WorldUpdateReply.Write(NextPacket, WorldTime);
 
                 if (NextPacket.DataCount > 0)
                 {
@@ -204,10 +206,19 @@ namespace FinalFrontier.Networking
                             return;
                         }
 
+                        var player = PlayerManager.GetPlayer(peer);
+
+                        if (player.IsLoggedIn)
+                        {
+                            using var packetError = new NetworkPacket();
+                            LoginReply.Write(packetError, "", "AlreadyLoggedIn", "");
+                            packetError.Send(peer);
+                            return;
+                        }
+
                         var authToken = Guid.NewGuid().ToString();
                         user.AuthToken = authToken;
 
-                        var player = PlayerManager.GetPlayer(username);
                         player.User = user;
                         player.IsLoggedIn = true;
 
@@ -221,21 +232,26 @@ namespace FinalFrontier.Networking
 
                 case NetworkPacketDataType.JoinGame:
                     {
-                        var auth = CheckAuth(reader, out var player);
+                        var auth = CheckAuth(reader, out var username, out var authToken, out var player);
 
                         if (!auth)
+                        {
+                            LogAuthFailed(type, username, authToken);
                             return;
+                        }
 
                         player.IsPlaying = true;
                         // todo : send one off sync data
+
+                        Logging.Information("Player joined game: {username}.", player.User.Username);
                     }
                     break;
             }
         } // HandlePacketData
 
-        public bool CheckAuth(BinaryReader reader, out Player player)
+        public bool CheckAuth(BinaryReader reader, out string username, out string authToken, out Player player)
         {
-            PacketUtil.ReadAuth(reader, out var username, out var authToken);
+            PacketUtil.ReadAuth(reader, out username, out authToken);
             
             player = PlayerManager.GetPlayer(username);
 
@@ -245,6 +261,11 @@ namespace FinalFrontier.Networking
                 return false;
 
             return true;
+        }
+
+        public void LogAuthFailed(NetworkPacketDataType dataType, string username, string authToken)
+        {
+            Logging.Error("Auth failed on {type} {username} {authToken}.", dataType, username, authToken);
         }
 
     } // NetworkServer

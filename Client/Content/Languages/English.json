@@ -9,6 +9,7 @@
   "Exit": "Exit",
   "Apply": "Apply",
   "Close": "Close",
+  "Loading": "Loading...",
 
   "ServerStatus": "Server Status: {STATUS}",
 

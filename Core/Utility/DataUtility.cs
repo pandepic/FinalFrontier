@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FinalFrontier.Utility
 {
-    public static class DataUtil
+    public static class DataUtility
     {
         public static List<DamageType> DamageTypes = Enum.GetValues<DamageType>().ToList();
 

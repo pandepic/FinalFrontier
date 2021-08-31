@@ -1,4 +1,5 @@
 ﻿using FinalFrontier.Database.Tables;
+using FinalFrontier.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -11,6 +12,7 @@ namespace FinalFrontier.Networking
 {
     public class Database
     {
+        public static StringCryptography StringCryptography = new StringCryptography();
         public static readonly string DateFormatString = "yyyy-MM-dd HH:mm:ss";
 
         public readonly string DatabasePath = "C:/FinalFrontier/FFDB.sqlite";
@@ -45,6 +47,32 @@ namespace FinalFrontier.Networking
 
             command.CommandText = User.CreateTable();
             command.ExecuteNonQuery();
+
+            var testUser = new User()
+            {
+                Username = "Pandepic",
+                Password = "",
+                Salt = "Salt",
+                Money = 0,
+                AuthToken = "",
+                Registered = DateTime.UtcNow,
+                LastLogin = DateTime.UtcNow,
+            };
+            testUser.Password = StringCryptography.GetSaltedHashedValueAsString("password", testUser.Salt);
+            testUser.Insert(command);
+
+            var testUser2 = new User()
+            {
+                Username = "Pandepic2",
+                Password = "",
+                Salt = "Salt",
+                Money = 0,
+                AuthToken = "",
+                Registered = DateTime.UtcNow,
+                LastLogin = DateTime.UtcNow,
+            };
+            testUser2.Password = StringCryptography.GetSaltedHashedValueAsString("password", testUser.Salt);
+            testUser2.Insert(command);
 
             connection.Close();
 

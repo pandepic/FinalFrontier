@@ -7,6 +7,7 @@
         Login,
         Register,
         JoinGame,
+        WorldUpdate,
     }
 
     public enum GameStateType

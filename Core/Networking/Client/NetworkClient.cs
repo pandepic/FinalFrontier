@@ -62,6 +62,7 @@ namespace FinalFrontier.Networking
             // keep trying to reconnect
             Logging.Information("Connection to server lost, trying to re-connect.");
             NetManager.Connect(Globals.ServerAddress, Globals.ServerPort, Globals.ConnectionKey);
+            GameClient.OnServerDisconnected();
         }
 
         private void OnPeerConnected(NetPeer peer)
@@ -122,6 +123,13 @@ namespace FinalFrontier.Networking
 
                         ClientGlobals.AuthToken = authToken;
                         GameClient.LoginSuccess(worldSeed);
+                    }
+                    break;
+
+                case NetworkPacketDataType.WorldUpdate:
+                    {
+                        WorldUpdateReply.Read(reader, out var worldTime);
+                        GameClient.WorldTime = worldTime;
                     }
                     break;
             }

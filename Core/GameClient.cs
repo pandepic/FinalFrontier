@@ -13,6 +13,7 @@ namespace FinalFrontier
         public Dictionary<GameStateType, GameState> GameStates { get; set; } = new Dictionary<GameStateType, GameState>();
 
         public string WorldSeed;
+        public double WorldTime;
         public GalaxyGenerator GalaxyGenerator;
         public Registry Registry;
 
@@ -113,11 +114,19 @@ namespace FinalFrontier
             SetGameState(GameStates[type]);
         }
 
+        #region Network Events
         public void LoginSuccess(string worldSeed)
         {
             WorldSeed = worldSeed;
             SetGameState(GameStateType.Loading);
         }
+
+        public void OnServerDisconnected()
+        {
+            if (CurrentGameState is INetworkGameState networkState)
+                networkState.OnServerDisconnected();
+        }
+        #endregion
 
     } // GameClient
 }

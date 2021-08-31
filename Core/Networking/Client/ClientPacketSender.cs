@@ -45,6 +45,6 @@ namespace FinalFrontier.Networking
             JoinGameRequest.Write(packet);
             SendPacket(packet);
         }
-        
+
     } // ClientPackets
 }

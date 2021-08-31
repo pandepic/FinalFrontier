@@ -151,6 +151,11 @@ namespace FinalFrontier
             {
                 ClientPacketSender.Register(txtUsername.Text, txtPassword.Text);
             };
+
+#if DEBUG
+            txtUsername.Text = "Pandepic";
+            txtPassword.Text = "password";
+#endif
         }
     } // UIBuilderMenu
 }
