@@ -7,6 +7,8 @@ build-windows/
 build-linux/
 build-debug-windows/
 build-debug-linux/
+build-server/
+build-debug-server/
 *.7z
 *.zip
 
