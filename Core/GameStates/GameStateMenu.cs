@@ -13,7 +13,7 @@ namespace FinalFrontier
 {
     public class GameStateMenu : GameState
     {
-        public GameClient Client;
+        public GameClient GameClient;
         public UIScreen UIScreen;
         public SpriteBatch2D SpriteBatch;
 
@@ -23,7 +23,7 @@ namespace FinalFrontier
 
         public GameStateMenu(GameClient client)
         {
-            Client = client;
+            GameClient = client;
         }
 
         public override void Initialize()
@@ -94,7 +94,7 @@ namespace FinalFrontier
 
         public void Exit_OnClick(UIOnClickArgs args)
         {
-            Client.Quit();
+            GameClient.Quit();
         }
         #endregion
 

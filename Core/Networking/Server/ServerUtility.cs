@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FinalFrontier.Networking
 {
-    public static class ServerUtil
+    public static class ServerUtility
     {
         public static string GetIPAddress(NetPeer peer)
         {

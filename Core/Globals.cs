@@ -72,6 +72,8 @@ namespace FinalFrontier
 
         public static TexturePackerAtlas UIAtlas;
         public static TexturePackerAtlas EntityAtlas;
+        public static string EntityAtlasData = "Textures/entity_atlas.json";
+        public static string EntityAtlasTexture = "Textures/entity_atlas.png";
 
         public static string ServerAddress = "66.70.191.87";
         public static int ServerPort = 21461;
@@ -80,12 +82,40 @@ namespace FinalFrontier
         public static void Load()
         {
             UIAtlas = AssetManager.LoadTexturePackerAtlas("Textures/ui_atlas.png", "Textures/ui_atlas.json");
-            EntityAtlas = AssetManager.LoadTexturePackerAtlas("Textures/entity_atlas.png", "Textures/entity_atlas.json");
+            EntityAtlas = AssetManager.LoadTexturePackerAtlas(EntityAtlasTexture, EntityAtlasData);
 
 #if DEBUG
             ServerAddress = "localhost";
 #endif
         }
+
+        public static List<string> ColonyNames = new List<string>()
+        {
+            "Rome",
+            "Ariminum",
+            "Belum",
+            "Tarraco",
+            "Modoetia",
+            "Salernum",
+            "Aquileia",
+            "Ascrivium",
+            "Palma",
+            "Massa",
+            "Pompaelo",
+            "Naissus",
+            "Brigantium",
+            "Florentia",
+            "Vesontio",
+            "Lugdunum",
+            "Noviodunum",
+            "Siscia",
+            "Marsonia",
+            "Caesarea",
+            "Novaesium",
+            "Ovilava",
+            "Turicum",
+            "Argentoratum",
+        };
 
     } // Globals
 }

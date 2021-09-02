@@ -14,7 +14,7 @@ using System.Net.Sockets;
 
 namespace FinalFrontier.Networking
 {
-    public class NetworkServer
+    public partial class NetworkServer : IDisposable
     {
         public static StringCryptography StringCryptography = new StringCryptography();
 
@@ -31,7 +31,13 @@ namespace FinalFrontier.Networking
 
         public Database Database;
         public PlayerManager PlayerManager = new PlayerManager();
-        
+
+        public void Dispose()
+        {
+            Database?.Dispose();
+            Database = null;
+        }
+
         public NetworkServer(GameServer gameServer)
         {
             GameServer = gameServer;
@@ -60,7 +66,7 @@ namespace FinalFrontier.Networking
 
         private void OnNetworkError(IPEndPoint endPoint, SocketError socketError)
         {
-            var address = ServerUtil.GetIPAddress(endPoint);
+            var address = ServerUtility.GetIPAddress(endPoint);
             Logging.Error("Network error [{address}] {error}.", address, socketError.ToString());
         }
 
@@ -88,7 +94,7 @@ namespace FinalFrontier.Networking
 
         private void OnRequest(ConnectionRequest request)
         {
-            var address = ServerUtil.GetIPAddress(request);
+            var address = ServerUtility.GetIPAddress(request);
             Logging.Information("Connection request {address}.", address);
 
             request.AcceptIfKey(Globals.ConnectionKey);
@@ -104,6 +110,12 @@ namespace FinalFrontier.Networking
             while (CurrentTickTime > SecondsPerTick)
             {
                 WorldUpdateReply.Write(NextPacket, WorldTime);
+
+                foreach (var loop in NetworkSyncManager.ServerEveryFrameSyncLoops)
+                    loop(NextPacket);
+
+                foreach (var loop in NetworkSyncManager.ServerTempSyncLoops)
+                    loop(NextPacket);
 
                 if (NextPacket.DataCount > 0)
                 {
@@ -149,84 +161,13 @@ namespace FinalFrontier.Networking
 
                 case NetworkPacketDataType.Register:
                     {
-                        RegisterRequest.Read(reader, out var username, out var password);
-
-                        if (Database.Users.ContainsKey(username))
-                        {
-                            using var packet = new NetworkPacket();
-                            RegisterReply.Write(packet, "UsernameTaken");
-                            packet.Send(peer);
-                            return;
-                        }
-
-                        using var connection = Database.CreateConnection();
-                        using var command = connection.CreateCommand();
-
-                        var salt = Guid.NewGuid().ToString();
-                        var hashedPassword = StringCryptography.GetSaltedHashedValueAsString(password, salt);
-
-                        var user = new User()
-                        {
-                            Username = username,
-                            Password = hashedPassword,
-                            Salt = salt,
-                            Money = 0,
-                            AuthToken = "",
-                            Registered = DateTime.UtcNow,
-                            LastLogin = DateTime.UtcNow,
-                        };
-
-                        user.Insert(command);
-                        Database.Users.Add(username, user);
-                        connection.Close();
-
-                        Logging.Information("User registered: {username}.", username);
+                        HandleRegister(reader, peer);
                     }
                     break;
 
                 case NetworkPacketDataType.Login:
                     {
-                        LoginRequest.Read(reader, out var username, out var password);
-
-                        if (!Database.Users.TryGetValue(username, out var user))
-                        {
-                            using var packetError = new NetworkPacket();
-                            LoginReply.Write(packetError, "", "InvalidUsernamePassword", "");
-                            packetError.Send(peer);
-                            return;
-                        }
-
-                        var hashedPassword = StringCryptography.GetSaltedHashedValueAsString(password, user.Salt);
-
-                        if (hashedPassword != user.Password)
-                        {
-                            using var packetError = new NetworkPacket();
-                            LoginReply.Write(packetError, "", "InvalidUsernamePassword", "");
-                            packetError.Send(peer);
-                            return;
-                        }
-
-                        var player = PlayerManager.GetPlayer(peer);
-
-                        if (player.IsLoggedIn)
-                        {
-                            using var packetError = new NetworkPacket();
-                            LoginReply.Write(packetError, "", "AlreadyLoggedIn", "");
-                            packetError.Send(peer);
-                            return;
-                        }
-
-                        var authToken = Guid.NewGuid().ToString();
-                        user.AuthToken = authToken;
-
-                        player.User = user;
-                        player.IsLoggedIn = true;
-
-                        using var packet = new NetworkPacket();
-                        LoginReply.Write(packet, authToken, "", GameServer.WorldSeed);
-                        packet.Send(peer);
-
-                        Logging.Information("User logged in: {username}.", username);
+                        HandleLogin(reader, peer);
                     }
                     break;
 
@@ -241,8 +182,15 @@ namespace FinalFrontier.Networking
                         }
 
                         player.IsPlaying = true;
-                        // todo : send one off sync data
 
+                        var packet = new NetworkPacket();
+
+                        foreach (var loop in NetworkSyncManager.ServerTempSyncLoops)
+                            loop(packet);
+
+                        packet.Send(peer);
+
+                        GameServer.ServerWorldManager.SpawnPlayerShip(GameServer, Database, player);
                         Logging.Information("Player joined game: {username}.", player.User.Username);
                     }
                     break;

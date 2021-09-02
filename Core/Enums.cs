@@ -8,6 +8,14 @@
         Register,
         JoinGame,
         WorldUpdate,
+
+        // Sync components
+        SyncTransform,
+        SyncDrawable,
+        SyncColony,
+        SyncWorldIcon,
+        SyncShip,
+        SyncPlayerShip,
     }
 
     public enum GameStateType
@@ -51,7 +59,6 @@
         Engine,
         Shield,
         Armour,
-        Powerplant,
     }
     
     public enum ProjectileType

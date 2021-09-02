@@ -15,7 +15,10 @@ namespace FinalFrontier
         public string WorldSeed;
         public double WorldTime;
         public GalaxyGenerator GalaxyGenerator;
+
+        // ECS
         public Registry Registry;
+        public Group DrawableGroup;
 
         public override void Load()
         {

@@ -50,6 +50,7 @@ namespace FinalFrontier
                     Layer = drawLayer,
                     MinSize = new Vector2(10),
                     MaxZoomLevel = 0,
+                    Color = Veldrid.RgbaByte.White,
                 });
             }
 
@@ -81,6 +82,9 @@ namespace FinalFrontier
                 Sector = sectorPosition,
             });
 
+            if (data.IsColonisable)
+                entity.TryAddComponent(new Colonisable());
+
             if (!serverMode)
             {
                 var texture = AssetManager.LoadTexture2D(data.Sprite);
@@ -95,6 +99,7 @@ namespace FinalFrontier
                     Layer = drawLayer,
                     MinSize = new Vector2(2),
                     MaxZoomLevel = 14,
+                    Color = Veldrid.RgbaByte.White,
                 });
             }
 
@@ -140,6 +145,7 @@ namespace FinalFrontier
                     Layer = drawLayer,
                     MinSize = new Vector2(2),
                     MaxZoomLevel = 10,
+                    Color = Veldrid.RgbaByte.White,
                 });
             }
 
@@ -188,6 +194,7 @@ namespace FinalFrontier
                     Layer = drawLayer,
                     MinSize = new Vector2(1),
                     MaxZoomLevel = 10,
+                    Color = Veldrid.RgbaByte.White,
                 });
             }
 

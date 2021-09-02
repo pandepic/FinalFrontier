@@ -48,5 +48,16 @@ namespace FinalFrontier
             return new Rectangle(transform.TransformedPosition - (drawable.Origin * drawable.Scale), drawable.AtlasRect.SizeF * drawable.Scale);
         }
 
+        public static void SetSyncEveryTick<T>(Entity entity) where T : struct
+        {
+            entity.TryAddComponent(new EveryFrameSync<T>());
+        }
+
+        public static void SetNeedsTempNetworkSync<T>(Entity entity) where T : struct
+        {
+            entity.TryAddComponent(new TempSync<T>());
+            entity.TryAddComponent(new PlayerJoinedSync<T>());
+        }
+
     } // EntityUtility
 }

@@ -101,7 +101,10 @@ namespace FinalFrontier.Database.Tables
                 users.Add(user.Username, user);
             }
 
+            reader.Close();
+
             return users;
         }
-    }
+
+    } // User
 }

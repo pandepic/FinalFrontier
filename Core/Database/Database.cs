@@ -10,28 +10,39 @@ using System.Threading.Tasks;
 
 namespace FinalFrontier.Networking
 {
-    public class Database
+    public class Database : IDisposable
     {
         public static StringCryptography StringCryptography = new StringCryptography();
         public static readonly string DateFormatString = "yyyy-MM-dd HH:mm:ss";
 
         public readonly string DatabasePath = "C:/FinalFrontier/FFDB.sqlite";
 
+        public SQLiteConnection Connection;
         public Dictionary<string, User> Users = new Dictionary<string, User>();
+
+        public void Dispose()
+        {
+            Unload();
+        }
 
         public void Load()
         {
             if (!File.Exists(DatabasePath))
                 CreateDatabase();
 
-            using var connection = CreateConnection();
-            using var command = connection.CreateCommand();
+            Connection = CreateConnection();
+            using var command = Connection.CreateCommand();
 
             Users = User.GetUsers(command);
 
-            connection.Close();
-
         } // Load
+
+        public void Unload()
+        {
+            Connection?.Close();
+            Connection?.Dispose();
+            Connection = null;
+        }
 
         public void CreateDatabase()
         {
@@ -46,6 +57,15 @@ namespace FinalFrontier.Networking
             using var command = connection.CreateCommand();
 
             command.CommandText = User.CreateTable();
+            command.ExecuteNonQuery();
+
+            command.CommandText = UserShip.CreateTable();
+            command.ExecuteNonQuery();
+
+            command.CommandText = UserShipWeapon.CreateTable();
+            command.ExecuteNonQuery();
+
+            command.CommandText = UserShipComponent.CreateTable();
             command.ExecuteNonQuery();
 
             var testUser = new User()
@@ -78,12 +98,47 @@ namespace FinalFrontier.Networking
 
         } // Create Database
 
-        public SQLiteConnection CreateConnection()
+        private SQLiteConnection CreateConnection()
         {
             var connection = new SQLiteConnection($"Data Source={DatabasePath};Version=3;");
             connection.Open();
 
             return connection;
+        }
+
+        public bool InsertUser(User user)
+        {
+            using var command = Connection.CreateCommand();
+            var success = user.Insert(command);
+
+            if (success)
+                Users.Add(user.Username, user);
+
+            return success;
+        }
+
+        public bool UpdateUser(User user)
+        {
+            using var command = Connection.CreateCommand();
+            return user.Update(command);
+        }
+
+        public Dictionary<string, UserShip> GetUserShips(User user)
+        {
+            using var command = Connection.CreateCommand();
+            return UserShip.GetShips(command, user.Username);
+        }
+
+        public Dictionary<ShipComponentType, UserShipComponent> GetShipComponents(User user, string shipName)
+        {
+            using var command = Connection.CreateCommand();
+            return UserShipComponent.GetShipComponents(command, user.Username, shipName);
+        }
+
+        public List<UserShipWeapon> GetShipWeapons(User user, string shipName)
+        {
+            using var command = Connection.CreateCommand();
+            return UserShipWeapon.GetShipWeapons(command, user.Username, shipName);
         }
 
     } // Database

@@ -1,5 +1,6 @@
 ﻿using ElementEngine;
 using ElementEngine.ECS;
+using ElementEngine.TexturePacker;
 using FinalFrontier.Database.Tables;
 using FinalFrontier.Networking;
 using System;
@@ -13,6 +14,9 @@ namespace FinalFrontier
 
         public GalaxyGenerator GalaxyGenerator;
         public NetworkServer NetworkServer;
+        public ServerWorldManager ServerWorldManager;
+
+        public TexturePackerAtlasData SpriteAtlasData;
 
         public Registry Registry;
 
@@ -32,7 +36,14 @@ namespace FinalFrontier
             AssetManager.Load("Content", LoadAssetsMode.AutoPrependDir | LoadAssetsMode.AutoFind);
             GameDataManager.Load();
 
+            SpriteAtlasData = AssetManager.LoadJSON<TexturePackerAtlasData>("Textures/entity_atlas.json");
+
+            ServerWorldManager = new ServerWorldManager(this);
             Registry = new Registry();
+
+            NetworkSyncManager.Registry = Registry;
+            NetworkSyncManager.LoadShared();
+            NetworkSyncManager.LoadServer();
 
             Logging.Information("Generating galaxy...");
             var stopWatch = Stopwatch.StartNew();
@@ -41,6 +52,8 @@ namespace FinalFrontier
             stopWatch.Stop();
             Logging.Information("Generated galaxy with {stars} stars in {time:0.00} ms.", GalaxyGenerator.GalaxyStars.Count, stopWatch.ElapsedMilliseconds);
 
+            ServerWorldManager.SetupWorld();
+
             NetworkServer = new NetworkServer(this);
             NetworkServer.Load();
         }
@@ -48,6 +61,7 @@ namespace FinalFrontier
         public override void Update(GameTimer gameTimer)
         {
             NetworkServer.Update(gameTimer);
+            Registry.SystemsFinished();
         }
 
         public override void Draw(GameTimer gameTimer)
@@ -56,6 +70,8 @@ namespace FinalFrontier
 
         public override void Exit()
         {
+            NetworkServer?.Dispose();
+            NetworkServer = null;
         }
 
     } // GameServer

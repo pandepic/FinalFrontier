@@ -17,23 +17,13 @@ using Rectangle = ElementEngine.Rectangle;
 
 namespace FinalFrontier
 {
-    public class LocalPlayer
-    {
-        public string Username => ClientGlobals.Username;
-        public string AuthToken => ClientGlobals.AuthToken;
-
-        public Entity Ship;
-        public uint Money;
-    }
-
     public class GameStatePlay : GameState, INetworkGameState
     {
-        public GameClient Client;
+        public GameClient GameClient;
 
         public SpriteBatch2D SpriteBatch;
         public Camera2D Camera;
         public Vector2I CameraSector;
-        public LocalPlayer LocalPlayer;
         public SparseSet<Entity> EntityDrawList = new SparseSet<Entity>(1000);
 
         public UIScreen UIScreen;
@@ -68,7 +58,7 @@ namespace FinalFrontier
 
         public GameStatePlay(GameClient client)
         {
-            Client = client;
+            GameClient = client;
         }
 
         public override void Initialize()
@@ -79,6 +69,7 @@ namespace FinalFrontier
 
         public override void Load()
         {
+            _cameraLocked = true;
             _dragging = false;
             _dragMousePosition = Vector2.Zero;
             _zoomIndex = 1;
@@ -105,8 +96,8 @@ namespace FinalFrontier
             UIScreen.Update(gameTimer);
             HandleCamera();
 
-            OrbitSystem.Run(Client.GalaxyGenerator, Camera, CameraSector, Client.WorldTime);
-            Client.Registry.SystemsFinished();
+            OrbitSystem.Run(GameClient.GalaxyGenerator, Camera, CameraSector, GameClient.WorldTime);
+            GameClient.Registry.SystemsFinished();
         }
 
         public override void Draw(GameTimer gameTimer)
@@ -116,7 +107,7 @@ namespace FinalFrontier
             // World space
             SpriteBatch.Begin(SamplerType.Linear, Camera.GetViewMatrix());
             EntityDrawList.Clear();
-            DrawableSystem.BuildDrawList(_zoomIndex, visibleSectors, EntityDrawList, Client.GalaxyGenerator);
+            DrawableSystem.BuildDrawList(_zoomIndex, visibleSectors, EntityDrawList, GameClient.DrawableGroup, GameClient.GalaxyGenerator);
             DrawableSystem.RunDrawables(EntityDrawList, SpriteBatch, Camera, CameraSector);
             SpriteBatch.End();
 
@@ -132,14 +123,16 @@ namespace FinalFrontier
         {
             var debugFont = UITheme.FontRoboto.GetFont(UIFontStyle.Normal, UIFontWeight.Black);
 
-            SpriteBatch.DrawText(debugFont, $"World Time: {Client.WorldTime:0.00}", new Vector2(25), RgbaByte.White, 20, 1);
+            SpriteBatch.DrawText(debugFont, $"World Time: {GameClient.WorldTime:0.00}\nCamera Sector: {CameraSector}\nCamera Position: {Camera.Position}", new Vector2(25), RgbaByte.White, 20, 1);
         }
 
         public void HandleCamera()
         {
-            if (_cameraLocked && LocalPlayer != null)
+            if (_cameraLocked
+                && ClientGlobals.PlayerShip.IsAlive
+                && ClientGlobals.PlayerShip.HasComponent<Transform>())
             {
-                var playerTransform = LocalPlayer.Ship.GetComponent<Transform>();
+                var playerTransform = ClientGlobals.PlayerShip.GetComponent<Transform>();
                 CameraSector = playerTransform.TransformedSectorPosition;
                 Camera.Center(playerTransform.TransformedPosition);
                 return;
@@ -269,7 +262,7 @@ namespace FinalFrontier
 
         public void OnServerDisconnected()
         {
-            Client.SetGameState(GameStateType.Menu);
+            GameClient.SetGameState(GameStateType.Menu);
         }
 
     } // GameStatePlay

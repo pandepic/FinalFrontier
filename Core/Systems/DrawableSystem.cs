@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Veldrid;
@@ -44,7 +45,7 @@ namespace FinalFrontier
         private static List<DrawItemText> _drawListText = new List<DrawItemText>();
         private static List<Entity> _iconDrawList = new List<Entity>();
 
-        public static void BuildDrawList(int zoomLevel, List<Vector2I> visibleSectors, SparseSet<Entity> entities, GalaxyGenerator galaxyGenerator)
+        public static void BuildDrawList(int zoomLevel, List<Vector2I> visibleSectors, SparseSet<Entity> entities, Group drawableGroup, GalaxyGenerator galaxyGenerator)
         {
             foreach (var sectorPos in visibleSectors)
             {
@@ -56,12 +57,20 @@ namespace FinalFrontier
                     ref var drawable = ref entity.GetComponent<Drawable>();
 
                     if (drawable.MaxZoomLevel == 0 || zoomLevel <= drawable.MaxZoomLevel)
-                        entities.TryAdd(entity, entity.ID);
+                        entities.TryAdd(entity, out var _);
                 }
+            }
+
+            foreach (var entity in drawableGroup.Entities)
+            {
+                ref var transform = ref entity.GetComponent<Transform>();
+
+                if (visibleSectors.Contains(transform.TransformedSectorPosition))
+                    entities.TryAdd(entity, out var _);
             }
         }
         
-        public static void RunDrawables(SparseSet<Entity> entities, SpriteBatch2D spriteBatch, Camera2D camera, Vector2I cameraSector)
+        public static unsafe void RunDrawables(SparseSet<Entity> entities, SpriteBatch2D spriteBatch, Camera2D camera, Vector2I cameraSector)
         {
             var cameraView = camera.ScaledView;
 
@@ -117,7 +126,7 @@ namespace FinalFrontier
 
             EndDrawList(spriteBatch);
 
-        } // DrawableSystem
+        } // RunDrawables
 
         private static void EndDrawList(SpriteBatch2D spriteBatch)
         {

@@ -1,6 +1,8 @@
 ﻿using ElementEngine;
 using ElementEngine.ECS;
 using ElementEngine.ElementUI;
+using FinalFrontier.Components;
+using FinalFrontier.Networking;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,14 +15,14 @@ namespace FinalFrontier
     public class GameStateLoading : GameState
     {
         public SpriteBatch2D SpriteBatch;
-        public GameClient Client;
+        public GameClient GameClient;
         public UIScreen UIScreen;
 
         public int IdleFrames = 0;
         
         public GameStateLoading(GameClient client)
         {
-            Client = client;
+            GameClient = client;
         }
         
         public override void Initialize()
@@ -44,8 +46,17 @@ namespace FinalFrontier
         {
             IdleFrames = 0;
 
-            Client.Registry = new Registry();
-            Client.GalaxyGenerator = new GalaxyGenerator(Client.Registry, Client.WorldSeed, false);
+            ClientGlobals.PlayerShip = new Entity();
+            GameClient.Registry = new Registry();
+
+            NetworkSyncManager.Registry = GameClient.Registry;
+            NetworkSyncManager.LoadShared();
+            NetworkSyncManager.LoadClient();
+
+            GameClient.DrawableGroup = GameClient.Registry.RegisterGroup<Transform, Drawable>();
+            GameClient.DrawableGroup.ExcludeTypes = new Type[] { typeof(OrbitalBody) };
+
+            GameClient.GalaxyGenerator = new GalaxyGenerator(GameClient.Registry, GameClient.WorldSeed, false);
 
             UIScreen?.ShowEnable();
         }
@@ -65,10 +76,10 @@ namespace FinalFrontier
             {
                 Logging.Information("Generating galaxy...");
                 var stopWatch = Stopwatch.StartNew();
-                Client.GalaxyGenerator.GenerateGalaxy();
+                GameClient.GalaxyGenerator.GenerateGalaxy();
                 stopWatch.Stop();
-                Logging.Information("Generated galaxy with {stars} stars in {time:0.00} ms.", Client.GalaxyGenerator.GalaxyStars.Count, stopWatch.ElapsedMilliseconds);
-                Client.SetGameState(GameStateType.Play);
+                Logging.Information("Generated galaxy with {stars} stars in {time:0.00} ms.", GameClient.GalaxyGenerator.GalaxyStars.Count, stopWatch.ElapsedMilliseconds);
+                GameClient.SetGameState(GameStateType.Play);
             }
         }
 

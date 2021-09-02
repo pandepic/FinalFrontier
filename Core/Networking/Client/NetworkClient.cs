@@ -43,7 +43,7 @@ namespace FinalFrontier.Networking
 
         private void OnNetworkError(IPEndPoint endPoint, SocketError socketError)
         {
-            var address = ServerUtil.GetIPAddress(endPoint);
+            var address = ServerUtility.GetIPAddress(endPoint);
             Logging.Error("Network error [{address}] {error}.", address, socketError.ToString());
         }
 
@@ -72,7 +72,7 @@ namespace FinalFrontier.Networking
 
         private void OnRequest(ConnectionRequest request)
         {
-            var address = ServerUtil.GetIPAddress(request);
+            var address = ServerUtility.GetIPAddress(request);
             Logging.Information("Connection request {address}.", address);
 
             request.AcceptIfKey(Globals.ConnectionKey);
@@ -97,6 +97,12 @@ namespace FinalFrontier.Networking
 
         public void HandlePacketData(NetworkPacketDataType type, BinaryReader reader, NetPeer peer)
         {
+            if (NetworkSyncManager.NetworkSyncReadFunctions.TryGetValue(type, out var updateFunction))
+            {
+                updateFunction(GameClient.Registry, reader, GameClient);
+                return;
+            }
+
             switch (type)
             {
                 case NetworkPacketDataType.ServerStatus:

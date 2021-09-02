@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ElementEngine.ECS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,6 @@ namespace FinalFrontier
     {
         public static string Username;
         public static string AuthToken;
+        public static Entity PlayerShip;
     }
 }
