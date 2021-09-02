@@ -85,12 +85,23 @@ namespace FinalFrontier
             {
                 Username = player.User.Username,
             });
+
+            ship.TryAddComponent(new WorldSpaceLabel()
+            {
+                TextSize = 20,
+                Text = player.User.Username,
+                Color = Veldrid.RgbaByte.White,
+                TextOutline = 1,
+                MarginBottom = 0,
+            });
             
             EntityUtility.SetNeedsTempNetworkSync<Transform>(ship);
             EntityUtility.SetNeedsTempNetworkSync<Drawable>(ship);
             EntityUtility.SetNeedsTempNetworkSync<WorldIcon>(ship);
             EntityUtility.SetNeedsTempNetworkSync<Ship>(ship);
             EntityUtility.SetNeedsTempNetworkSync<PlayerShip>(ship);
+            EntityUtility.SetNeedsTempNetworkSync<WorldSpaceLabel>(ship);
+
             EntityUtility.SetSyncEveryTick<Transform>(ship);
 
             return ship;

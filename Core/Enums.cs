@@ -17,6 +17,7 @@
         SyncWorldIcon,
         SyncShip,
         SyncPlayerShip,
+        SyncWorldSpaceLabel,
     }
 
     public enum GameStateType

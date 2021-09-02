@@ -59,6 +59,7 @@ namespace FinalFrontier.Networking
             RegisterTempSyncType<WorldIcon>(NetworkPacketDataType.SyncWorldIcon, WorldIcon.WriteSync, WorldIcon.ReadSync);
             RegisterTempSyncType<Ship>(NetworkPacketDataType.SyncShip, Ship.WriteSync, Ship.ReadSync);
             RegisterTempSyncType<PlayerShip>(NetworkPacketDataType.SyncPlayerShip, PlayerShip.WriteSync, PlayerShip.ReadSync);
+            RegisterTempSyncType<WorldSpaceLabel>(NetworkPacketDataType.SyncWorldSpaceLabel, WorldSpaceLabel.WriteSync, WorldSpaceLabel.ReadSync);
 
             RegisterEveryFrameSyncGroup<Transform>(NetworkPacketDataType.SyncTransform, Transform.WriteSync, Transform.ReadSync);
         }

@@ -37,6 +37,7 @@ namespace FinalFrontier
 
             EntityUtility.SetNeedsTempNetworkSync<Transform>(turret);
             EntityUtility.SetNeedsTempNetworkSync<Drawable>(turret);
+
             EntityUtility.SetSyncEveryTick<Transform>(turret);
 
             return turret;

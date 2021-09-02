@@ -44,6 +44,7 @@ namespace FinalFrontier
         private static List<DrawItem> _drawList = new List<DrawItem>();
         private static List<DrawItemText> _drawListText = new List<DrawItemText>();
         private static List<Entity> _iconDrawList = new List<Entity>();
+        private static SparseSet<Entity> _worldSpaceLabelEntities = new SparseSet<Entity>(1000);
 
         public static void BuildDrawList(int zoomLevel, List<Vector2I> visibleSectors, SparseSet<Entity> entities, Group drawableGroup, GalaxyGenerator galaxyGenerator)
         {
@@ -76,6 +77,7 @@ namespace FinalFrontier
 
             _drawList.Clear();
             _iconDrawList.Clear();
+            _worldSpaceLabelEntities.Clear();
 
             foreach (var entity in entities)
             {
@@ -122,11 +124,71 @@ namespace FinalFrontier
                     Layer = drawable.Layer,
                     Color = RgbaFloat.White,
                 });
+
+                if (entity.HasComponent<WorldSpaceLabel>())
+                    _worldSpaceLabelEntities.TryAdd(entity, out var _);
             }
 
             EndDrawList(spriteBatch);
 
         } // RunDrawables
+
+        public static void RunWorldSpaceLabels(SpriteBatch2D spriteBatch, Camera2D camera, Vector2I cameraSector, SpriteFont font)
+        {
+            var cameraView = camera.ScaledView;
+            _drawListText.Clear();
+
+            foreach (var entity in _worldSpaceLabelEntities)
+            {
+                ref var transform = ref entity.GetComponent<Transform>();
+
+                ref var drawable = ref entity.GetComponent<Drawable>();
+                ref var worldSpaceLabel = ref entity.GetComponent<WorldSpaceLabel>();
+
+                var drawPosition = ((transform.TransformedSectorPosition - cameraSector).ToVector2() * Globals.GalaxySectorScale) + transform.TransformedPosition;
+                var entityRect = new Rectangle(drawPosition.ToVector2I() - drawable.Origin.ToVector2I(), drawable.AtlasRect.Size);
+
+                if (!entityRect.Intersects(cameraView))
+                    continue;
+
+                var textSize = font.MeasureText(worldSpaceLabel.Text, worldSpaceLabel.TextSize, worldSpaceLabel.TextOutline);
+                var screenRect = camera.WorldToScreen(entityRect);
+                var textPosition = screenRect.Location + new Vector2I(screenRect.Width / 2, 0) - new Vector2I(textSize.X / 2, textSize.Y + worldSpaceLabel.MarginBottom);
+
+                _drawListText.Add(new DrawItemText()
+                {
+                    Position = textPosition.ToVector2(),
+                    Origin = Vector2.Zero,
+                    Scale = new Vector2(1f),
+                    Rotation = 0f,
+                    Layer = drawable.Layer,
+                    Color = worldSpaceLabel.Color,
+                    Size = worldSpaceLabel.TextSize,
+                    Outline = worldSpaceLabel.TextOutline,
+                    Text = worldSpaceLabel.Text,
+                });
+            }
+
+            if (_drawListText.Count == 0)
+                return;
+
+            _drawListText.Sort((x, y) =>
+            {
+                var val = x.Layer.CompareTo(y.Layer);
+
+                if (val == 0)
+                    val = x.Size.CompareTo(y.Size);
+
+                if (val == 0)
+                    val = x.Position.Y.CompareTo(y.Position.Y);
+
+                return val;
+            });
+
+            foreach (var item in _drawListText)
+                spriteBatch.DrawText(font, item.Text, item.Position, item.Color, item.Size, item.Outline);
+
+        } // RunWorldSpaceLabels
 
         private static void EndDrawList(SpriteBatch2D spriteBatch)
         {

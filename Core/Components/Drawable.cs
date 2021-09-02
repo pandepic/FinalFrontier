@@ -130,5 +130,37 @@ namespace FinalFrontier.Components
         public RgbaByte Color;
         public int TextOutline;
         public int MarginBottom;
+
+        public static void WriteSync(NetworkPacket packet, Entity entity)
+        {
+            packet.Writer.Write((int)NetworkPacketDataType.SyncWorldSpaceLabel);
+            packet.Writer.Write(entity.ID);
+
+            ref var worldSpaceLabel = ref entity.GetComponent<WorldSpaceLabel>();
+
+            packet.Writer.Write(worldSpaceLabel.TextSize);
+            packet.Writer.Write(worldSpaceLabel.Text);
+            packet.Writer.Write(ref worldSpaceLabel.Color);
+            packet.Writer.Write(worldSpaceLabel.TextOutline);
+            packet.Writer.Write(worldSpaceLabel.MarginBottom);
+
+            packet.DataCount += 1;
+        }
+
+        public static void ReadSync(Registry registry, BinaryReader reader, GameClient gameClient)
+        {
+            var entityID = reader.ReadInt32();
+
+            var worldSpaceLabel = new WorldSpaceLabel();
+
+            worldSpaceLabel.TextSize = reader.ReadInt32();
+            worldSpaceLabel.Text = reader.ReadString();
+            worldSpaceLabel.Color = reader.ReadRgbaByte();
+            worldSpaceLabel.TextOutline = reader.ReadInt32();
+            worldSpaceLabel.MarginBottom = reader.ReadInt32();
+
+            var entity = registry.CreateEntity(entityID);
+            entity.TryAddComponent(worldSpaceLabel);
+        }
     }
 }

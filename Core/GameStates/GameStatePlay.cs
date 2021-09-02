@@ -50,6 +50,8 @@ namespace FinalFrontier
             0.00000762939f,
         };
 
+        protected SpriteFont _defaultFont;
+
         public GameStatePlay(GameClient client)
         {
             GameClient = client;
@@ -59,6 +61,8 @@ namespace FinalFrontier
         {
             SpriteBatch = new SpriteBatch2D();
             UIScreen = new UIScreen();
+
+            _defaultFont = UITheme.FontRoboto.GetFont(UIFontStyle.Normal, UIFontWeight.Black);
         }
 
         public override void Load()
@@ -107,6 +111,7 @@ namespace FinalFrontier
 
             // Screen space
             SpriteBatch.Begin(SamplerType.Linear);
+            DrawableSystem.RunWorldSpaceLabels(SpriteBatch, Camera, CameraSector, _defaultFont);
             UIScreen.Draw(SpriteBatch);
             DrawDebug();
             SpriteBatch.End();
@@ -115,9 +120,7 @@ namespace FinalFrontier
         [Conditional("DEBUG")]
         public void DrawDebug()
         {
-            var debugFont = UITheme.FontRoboto.GetFont(UIFontStyle.Normal, UIFontWeight.Black);
-
-            SpriteBatch.DrawText(debugFont, $"World Time: {GameClient.WorldTime:0.00}\nCamera Sector: {CameraSector}\nCamera Position: {Camera.Position}", new Vector2(25), RgbaByte.White, 20, 1);
+            SpriteBatch.DrawText(_defaultFont, $"World Time: {GameClient.WorldTime:0.00}\nCamera Sector: {CameraSector}\nCamera Position: {Camera.Position}", new Vector2(25), RgbaByte.White, 20, 1);
         }
 
         public void HandleCamera()
