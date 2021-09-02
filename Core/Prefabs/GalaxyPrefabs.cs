@@ -19,7 +19,7 @@ namespace FinalFrontier
             return MathHelper.GetPointOnCircle(Vector2.Zero, orbit, 0, 200);
         }
 
-        public static Entity BuildStar(Registry registry, string id, Vector2I sectorPosition, Vector2 position, StarData data, int drawLayer, bool serverMode)
+        public static Entity Star(Registry registry, string id, Vector2I sectorPosition, Vector2 position, StarData data, int drawLayer, bool serverMode)
         {
             var entity = registry.CreateEntity();
 
@@ -56,9 +56,9 @@ namespace FinalFrontier
 
             return entity;
 
-        } // BuildStar
+        } // Star
 
-        public static Entity BuildPlanet(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbit, PlanetData data, FastRandom rng, int drawLayer, bool serverMode)
+        public static Entity Planet(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbit, PlanetData data, FastRandom rng, int drawLayer, bool serverMode)
         {
             var entity = registry.CreateEntity();
 
@@ -105,9 +105,9 @@ namespace FinalFrontier
 
             return entity;
 
-        } // BuildPlanet
+        } // Planet
 
-        public static Entity BuildMoon(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbit, MoonData data, FastRandom rng, int drawLayer, bool serverMode)
+        public static Entity Moon(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbit, MoonData data, FastRandom rng, int drawLayer, bool serverMode)
         {
             var entity = registry.CreateEntity();
 
@@ -153,7 +153,7 @@ namespace FinalFrontier
 
         } // BuildMoon
 
-        public static Entity BuildAsteroid(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbitStart, float orbit, AsteroidData data, FastRandom rng, int drawLayer, bool serverMode)
+        public static Entity Asteroid(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbitStart, float orbit, AsteroidData data, FastRandom rng, int drawLayer, bool serverMode)
         {
             var entity = registry.CreateEntity();
 
@@ -203,7 +203,7 @@ namespace FinalFrontier
 
             return entity;
 
-        } // BuildAsteroid
+        } // Asteroid
 
     } // GalaxyPrefabs
 }

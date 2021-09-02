@@ -242,7 +242,7 @@ namespace FinalFrontier
             var data = GalaxyStars[sectorPosition];
 
             var rng = new FastRandom(MathHelper.GetSeedFromString(Seed + sectorPosition.X.ToString() + sectorPosition.Y.ToString()));
-            var star = GalaxyPrefabs.BuildStar(Registry, data.ID, sectorPosition, sectorPosition.ToVector2() + new Vector2(Globals.GalaxySectorScale / 2), _randomStarList.GetRandomItem(rng), _currentDrawLayer, ServerMode);
+            var star = GalaxyPrefabs.Star(Registry, data.ID, sectorPosition, sectorPosition.ToVector2() + new Vector2(Globals.GalaxySectorScale / 2), _randomStarList.GetRandomItem(rng), _currentDrawLayer, ServerMode);
             _currentDrawLayer += 1;
 
             data.Star = star;
@@ -259,7 +259,7 @@ namespace FinalFrontier
                 var planetData = _randomPlanetList.GetRandomItem(rng);
                 var planetID = data.ID + "_P" + i.ToString();
                 
-                var planet = GalaxyPrefabs.BuildPlanet(Registry, planetID, sectorPosition, star, planetOrbit, planetData, rng, _currentDrawLayer, ServerMode);
+                var planet = GalaxyPrefabs.Planet(Registry, planetID, sectorPosition, star, planetOrbit, planetData, rng, _currentDrawLayer, ServerMode);
                 _currentDrawLayer += 1;
 
                 data.Entities.Add(planet);
@@ -291,7 +291,7 @@ namespace FinalFrontier
                     var moonOrbit = rng.Next(nextMinMoonOrbit, nextMinMoonOrbit + _moonOrbitRandomSpacing);
 
                     var moonID = planetID + "_M" + m.ToString();
-                    var moon = GalaxyPrefabs.BuildMoon(Registry, moonID, sectorPosition, planet, moonOrbit, _randomMoonList.GetRandomItem(rng), rng, _currentDrawLayer, ServerMode);
+                    var moon = GalaxyPrefabs.Moon(Registry, moonID, sectorPosition, planet, moonOrbit, _randomMoonList.GetRandomItem(rng), rng, _currentDrawLayer, ServerMode);
                     _currentDrawLayer += 1;
 
                     data.Entities.Add(moon);
@@ -339,7 +339,7 @@ namespace FinalFrontier
                 float orbitStart = rng.Next(1, asteroids) / asteroids;
                 var asteroidID = baseID + "_A" + asteroidIndex.ToString();
 
-                var asteroid = GalaxyPrefabs.BuildAsteroid(
+                var asteroid = GalaxyPrefabs.Asteroid(
                     Registry,
                     asteroidID,
                     sector,

@@ -120,7 +120,7 @@ namespace FinalFrontier
             ref var homeWorldTransform = ref homeWorld.GetComponent<Transform>();
             homeWorldTransform.Position = EntityUtility.GetOrbitPosition(homeWorld, gameServer.NetworkServer.WorldTime);
 
-            player.Ship = ShipPrefabs.CreatePlayerShip(gameServer, player, activeShip, homeWorldTransform.TransformedPosition, homeWorldTransform.TransformedSectorPosition);
+            player.Ship = ShipPrefabs.PlayerShip(gameServer, player, activeShip, homeWorldTransform.TransformedPosition, homeWorldTransform.TransformedSectorPosition);
         }
 
     } // ServerWorldManager

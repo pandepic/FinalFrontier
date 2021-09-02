@@ -1,10 +1,13 @@
 ﻿using ElementEngine;
 using ElementEngine.ECS;
 using ElementEngine.TexturePacker;
+using ElementEngine.UI;
 using FinalFrontier.Database.Tables;
 using FinalFrontier.Networking;
+using ImGuiNET;
 using System;
 using System.Diagnostics;
+using System.Numerics;
 
 namespace FinalFrontier
 {
@@ -56,16 +59,49 @@ namespace FinalFrontier
 
             NetworkServer = new NetworkServer(this);
             NetworkServer.Load();
+
+            IMGUIManager.Setup();
         }
 
         public override void Update(GameTimer gameTimer)
         {
             NetworkServer.Update(gameTimer);
             Registry.SystemsFinished();
+            IMGUIManager.Update(gameTimer);
         }
 
         public override void Draw(GameTimer gameTimer)
         {
+            ImGui.SetNextWindowSizeConstraints(new Vector2(200, 400), new Vector2(800, 800));
+            ImGui.Begin("Players", ImGuiWindowFlags.AlwaysAutoResize);
+
+            var loggedInPlayers = 0;
+            var playingPlayers = 0;
+
+            foreach (var player in NetworkServer.PlayerManager.Players)
+            {
+                if (player.IsLoggedIn)
+                    loggedInPlayers += 1;
+                if (player.IsPlaying)
+                    playingPlayers += 1;
+            }
+
+            ImGui.Text($"Connected players: {NetworkServer.PlayerManager.Players.Count}");
+            ImGui.Text($"Logged in: {loggedInPlayers}");
+            ImGui.Text($"Playing: {playingPlayers}");
+            ImGui.NewLine();
+
+            foreach (var player in NetworkServer.PlayerManager.Players)
+            {
+                if (player.User == null)
+                    continue;
+
+                ImGui.Text(player.User.Username);
+            }
+
+            ImGui.End();
+
+            IMGUIManager.Draw();
         }
 
         public override void Exit()

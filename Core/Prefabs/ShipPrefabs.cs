@@ -13,7 +13,7 @@ namespace FinalFrontier
 {
     public static class ShipPrefabs
     {
-        public static Entity CreatePlayerShip(GameServer gameServer, Networking.Server.Player player, UserShip dbShip, Vector2 spawnPosition, Vector2I spawnSector)
+        public static Entity PlayerShip(GameServer gameServer, Networking.Server.Player player, UserShip dbShip, Vector2 spawnPosition, Vector2I spawnSector)
         {
             var ship = gameServer.Registry.CreateEntity();
             var shipData = GameDataManager.Ships[dbShip.ShipName];
@@ -61,14 +61,20 @@ namespace FinalFrontier
                 });
             }
 
+            var turretLayer = layer + 1;
+
             foreach (var weapon in dbShip.Weapons)
             {
-                shipComponent.ShipWeaponData.Add(weapon.Slot, new ShipWeaponSlotData()
+                var slotData = new ShipWeaponSlotData()
                 {
                     Slot = weapon.Slot,
                     Seed = weapon.Seed,
                     Quality = weapon.Quality,
-                });
+                };
+
+                shipComponent.ShipWeaponData.Add(weapon.Slot, slotData);
+                TurretPrefabs.ShipTurret(gameServer, ship, turretLayer, slotData, shipData);
+                turretLayer += 1;
             }
 
             ship.TryAddComponent(shipComponent);
@@ -83,10 +89,11 @@ namespace FinalFrontier
             EntityUtility.SetNeedsTempNetworkSync<WorldIcon>(ship);
             EntityUtility.SetNeedsTempNetworkSync<Ship>(ship);
             EntityUtility.SetNeedsTempNetworkSync<PlayerShip>(ship);
+            EntityUtility.SetSyncEveryTick<Transform>(ship);
 
             return ship;
 
-        } // CreatePlayerShip
+        } // PlayerShip
 
     } // ShipPrefabs
 }

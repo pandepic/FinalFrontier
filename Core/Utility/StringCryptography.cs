@@ -12,6 +12,8 @@ namespace FinalFrontier.Utility
     /// </summary>
     public class StringCryptography
     {
+        public static readonly StringCryptography Instance = new StringCryptography();
+
         /// <summary>
         /// Get a randomly generated string of a given length.
         /// </summary>
