@@ -47,6 +47,8 @@ namespace FinalFrontier
             var shipComponent = new Ship()
             {
                 ShipType = shipData.Name,
+                MoveSpeed = 1000f,
+                TurnSpeed = 400f,
                 ShipComponentData = new Dictionary<ShipComponentType, ShipComponentSlotData>(),
                 ShipWeaponData = new Dictionary<int, ShipWeaponSlotData>(),
             };

@@ -34,6 +34,24 @@ namespace FinalFrontier
         } // GetOrbitPosition
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2D GetFullPosition(Vector2 position, Vector2I sector)
+        {
+            return new Vector2D(
+                (sector.X * Globals.GalaxySectorScale) + position.X,
+                (sector.Y * Globals.GalaxySectorScale) + position.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2D GetEntityFullPosition(Entity entity)
+        {
+            ref var transform = ref entity.GetComponent<Transform>();
+
+            return new Vector2D(
+                (transform.TransformedSectorPosition.X * Globals.GalaxySectorScale) + transform.TransformedPosition.X,
+                (transform.TransformedSectorPosition.Y * Globals.GalaxySectorScale) + transform.TransformedPosition.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Rectangle GetEntityRect(Entity entity)
         {
             ref var transform = ref entity.GetComponent<Transform>();
@@ -57,6 +75,22 @@ namespace FinalFrontier
         {
             entity.TryAddComponent(new TempSync<T>());
             entity.TryAddComponent(new PlayerJoinedSync<T>());
+        }
+
+        public static void RemoveMovementComponents(Entity entity)
+        {
+            if (entity.HasComponent<MoveToPosition>())
+                entity.RemoveComponent<MoveToPosition>();
+            else if (entity.HasComponent<MoveToEntity>())
+                entity.RemoveComponent<MoveToEntity>();
+        }
+
+        public static void ImmediateRemoveMovementComponents(Entity entity)
+        {
+            if (entity.HasComponent<MoveToPosition>())
+                entity.TryRemoveComponentImmediate<MoveToPosition>();
+            else if (entity.HasComponent<MoveToEntity>())
+                entity.TryRemoveComponentImmediate<MoveToEntity>();
         }
 
     } // EntityUtility

@@ -26,6 +26,9 @@ namespace FinalFrontier.Components
     public struct Ship
     {
         public string ShipType;
+        public float MoveSpeed;
+        public float TurnSpeed;
+        public float TargetRotation;
         public Dictionary<ShipComponentType, ShipComponentSlotData> ShipComponentData;
         public Dictionary<int, ShipWeaponSlotData> ShipWeaponData;
 
@@ -37,6 +40,9 @@ namespace FinalFrontier.Components
             ref var ship = ref entity.GetComponent<Ship>();
 
             packet.Writer.Write(ship.ShipType);
+            packet.Writer.Write(ship.MoveSpeed);
+            packet.Writer.Write(ship.TurnSpeed);
+            packet.Writer.Write(ship.TargetRotation);
             packet.Writer.Write(ship.ShipComponentData.Count);
 
             foreach (var (slot, componentData) in ship.ShipComponentData)
@@ -65,6 +71,9 @@ namespace FinalFrontier.Components
             var ship = new Ship();
 
             ship.ShipType = reader.ReadString();
+            ship.MoveSpeed = reader.ReadSingle();
+            ship.TurnSpeed = reader.ReadSingle();
+            ship.TargetRotation = reader.ReadSingle();
             ship.ShipComponentData = new Dictionary<ShipComponentType, ShipComponentSlotData>();
             ship.ShipWeaponData = new Dictionary<int, ShipWeaponSlotData>();
 

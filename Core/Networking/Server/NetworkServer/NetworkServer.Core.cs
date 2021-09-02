@@ -1,5 +1,6 @@
 ﻿using ElementEngine;
 using ElementEngine.ECS;
+using FinalFrontier.Components;
 using FinalFrontier.Database.Tables;
 using FinalFrontier.Networking;
 using FinalFrontier.Networking.Packets;
@@ -185,13 +186,35 @@ namespace FinalFrontier.Networking
 
                         var packet = new NetworkPacket();
 
-                        foreach (var loop in NetworkSyncManager.ServerTempSyncLoops)
+                        foreach (var loop in NetworkSyncManager.ServerPlayerJoinedSyncLoops)
                             loop(packet);
 
                         packet.Send(peer);
 
                         GameServer.ServerWorldManager.SpawnPlayerShip(GameServer, Database, player);
                         Logging.Information("Player joined game: {username}.", player.User.Username);
+                    }
+                    break;
+
+                case NetworkPacketDataType.PlayerMoveToPosition:
+                    {
+                        var auth = CheckAuth(reader, out var username, out var authToken, out var player);
+
+                        if (!auth)
+                        {
+                            LogAuthFailed(type, username, authToken);
+                            return;
+                        }
+
+                        PlayerMoveToPositionRequest.Read(reader, out var position, out var sectorPosition);
+
+                        EntityUtility.ImmediateRemoveMovementComponents(player.Ship);
+                        player.Ship.TryAddComponent(new MoveToPosition()
+                        {
+                            Position = position,
+                            SectorPosition = sectorPosition,
+                            Orbit = false,
+                        });
                     }
                     break;
             }

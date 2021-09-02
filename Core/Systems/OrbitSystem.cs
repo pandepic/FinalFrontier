@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinalFrontier.Systems
+namespace FinalFrontier
 {
     public static class OrbitSystem
     {

@@ -2,6 +2,7 @@
 using ElementEngine.ECS;
 using ElementEngine.TexturePacker;
 using ElementEngine.UI;
+using FinalFrontier.Components;
 using FinalFrontier.Database.Tables;
 using FinalFrontier.Networking;
 using ImGuiNET;
@@ -22,6 +23,8 @@ namespace FinalFrontier
         public TexturePackerAtlasData SpriteAtlasData;
 
         public Registry Registry;
+
+        public Group ShipGroup;
 
         public override void Load()
         {
@@ -44,6 +47,8 @@ namespace FinalFrontier
             ServerWorldManager = new ServerWorldManager(this);
             Registry = new Registry();
 
+            ShipGroup = Registry.RegisterGroup<Transform, Ship>();
+
             NetworkSyncManager.Registry = Registry;
             NetworkSyncManager.LoadShared();
             NetworkSyncManager.LoadServer();
@@ -65,6 +70,8 @@ namespace FinalFrontier
 
         public override void Update(GameTimer gameTimer)
         {
+            ShipSystem.RunMovement(ShipGroup, gameTimer);
+
             NetworkServer.Update(gameTimer);
             Registry.SystemsFinished();
             IMGUIManager.Update(gameTimer);

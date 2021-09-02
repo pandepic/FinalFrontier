@@ -3,14 +3,8 @@ using ElementEngine.ECS;
 using ElementEngine.ElementUI;
 using FinalFrontier.Components;
 using FinalFrontier.Networking;
-using FinalFrontier.Systems;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using Veldrid;
 
 using Rectangle = ElementEngine.Rectangle;
@@ -164,6 +158,7 @@ namespace FinalFrontier
         public override void HandleGameControl(string controlName, GameControlState state, GameTimer gameTimer)
         {
             var mousePosition = InputManager.MousePosition;
+            var mouseWorldPosition = Camera.ScreenToWorld(mousePosition);
 
             switch (controlName)
             {
@@ -203,6 +198,13 @@ namespace FinalFrontier
                     if (state == GameControlState.Released || state == GameControlState.WheelDown)
                     {
                         CameraZoomOut();
+                    }
+                    break;
+
+                case "Command":
+                    if (state == GameControlState.Released)
+                    {
+                        ClientPacketSender.PlayerMoveToPosition(mouseWorldPosition, CameraSector);
                     }
                     break;
             }

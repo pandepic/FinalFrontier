@@ -50,7 +50,7 @@ namespace FinalFrontier.Networking.Server
 
         public Player GetPlayer(string username)
         {
-            var index = Players.FindIndex((p) => p.User.Username == username);
+            var index = Players.FindIndex((p) => p.User != null && p.User.Username == username);
             return index == -1 ? null : Players[index];
         }
 

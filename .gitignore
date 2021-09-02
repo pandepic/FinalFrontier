@@ -3,8 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-finalfrontier-windows/
-finalfrontier-linux/
+build-windows/
+build-linux/
+build-debug-windows/
+build-debug-linux/
 *.7z
 *.zip
 

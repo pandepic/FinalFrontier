@@ -4,6 +4,7 @@ using FinalFrontier.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,6 +44,13 @@ namespace FinalFrontier.Networking
         {
             using var packet = new NetworkPacket();
             JoinGameRequest.Write(packet);
+            SendPacket(packet);
+        }
+
+        public static void PlayerMoveToPosition(Vector2 position, Vector2I sectorPosition)
+        {
+            using var packet = new NetworkPacket();
+            PlayerMoveToPositionRequest.Write(packet, position, sectorPosition);
             SendPacket(packet);
         }
 

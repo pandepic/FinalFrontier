@@ -8,6 +8,7 @@
         Register,
         JoinGame,
         WorldUpdate,
+        PlayerMoveToPosition,
 
         // Sync components
         SyncTransform,
