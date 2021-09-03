@@ -14,13 +14,53 @@ namespace FinalFrontier
 {
     public static class ShipPrefabs
     {
-        public static Entity PlayerShip(GameServer gameServer, Networking.Server.Player player, UserShip dbShip, Vector2 spawnPosition, Vector2I spawnSector)
+        public struct ShipPrefabComponent
+        {
+            public ShipComponentType Slot;
+            public string Seed;
+            public ComponentQualityType Quality;
+
+            public ShipPrefabComponent(UserShipComponent component)
+            {
+                Slot = component.Slot;
+                Seed = component.Seed;
+                Quality = component.Quality;
+            }
+        }
+
+        public struct ShipPrefabWeapon
+        {
+            public int Slot;
+            public string Seed;
+            public ComponentQualityType Quality;
+
+            public ShipPrefabWeapon(UserShipWeapon weapon)
+            {
+                Slot = weapon.Slot;
+                Seed = weapon.Seed;
+                Quality = weapon.Quality;
+            }
+        }
+
+        private static int GetShipLayer(Entity ship)
+        {
+            return 200000 + (ship.ID * 1000);
+        }
+
+        private static Entity Ship(
+            GameServer gameServer,
+            string shipName,
+            Vector2 spawnPosition,
+            Vector2I spawnSector,
+            List<ShipPrefabComponent> components,
+            List<ShipPrefabWeapon> weapons)
         {
             var ship = gameServer.Registry.CreateEntity();
-            var shipData = GameDataManager.Ships[dbShip.ShipName];
+
+            var shipData = GameDataManager.Ships[shipName];
             var shipSprite = gameServer.SpriteAtlasData.GetSpriteRect(shipData.Sprite);
 
-            var layer = 200000 + (ship.ID * 1000);
+            var layer = GetShipLayer(ship);
 
             ship.TryAddComponent(new Transform()
             {
@@ -38,13 +78,6 @@ namespace FinalFrontier
                 Color = Veldrid.RgbaByte.White,
             });
 
-            ship.TryAddComponent(new WorldIcon()
-            {
-                Scale = new Vector2(0.5f),
-                Texture = "Markers/ship_marker.png",
-                Layer = layer,
-            });
-
             var shipComponent = new Ship()
             {
                 ShipType = shipData.Name,
@@ -54,7 +87,7 @@ namespace FinalFrontier
                 ShipWeaponData = new Dictionary<int, ShipWeaponSlotData>(),
             };
 
-            foreach (var component in dbShip.Components)
+            foreach (var component in components)
             {
                 var componentSlotData = new ShipComponentSlotData()
                 {
@@ -75,7 +108,7 @@ namespace FinalFrontier
 
             var turretLayer = layer + 1;
 
-            foreach (var weapon in dbShip.Weapons)
+            foreach (var weapon in weapons)
             {
                 var slotData = new ShipWeaponSlotData()
                 {
@@ -91,9 +124,63 @@ namespace FinalFrontier
 
             ship.TryAddComponent(shipComponent);
 
+            ship.TryAddComponent(new ShipEngine()
+            {
+                BaseWarpCooldown = Globals.BASE_WARP_COOLDOWN,
+                SectorWarpSpeed = Globals.BASE_SECTOR_WARP_SPEED,
+                GalaxyWarpSpeed = Globals.BASE_GALAXY_WARP_SPEED,
+                WarpCooldown = 0f,
+                WarpIsActive = false,
+            });
+
+            ship.TryAddComponent(new Shield()
+            {
+                BaseValue = shipData.BaseShield,
+                CurrentValue = shipData.BaseShield,
+                RechargeRate = shipData.BaseShieldRegen,
+            });
+
+            ship.TryAddComponent(new Armour()
+            {
+                BaseValue = shipData.BaseArmour,
+                CurrentValue = shipData.BaseArmour,
+            });
+
+            EntityUtility.SetNeedsTempNetworkSync<Transform>(ship);
+            EntityUtility.SetNeedsTempNetworkSync<Drawable>(ship);
+            EntityUtility.SetNeedsTempNetworkSync<Ship>(ship);
+            EntityUtility.SetNeedsTempNetworkSync<Shield>(ship);
+            EntityUtility.SetNeedsTempNetworkSync<Armour>(ship);
+
+            EntityUtility.SetSyncEveryTick<Transform>(ship);
+
+            return ship;
+        }
+
+        public static Entity PlayerShip(GameServer gameServer, Networking.Server.Player player, UserShip dbShip, Vector2 spawnPosition, Vector2I spawnSector)
+        {
+            var components = new List<ShipPrefabComponent>();
+            var weapons = new List<ShipPrefabWeapon>();
+
+            foreach (var component in dbShip.Components)
+                components.Add(new ShipPrefabComponent(component));
+
+            foreach (var weapon in dbShip.Weapons)
+                weapons.Add(new ShipPrefabWeapon(weapon));
+
+            var ship = Ship(gameServer, dbShip.ShipName, spawnPosition, spawnSector, components, weapons);
+            var layer = GetShipLayer(ship);
+
             ship.TryAddComponent(new PlayerShip()
             {
                 Username = player.User.Username,
+            });
+
+            ship.TryAddComponent(new WorldIcon()
+            {
+                Scale = new Vector2(0.75f),
+                Texture = "Markers/ally_marker.png",
+                Layer = layer,
             });
 
             ship.TryAddComponent(new WorldSpaceLabel()
@@ -106,27 +193,77 @@ namespace FinalFrontier
                 MarginBottom = 0,
             });
 
-            ship.TryAddComponent(new ShipEngine()
-            {
-                BaseWarpCooldown = Globals.BASE_WARP_COOLDOWN,
-                SectorWarpSpeed = Globals.BASE_SECTOR_WARP_SPEED,
-                GalaxyWarpSpeed = Globals.BASE_GALAXY_WARP_SPEED,
-                WarpCooldown = 0f,
-                WarpIsActive = false,
-            });
-            
-            EntityUtility.SetNeedsTempNetworkSync<Transform>(ship);
-            EntityUtility.SetNeedsTempNetworkSync<Drawable>(ship);
-            EntityUtility.SetNeedsTempNetworkSync<WorldIcon>(ship);
-            EntityUtility.SetNeedsTempNetworkSync<Ship>(ship);
+            ship.TryAddComponent(new Human());
+
             EntityUtility.SetNeedsTempNetworkSync<PlayerShip>(ship);
             EntityUtility.SetNeedsTempNetworkSync<WorldSpaceLabel>(ship);
-
-            EntityUtility.SetSyncEveryTick<Transform>(ship);
+            EntityUtility.SetNeedsTempNetworkSync<WorldIcon>(ship);
 
             return ship;
 
         } // PlayerShip
+
+        public static Entity AlienShip(
+            GameServer gameServer,
+            ClassType shipClass,
+            ComponentQualityType level,
+            Vector2 spawnPosition,
+            Vector2I spawnSector,
+            Vector2 sentryPosition,
+            Vector2I sentrySector)
+        {
+            var shipName = shipClass + " Alien";
+            var shipData = GameDataManager.Ships[shipName];
+
+            var components = new List<ShipPrefabComponent>();
+            var weapons = new List<ShipPrefabWeapon>();
+
+            for (int i = 0; i < shipData.Turrets.Count; i++)
+            {
+                weapons.Add(new ShipPrefabWeapon()
+                {
+                    Slot = i,
+                    Seed = Guid.NewGuid().ToString(),
+                    Quality = level,
+                });
+            }
+
+            var ship = Ship(gameServer, shipName, spawnPosition, spawnSector, components, weapons);
+            var layer = GetShipLayer(ship);
+
+            ship.TryAddComponent(new WorldSpaceLabel()
+            {
+                TextSize = 20,
+                BaseText = shipName,
+                Text = shipName,
+                Color = Veldrid.RgbaByte.Red,
+                TextOutline = 1,
+                MarginBottom = 0,
+            });
+
+            ship.TryAddComponent(new WorldIcon()
+            {
+                Scale = new Vector2(0.75f),
+                Texture = "Markers/enemy_marker.png",
+                Layer = layer,
+            });
+
+            ship.TryAddComponent(new Alien());
+
+            ship.TryAddComponent(new AISentry()
+            {
+                Sector = sentrySector,
+                SentryPosition = sentryPosition,
+                MaxEnemySearchRange = 50000,
+                MaxEnemyChaseRange = 100000,
+            });
+
+            EntityUtility.SetNeedsTempNetworkSync<WorldSpaceLabel>(ship);
+            EntityUtility.SetNeedsTempNetworkSync<WorldIcon>(ship);
+
+            return ship;
+
+        } // AlienShip
 
     } // ShipPrefabs
 }

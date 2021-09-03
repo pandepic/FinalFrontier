@@ -9,6 +9,8 @@
         JoinGame,
         WorldUpdate,
         PlayerMoveToPosition,
+        DestroyEntity,
+        Logout,
 
         // Sync components
         SyncTransform,
@@ -18,6 +20,8 @@
         SyncShip,
         SyncPlayerShip,
         SyncWorldSpaceLabel,
+        SyncShield,
+        SyncArmour,
     }
 
     public enum GameStateType
@@ -43,13 +47,6 @@
         Captain,
         ViceAdmiral,
         Admiral,
-    }
-
-    public enum TeamType
-    {
-        Human,
-        Alien,
-        Pirate,
     }
 
     public enum ShipComponentType

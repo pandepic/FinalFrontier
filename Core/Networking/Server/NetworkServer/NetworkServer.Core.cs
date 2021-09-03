@@ -84,6 +84,12 @@ namespace FinalFrontier.Networking
         private void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
         {
             Logging.Information("Client disconnected: {id}, {ip}, {port}", peer.Id, peer.EndPoint.Address.ToString(), peer.EndPoint.Port.ToString());
+
+            var player = PlayerManager.GetPlayer(peer);
+
+            if (player != null && player.Ship.IsAlive)
+                GameServer.ServerWorldManager.DestroyEntity(NextPacket, player.Ship);
+
             PlayerManager.RemovePlayer(peer);
         }
 
@@ -215,6 +221,17 @@ namespace FinalFrontier.Networking
                             SectorPosition = sectorPosition,
                             Orbit = false,
                         });
+                    }
+                    break;
+
+                case NetworkPacketDataType.Logout:
+                    {
+                        var player = PlayerManager.GetPlayer(peer);
+
+                        if (player != null && player.Ship.IsAlive)
+                            GameServer.ServerWorldManager.DestroyEntity(NextPacket, player.Ship);
+
+                        PlayerManager.RemovePlayer(peer);
                     }
                     break;
             }

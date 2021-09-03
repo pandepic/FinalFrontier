@@ -24,7 +24,10 @@ namespace FinalFrontier
 
         public Registry Registry;
 
+        public Group ColonyGroup;
         public Group ShipGroup;
+        public Group HumanGroup;
+        public Group AlienGroup;
 
         public override void Load()
         {
@@ -47,7 +50,10 @@ namespace FinalFrontier
             ServerWorldManager = new ServerWorldManager(this);
             Registry = new Registry();
 
+            ColonyGroup = Registry.RegisterGroup<Colony>();
             ShipGroup = Registry.RegisterGroup<Transform, Ship>();
+            HumanGroup = Registry.RegisterGroup<Ship, Human>();
+            AlienGroup = Registry.RegisterGroup<Ship, Alien>();
 
             NetworkSyncManager.Registry = Registry;
             NetworkSyncManager.LoadShared();
@@ -71,6 +77,7 @@ namespace FinalFrontier
         public override void Update(GameTimer gameTimer)
         {
             ShipSystem.RunMovement(ShipGroup, gameTimer);
+            AISystem.RunAlien(this, AlienGroup);
 
             NetworkServer.Update(gameTimer);
             Registry.SystemsFinished();
@@ -105,6 +112,14 @@ namespace FinalFrontier
 
                 ImGui.Text(player.User.Username);
             }
+
+            ImGui.End();
+
+            ImGui.SetNextWindowSizeConstraints(new Vector2(200, 400), new Vector2(800, 800));
+            ImGui.Begin("Tools", ImGuiWindowFlags.AlwaysAutoResize);
+
+            if (ImGui.Button("Spawn Alien Wave"))
+                ServerWorldManager.SpawnAlienWave(this, 1);
 
             ImGui.End();
 

@@ -21,12 +21,12 @@ namespace FinalFrontier
             var sectorTopLeft = cameraView.Location / Globals.GalaxySectorScale;
             var sectorBottomRight = cameraView.BottomRight / Globals.GalaxySectorScale;
 
-            for (var x = sectorTopLeft.X; x <= sectorBottomRight.X; x++)
+            for (var x = sectorTopLeft.X - 1; x <= sectorBottomRight.X + 1; x++)
             {
-                for (var y = sectorTopLeft.Y; y <= sectorBottomRight.Y; y++)
+                for (var y = sectorTopLeft.Y - 1; y <= sectorBottomRight.Y + 1; y++)
                 {
-                    if (x == 0 && y == 0)
-                        continue;
+                    //if (x == 0 && y == 0)
+                    //    continue;
 
                     _visibleSectors.Add(cameraSector + new Vector2I(x, y));
                 }

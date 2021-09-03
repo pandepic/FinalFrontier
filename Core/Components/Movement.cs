@@ -20,5 +20,6 @@ namespace FinalFrontier.Components
     {
         public Entity Target;
         public bool Orbit;
+        public float TargetDistance;
     }
 }

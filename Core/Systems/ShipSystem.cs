@@ -104,7 +104,7 @@ namespace FinalFrontier
                 var forwardVector = new Vector2(0f, -1f);
                 var rotaterMatrix = Matrix3x2.CreateRotation(transform.Rotation.ToRadians());
                 forwardVector = Vector2.TransformNormal(forwardVector, rotaterMatrix);
-                
+
                 var currentMoveSpeed = forwardVector * totalMoveSpeed;
                 transform.Position += currentMoveSpeed * gameTimer.DeltaS;
 
@@ -113,6 +113,12 @@ namespace FinalFrontier
 
                 var checkDistanceDiff = 25f; //Math.Max(50d, movedDistance * 2);
                 distanceToDestination = Vector2D.GetDistance(entityFullPosition, target);
+
+                if (entity.HasComponent<MoveToEntity>())
+                {
+                    ref var moveToEntity = ref entity.GetComponent<MoveToEntity>();
+                    checkDistanceDiff = Math.Max(moveToEntity.TargetDistance, checkDistanceDiff);
+                }
 
                 if (!orbit && distanceToDestination <= checkDistanceDiff)
                     EntityUtility.RemoveMovementComponents(entity);

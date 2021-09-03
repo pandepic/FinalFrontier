@@ -53,6 +53,13 @@ namespace FinalFrontier.Networking
 
         public static void LoadShared()
         {
+            TempNetworkSyncTypes.Clear();
+            EveryFrameNetworkSyncTypes.Clear();
+            NetworkSyncReadFunctions.Clear();
+            ServerTempSyncLoops.Clear();
+            ServerPlayerJoinedSyncLoops.Clear();
+            ServerEveryFrameSyncLoops.Clear();
+
             RegisterTempSyncType<Transform>(NetworkPacketDataType.SyncTransform, Transform.WriteSync, Transform.ReadSync);
             RegisterTempSyncType<Drawable>(NetworkPacketDataType.SyncDrawable, Drawable.WriteSync, Drawable.ReadSync);
             RegisterTempSyncType<Colony>(NetworkPacketDataType.SyncColony, Colony.WriteSync, Colony.ReadSync);
@@ -60,6 +67,8 @@ namespace FinalFrontier.Networking
             RegisterTempSyncType<Ship>(NetworkPacketDataType.SyncShip, Ship.WriteSync, Ship.ReadSync);
             RegisterTempSyncType<PlayerShip>(NetworkPacketDataType.SyncPlayerShip, PlayerShip.WriteSync, PlayerShip.ReadSync);
             RegisterTempSyncType<WorldSpaceLabel>(NetworkPacketDataType.SyncWorldSpaceLabel, WorldSpaceLabel.WriteSync, WorldSpaceLabel.ReadSync);
+            RegisterTempSyncType<Shield>(NetworkPacketDataType.SyncShield, Shield.WriteSync, Shield.ReadSync);
+            RegisterTempSyncType<Armour>(NetworkPacketDataType.SyncArmour, Armour.WriteSync, Armour.ReadSync);
 
             RegisterEveryFrameSyncGroup<Transform>(NetworkPacketDataType.SyncTransform, Transform.WriteSync, Transform.ReadSync);
         }

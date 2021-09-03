@@ -35,15 +35,17 @@ namespace FinalFrontier.Networking
                 return;
             }
 
-            var player = PlayerManager.GetPlayer(peer);
+            var loggedInPlayer = PlayerManager.GetPlayer(username);
 
-            if (player.IsLoggedIn)
+            if (loggedInPlayer != null && (loggedInPlayer.IsLoggedIn || loggedInPlayer.IsPlaying))
             {
                 using var packetError = new NetworkPacket();
                 LoginReply.Write(packetError, "", "AlreadyLoggedIn", "");
                 packetError.Send(peer);
                 return;
             }
+
+            var player = PlayerManager.GetPlayer(peer);
 
             var authToken = Guid.NewGuid().ToString();
             user.AuthToken = authToken;

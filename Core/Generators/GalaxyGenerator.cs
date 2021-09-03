@@ -37,8 +37,6 @@ namespace FinalFrontier
         public bool ServerMode;
         public string Seed;
 
-        public int GalaxyGridSize = 200;
-
         private int _minPlanets = 3;
         private int _maxPlanets = 10;
         private int _planetSpacingFromStar = 25000;
@@ -117,10 +115,10 @@ namespace FinalFrontier
             GalaxyStars.Clear();
 
             var rng = new FastRandom(MathHelper.GetSeedFromString(Seed));
-            var galaxyGrid = new bool[GalaxyGridSize * GalaxyGridSize];
+            var galaxyGrid = new bool[Globals.GalaxyGridSize * Globals.GalaxyGridSize];
             var stars = 0;
 
-            var center = new Vector2I(GalaxyGridSize / 2);
+            var center = new Vector2I(Globals.GalaxyGridSize / 2);
             var spiralArms = 5;
             var starCount = 100;
             var starsPerArm = starCount / spiralArms;
@@ -136,8 +134,8 @@ namespace FinalFrontier
                 var armStep = armStartPos - center;
                 var armEndPos = armStartPos;
 
-                while (armEndPos.X > 0 && armEndPos.X < GalaxyGridSize
-                    && armEndPos.Y > 0 && armEndPos.Y < GalaxyGridSize)
+                while (armEndPos.X > 0 && armEndPos.X < Globals.GalaxyGridSize
+                    && armEndPos.Y > 0 && armEndPos.Y < Globals.GalaxyGridSize)
                 {
                     armEndPos += armStep;
                 }
@@ -155,23 +153,23 @@ namespace FinalFrontier
                     var rotMatrix = Matrix3x2.CreateTranslation(center.ToVector2() * -1) * Matrix3x2.CreateRotation(rotationAmount.ToRadians()) * Matrix3x2.CreateTranslation(center.ToVector2());
                     linePoint = Vector2.Transform(linePoint.ToVector2(), rotMatrix).ToVector2I();
 
-                    if (linePoint.X < 0 || linePoint.X >= GalaxyGridSize
-                        || linePoint.Y < 0 || linePoint.Y >= GalaxyGridSize)
+                    if (linePoint.X < 0 || linePoint.X >= Globals.GalaxyGridSize
+                        || linePoint.Y < 0 || linePoint.Y >= Globals.GalaxyGridSize)
                     {
                         continue;
                     }
 
-                    var index = linePoint.X + GalaxyGridSize * linePoint.Y;
+                    var index = linePoint.X + Globals.GalaxyGridSize * linePoint.Y;
                     galaxyGrid[index] = true;
                 }
             }
 
             // make sure all stars have no other stars within starReserveSize grid cells of them
-            for (var y = 0; y < GalaxyGridSize; y++)
+            for (var y = 0; y < Globals.GalaxyGridSize; y++)
             {
-                for (var x = 0; x < GalaxyGridSize; x++)
+                for (var x = 0; x < Globals.GalaxyGridSize; x++)
                 {
-                    var index = x + GalaxyGridSize * y;
+                    var index = x + Globals.GalaxyGridSize * y;
 
                     if (!galaxyGrid[index])
                         continue;
@@ -194,8 +192,8 @@ namespace FinalFrontier
                             {
                                 var clearPoint = new Vector2I(x + sqX - nextSquareOffset, y + sqY - nextSquareOffset);
 
-                                if (clearPoint.X < 0 || clearPoint.X >= GalaxyGridSize
-                                    || clearPoint.Y < 0 || clearPoint.Y >= GalaxyGridSize)
+                                if (clearPoint.X < 0 || clearPoint.X >= Globals.GalaxyGridSize
+                                    || clearPoint.Y < 0 || clearPoint.Y >= Globals.GalaxyGridSize)
                                 {
                                     continue;
                                 }
@@ -203,7 +201,7 @@ namespace FinalFrontier
                                 if (clearPoint.X == x && clearPoint.Y == y)
                                     continue;
 
-                                var clearIndex = clearPoint.X + GalaxyGridSize * clearPoint.Y;
+                                var clearIndex = clearPoint.X + Globals.GalaxyGridSize * clearPoint.Y;
                                 galaxyGrid[clearIndex] = false;
                             }
                         }
@@ -215,11 +213,11 @@ namespace FinalFrontier
             }
 
             // generate galaxy star list
-            for (var y = 0; y < GalaxyGridSize; y++)
+            for (var y = 0; y < Globals.GalaxyGridSize; y++)
             {
-                for (var x = 0; x < GalaxyGridSize; x++)
+                for (var x = 0; x < Globals.GalaxyGridSize; x++)
                 {
-                    var index = x + GalaxyGridSize * y;
+                    var index = x + Globals.GalaxyGridSize * y;
 
                     if (galaxyGrid[index])
                     {

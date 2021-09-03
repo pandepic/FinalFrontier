@@ -27,6 +27,7 @@ namespace FinalFrontier
 
     public static class Globals
     {
+        #region Constants
         public const float BASE_SECTOR_WARP_SPEED = 25000f;
         public const float BASE_GALAXY_WARP_SPEED = 2500000f;
         public const float BASE_WARP_COOLDOWN = 5f; // in seconds
@@ -37,8 +38,28 @@ namespace FinalFrontier
         public const int MAX_LABEL_ZOOM_LEVEL = 10;
 
         public static readonly float GalaxySectorScale = 1000000;
+        public static readonly int GalaxyGridSize = 200;
+
+        public static float ALIEN_WAVE_SPAWN_TIMER = 5f * 60f; // 5 minutes
+        #endregion
 
         public static FastRandom RNG = new FastRandom();
+
+        public static List<DamageType> DamageTypes = Enum.GetValues<DamageType>().ToList();
+
+        public static List<Vector2I> SurroundingPositions = new List<Vector2I>()
+        {
+            new Vector2I(-1, -1), // top left
+            new Vector2I(0, -1), // top
+            new Vector2I(1, -1), // top right
+
+            new Vector2I(-1, 0), // left
+            new Vector2I(1, 0), // right
+
+            new Vector2I(-1, 1), // bottom left
+            new Vector2I(0, 1), // bottom
+            new Vector2I(1, 1), // bottom right
+        };
 
         public static List<Resolution> PossibleResolutions = new List<Resolution>()
         {

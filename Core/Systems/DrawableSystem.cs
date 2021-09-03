@@ -48,6 +48,8 @@ namespace FinalFrontier
 
         public static void BuildDrawList(int zoomLevel, List<Vector2I> visibleSectors, SparseSet<Entity> entities, Group drawableGroup, GalaxyGenerator galaxyGenerator)
         {
+            _worldSpaceLabelEntities.Clear();
+
             foreach (var sectorPos in visibleSectors)
             {
                 if (!galaxyGenerator.GalaxyStars.TryGetValue(sectorPos, out var sectorData))
@@ -56,6 +58,9 @@ namespace FinalFrontier
                 foreach (var entity in sectorData.Entities)
                 {
                     ref var drawable = ref entity.GetComponent<Drawable>();
+
+                    if (entity.HasComponent<WorldSpaceLabel>())
+                        _worldSpaceLabelEntities.TryAdd(entity, out var _);
 
                     if (drawable.MaxZoomLevel == 0 || zoomLevel <= drawable.MaxZoomLevel)
                         entities.TryAdd(entity, out var _);
@@ -76,7 +81,6 @@ namespace FinalFrontier
             var cameraView = camera.ScaledView;
 
             _drawList.Clear();
-            _worldSpaceLabelEntities.Clear();
             _worldIconEntities.Clear();
 
             foreach (var entity in entities)

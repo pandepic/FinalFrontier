@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace FinalFrontier.Components
 {
-    public struct Team
-    {
-        public TeamType Type;
-    }
+    public struct Human { }
+    public struct Alien { }
+    public struct Pirate { }
 }

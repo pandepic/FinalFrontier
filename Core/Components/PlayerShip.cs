@@ -1,4 +1,5 @@
-﻿using ElementEngine.ECS;
+﻿using ElementEngine;
+using ElementEngine.ECS;
 using FinalFrontier.Networking;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,18 @@ namespace FinalFrontier.Components
             entity.TryAddComponent(player);
 
             if (player.Username == ClientGlobals.Username)
+            {
                 ClientGlobals.PlayerShip = entity;
+
+                if (entity.HasComponent<WorldIcon>())
+                {
+                    ref var worldIcon = ref entity.GetComponent<WorldIcon>();
+                    worldIcon.Texture = "Markers/player_marker.png";
+                    worldIcon.TextureReference = AssetManager.LoadTexture2D(worldIcon.Texture);
+                    worldIcon.AtlasRect = new Rectangle(new Vector2I(0), worldIcon.TextureReference.Size);
+                    worldIcon.Origin = worldIcon.AtlasRect.SizeF / 2;
+                }
+            }
         }
     }
 }

@@ -432,9 +432,9 @@
       }
     ]
   },
-  "Small Alien 1": {
+  "Small Alien": {
     "RequiredRank": 0,
-    "Name": "Small Alien 1",
+    "Name": "Small Alien",
     "Cost": 0,
     "Class": 0,
     "Atlas": "Textures/entity_atlas.json",
@@ -456,9 +456,9 @@
       }
     ]
   },
-  "Medium Alien 1": {
+  "Medium Alien": {
     "RequiredRank": 0,
-    "Name": "Medium Alien 1",
+    "Name": "Medium Alien",
     "Cost": 0,
     "Class": 1,
     "Atlas": "Textures/entity_atlas.json",
@@ -487,9 +487,9 @@
       }
     ]
   },
-  "Large Alien 1": {
+  "Large Alien": {
     "RequiredRank": 0,
-    "Name": "Large Alien 1",
+    "Name": "Large Alien",
     "Cost": 0,
     "Class": 2,
     "Atlas": "Textures/entity_atlas.json",

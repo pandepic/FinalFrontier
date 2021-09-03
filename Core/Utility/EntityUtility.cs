@@ -67,6 +67,12 @@ namespace FinalFrontier
             return new Rectangle(transform.TransformedPosition - (drawable.Origin * drawable.Scale), drawable.AtlasRect.SizeF * drawable.Scale);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsMoving(Entity entity)
+        {
+            return entity.HasComponent<MoveToEntity>() || entity.HasComponent<MoveToPosition>();
+        }
+
         public static void SetSyncEveryTick<T>(Entity entity) where T : struct
         {
             entity.TryAddComponent(new EveryFrameSync<T>());

@@ -138,6 +138,13 @@ namespace FinalFrontier.Networking
                         GameClient.WorldTime = worldTime;
                     }
                     break;
+
+                case NetworkPacketDataType.DestroyEntity:
+                    {
+                        DestroyEntityRequest.Read(reader, out var id);
+                        GameClient.Registry.DestroyEntity(GameClient.Registry.CreateEntity(id));
+                    }
+                    break;
             }
         } // HandlePacketData
 
