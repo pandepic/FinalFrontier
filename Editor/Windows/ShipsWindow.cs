@@ -97,6 +97,11 @@ namespace Editor
             _editShipRankDropdown.Draw();
             ImGui.InputInt("Cost", ref _editingShip.Cost);
             ImGui.InputFloat("Scale", ref _editingShip.Scale);
+            ImGui.InputFloat("Base Move Speed", ref _editingShip.BaseMoveSpeed);
+            ImGui.InputFloat("Base Turn Speed", ref _editingShip.BaseTurnSpeed);
+            ImGui.InputFloat("Base Shield", ref _editingShip.BaseShield);
+            ImGui.InputFloat("Base Armour", ref _editingShip.BaseArmour);
+            ImGui.InputFloat("Base Shield Regen", ref _editingShip.BaseShieldRegen);
 
             ImGui.InputText("Sprite##EditShip", ref _editingShip.Sprite, 200);
             ImGui.SameLine();

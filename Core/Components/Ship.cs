@@ -1,4 +1,5 @@
 ﻿using ElementEngine.ECS;
+using FinalFrontier.GameData;
 using FinalFrontier.Networking;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace FinalFrontier.Components
         public ShipComponentType Slot;
         public string Seed;
         public ComponentQualityType Quality;
+        public ShipComponentData ComponentData;
     }
 
     public struct ShipWeaponSlotData
@@ -112,5 +114,14 @@ namespace FinalFrontier.Components
             var entity = registry.CreateEntity(entityID);
             entity.TryAddComponent(ship);
         }
+    } // Ship
+
+    public struct ShipEngine
+    {
+        public float BaseWarpCooldown; // in seconds
+        public float WarpCooldown; // in seconds
+        public bool WarpIsActive;
+        public float SectorWarpSpeed;
+        public float GalaxyWarpSpeed;
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FinalFrontier.GameData
 {
-    public struct ShipWeaponData
+    public class ShipWeaponData
     {
         public TurretData TurretData;
         public ProjectileData ProjectileData;

@@ -1,6 +1,7 @@
 ﻿using ElementEngine;
 using ElementEngine.ECS;
 using FinalFrontier.Components;
+using FinalFrontier.GameData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -91,6 +92,16 @@ namespace FinalFrontier
                 entity.TryRemoveComponentImmediate<MoveToPosition>();
             else if (entity.HasComponent<MoveToEntity>())
                 entity.TryRemoveComponentImmediate<MoveToEntity>();
+        }
+
+        public static T GetShipComponent<T>(ShipComponentType type, Entity ship) where T : ShipComponentData
+        {
+            ref var shipComponent = ref ship.GetComponent<Ship>();
+
+            if (!shipComponent.ShipComponentData.TryGetValue(type, out var componentSlot))
+                return null;
+
+            return componentSlot.ComponentData as T;
         }
 
     } // EntityUtility

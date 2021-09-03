@@ -1,6 +1,7 @@
 ﻿using ElementEngine;
 using ElementEngine.ECS;
 using FinalFrontier.Components;
+using FinalFrontier.GameData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,25 +39,71 @@ namespace FinalFrontier
 
                 ref var transform = ref entity.GetComponent<Transform>();
                 ref var ship = ref entity.GetComponent<Ship>();
+                ref var engine = ref entity.GetComponent<ShipEngine>();
+                ref var worldSpaceLabel = ref entity.GetComponent<WorldSpaceLabel>();
 
                 var entityFullPosition = EntityUtility.GetEntityFullPosition(entity);
                 ship.TargetRotation = (float)MathHelper.GetAngleDegreesBetweenPositions(entityFullPosition, target);
 
-                HandleRotationTowardsTarget(ref transform, ship.TurnSpeed, ship.TargetRotation, gameTimer.DeltaS);
+                var totalMoveSpeed = ship.MoveSpeed;
+                var totalTurnSpeed = ship.TurnSpeed;
+                var engineComponent = EntityUtility.GetShipComponent<ShipEngineData>(ShipComponentType.Engine, entity);
+
+                if (engineComponent != null)
+                {
+                    totalMoveSpeed *= engineComponent.MoveSpeedBonus;
+                    totalTurnSpeed *= engineComponent.TurnSpeedBonus;
+                }
+
+                var rotated = HandleRotationTowardsTarget(ref transform, totalTurnSpeed, ship.TargetRotation, gameTimer.DeltaS);
+                var distanceToDestination = Vector2D.GetDistance(entityFullPosition, target);
+
+                if (engine.WarpIsActive && distanceToDestination <= Globals.WARP_DRIVE_STOP_DISTANCE)
+                {
+                    engine.WarpIsActive = false;
+                    worldSpaceLabel.Text = worldSpaceLabel.BaseText;
+                    EntityUtility.SetNeedsTempNetworkSync<WorldSpaceLabel>(entity);
+                }
+                else if (!rotated && !engine.WarpIsActive && distanceToDestination >= Globals.WARP_DRIVE_SECTOR_DISTANCE)
+                {
+                    engine.WarpIsActive = true;
+                    engine.WarpCooldown = engine.BaseWarpCooldown;
+                }
+                else if (engine.WarpIsActive && engine.WarpCooldown > 0)
+                {
+                    engine.WarpCooldown -= gameTimer.DeltaS;
+
+                    if (entity.HasComponent<WorldSpaceLabel>())
+                    {
+                        worldSpaceLabel.Text = worldSpaceLabel.BaseText + $" [Warp in {engine.WarpCooldown:0.00}]";
+                        EntityUtility.SetNeedsTempNetworkSync<WorldSpaceLabel>(entity);
+                    }
+
+                    if (engine.WarpCooldown <= 0)
+                        engine.WarpCooldown = 0;
+                }
+                else if (engine.WarpIsActive && engine.WarpCooldown == 0)
+                {
+                    totalMoveSpeed = engine.SectorWarpSpeed;
+
+                    if (distanceToDestination >= Globals.WARP_DRIVE_GALAXY_DISTANCE)
+                        totalMoveSpeed = engine.GalaxyWarpSpeed;
+                }
 
                 var forwardVector = new Vector2(0f, -1f);
                 var rotaterMatrix = Matrix3x2.CreateRotation(transform.Rotation.ToRadians());
                 forwardVector = Vector2.TransformNormal(forwardVector, rotaterMatrix);
                 
-                var currentMoveSpeed = forwardVector * ship.MoveSpeed;
+                var currentMoveSpeed = forwardVector * totalMoveSpeed;
                 transform.Position += currentMoveSpeed * gameTimer.DeltaS;
 
                 var newEntityFullPosition = EntityUtility.GetEntityFullPosition(entity);
                 var movedDistance = Vector2D.GetDistance(newEntityFullPosition, target);
 
                 var checkDistanceDiff = 10f; //Math.Max(50d, movedDistance * 2);
+                distanceToDestination = Vector2D.GetDistance(entityFullPosition, target);
 
-                if (!orbit && Vector2D.GetDistance(entityFullPosition, target) <= checkDistanceDiff)
+                if (!orbit && distanceToDestination <= checkDistanceDiff)
                     EntityUtility.RemoveMovementComponents(entity);
 
                 // update entity current sector if it has no transform parent
@@ -89,15 +136,15 @@ namespace FinalFrontier
             }
         } // RunMovement
 
-        private static void HandleRotationTowardsTarget(ref Transform transform, float turnSpeed, float targetRotation, float delta)
+        private static bool HandleRotationTowardsTarget(ref Transform transform, float turnSpeed, float targetRotation, float delta)
         {
             if (transform.Rotation == targetRotation)
-                return;
+                return false;
 
             var absRotDiff = Math.Abs(transform.Rotation - targetRotation);
 
-            if (absRotDiff < 5f)
-                return;
+            if (absRotDiff < 1f)
+                return false;
 
             if (transform.Rotation < targetRotation)
             {
@@ -118,6 +165,8 @@ namespace FinalFrontier
                 transform.Rotation += 360.0f;
             else if (transform.Rotation > 360.0f)
                 transform.Rotation -= 360.0f;
+
+            return true;
 
         } // HandleRotationTowardsTarget
 

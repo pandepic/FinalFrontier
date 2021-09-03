@@ -126,6 +126,7 @@ namespace FinalFrontier.Components
     public struct WorldSpaceLabel
     {
         public int TextSize;
+        public string BaseText;
         public string Text;
         public RgbaByte Color;
         public int TextOutline;
@@ -139,6 +140,7 @@ namespace FinalFrontier.Components
             ref var worldSpaceLabel = ref entity.GetComponent<WorldSpaceLabel>();
 
             packet.Writer.Write(worldSpaceLabel.TextSize);
+            packet.Writer.Write(worldSpaceLabel.BaseText);
             packet.Writer.Write(worldSpaceLabel.Text);
             packet.Writer.Write(ref worldSpaceLabel.Color);
             packet.Writer.Write(worldSpaceLabel.TextOutline);
@@ -154,6 +156,7 @@ namespace FinalFrontier.Components
             var worldSpaceLabel = new WorldSpaceLabel();
 
             worldSpaceLabel.TextSize = reader.ReadInt32();
+            worldSpaceLabel.BaseText = reader.ReadString();
             worldSpaceLabel.Text = reader.ReadString();
             worldSpaceLabel.Color = reader.ReadRgbaByte();
             worldSpaceLabel.TextOutline = reader.ReadInt32();

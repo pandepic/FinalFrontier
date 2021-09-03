@@ -25,6 +25,11 @@ namespace FinalFrontier.GameData
         public string Sprite;
         public float Scale;
         public bool HasHangar;
+        public float BaseMoveSpeed;
+        public float BaseTurnSpeed;
+        public float BaseShield;
+        public float BaseArmour;
+        public float BaseShieldRegen; // per second
         public List<ShipTurretData> Turrets = new List<ShipTurretData>();
     }
 }

@@ -27,6 +27,13 @@ namespace FinalFrontier
 
     public static class Globals
     {
+        public const float BASE_SECTOR_WARP_SPEED = 25000f;
+        public const float BASE_GALAXY_WARP_SPEED = 2500000f;
+        public const float BASE_WARP_COOLDOWN = 5f; // in seconds
+        public const float WARP_DRIVE_SECTOR_DISTANCE = 25000f;
+        public const float WARP_DRIVE_GALAXY_DISTANCE = 500000f;
+        public const float WARP_DRIVE_STOP_DISTANCE = 2500f;
+
         public static readonly float GalaxySectorScale = 1000000;
 
         public static FastRandom RNG = new FastRandom();

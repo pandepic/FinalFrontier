@@ -2,6 +2,7 @@
 using ElementEngine.ECS;
 using FinalFrontier.Components;
 using FinalFrontier.Database.Tables;
+using FinalFrontier.GameData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,20 +48,29 @@ namespace FinalFrontier
             var shipComponent = new Ship()
             {
                 ShipType = shipData.Name,
-                MoveSpeed = 1000f,
-                TurnSpeed = 400f,
+                MoveSpeed = shipData.BaseMoveSpeed,
+                TurnSpeed = shipData.BaseTurnSpeed,
                 ShipComponentData = new Dictionary<ShipComponentType, ShipComponentSlotData>(),
                 ShipWeaponData = new Dictionary<int, ShipWeaponSlotData>(),
             };
 
             foreach (var component in dbShip.Components)
             {
-                shipComponent.ShipComponentData.Add(component.Slot, new ShipComponentSlotData()
+                var componentSlotData = new ShipComponentSlotData()
                 {
                     Slot = component.Slot,
                     Seed = component.Seed,
                     Quality = component.Quality,
-                });
+                };
+
+                switch (component.Slot)
+                {
+                    case ShipComponentType.Engine:
+                        componentSlotData.ComponentData = new ShipEngineData(componentSlotData);
+                        break;
+                }
+
+                shipComponent.ShipComponentData.Add(component.Slot, componentSlotData);
             }
 
             var turretLayer = layer + 1;
@@ -89,10 +99,20 @@ namespace FinalFrontier
             ship.TryAddComponent(new WorldSpaceLabel()
             {
                 TextSize = 20,
+                BaseText = player.User.Username,
                 Text = player.User.Username,
                 Color = Veldrid.RgbaByte.White,
                 TextOutline = 1,
                 MarginBottom = 0,
+            });
+
+            ship.TryAddComponent(new ShipEngine()
+            {
+                BaseWarpCooldown = Globals.BASE_WARP_COOLDOWN,
+                SectorWarpSpeed = Globals.BASE_SECTOR_WARP_SPEED,
+                GalaxyWarpSpeed = Globals.BASE_GALAXY_WARP_SPEED,
+                WarpCooldown = 0f,
+                WarpIsActive = false,
             });
             
             EntityUtility.SetNeedsTempNetworkSync<Transform>(ship);
