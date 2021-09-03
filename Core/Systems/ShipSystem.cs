@@ -40,7 +40,6 @@ namespace FinalFrontier
                 ref var transform = ref entity.GetComponent<Transform>();
                 ref var ship = ref entity.GetComponent<Ship>();
                 ref var engine = ref entity.GetComponent<ShipEngine>();
-                ref var worldSpaceLabel = ref entity.GetComponent<WorldSpaceLabel>();
 
                 var entityFullPosition = EntityUtility.GetEntityFullPosition(entity);
                 ship.TargetRotation = (float)MathHelper.GetAngleDegreesBetweenPositions(entityFullPosition, target);
@@ -61,8 +60,13 @@ namespace FinalFrontier
                 if (engine.WarpIsActive && distanceToDestination <= Globals.WARP_DRIVE_STOP_DISTANCE)
                 {
                     engine.WarpIsActive = false;
-                    worldSpaceLabel.Text = worldSpaceLabel.BaseText;
-                    EntityUtility.SetNeedsTempNetworkSync<WorldSpaceLabel>(entity);
+
+                    if (entity.HasComponent<WorldSpaceLabel>())
+                    {
+                        ref var worldSpaceLabel = ref entity.GetComponent<WorldSpaceLabel>();
+                        worldSpaceLabel.Text = worldSpaceLabel.BaseText;
+                        EntityUtility.SetNeedsTempNetworkSync<WorldSpaceLabel>(entity);
+                    }
                 }
                 else if (!rotated && !engine.WarpIsActive && distanceToDestination >= Globals.WARP_DRIVE_SECTOR_DISTANCE)
                 {
@@ -75,6 +79,7 @@ namespace FinalFrontier
 
                     if (entity.HasComponent<WorldSpaceLabel>())
                     {
+                        ref var worldSpaceLabel = ref entity.GetComponent<WorldSpaceLabel>();
                         worldSpaceLabel.Text = worldSpaceLabel.BaseText + $" [Warp in {engine.WarpCooldown:0.00}]";
                         EntityUtility.SetNeedsTempNetworkSync<WorldSpaceLabel>(entity);
                     }
