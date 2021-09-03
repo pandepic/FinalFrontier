@@ -106,11 +106,12 @@ namespace FinalFrontier
             SpriteBatch.Begin(SamplerType.Linear, Camera.GetViewMatrix());
             EntityDrawList.Clear();
             DrawableSystem.BuildDrawList(_zoomIndex, visibleSectors, EntityDrawList, GameClient.DrawableGroup, GameClient.GalaxyGenerator);
-            DrawableSystem.RunDrawables(EntityDrawList, SpriteBatch, Camera, CameraSector);
+            DrawableSystem.RunDrawables(EntityDrawList, SpriteBatch, Camera, CameraSector, _zoomIndex);
             SpriteBatch.End();
 
             // Screen space
             SpriteBatch.Begin(SamplerType.Linear);
+            DrawableSystem.RunWorldIcons(SpriteBatch, Camera, CameraSector);
             DrawableSystem.RunWorldSpaceLabels(SpriteBatch, Camera, CameraSector, _defaultFont);
             UIScreen.Draw(SpriteBatch);
             DrawDebug();

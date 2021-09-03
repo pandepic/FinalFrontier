@@ -181,6 +181,156 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">../../../Assets/Aliens/Ship (1).png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>115,117,231,235</rect>
+                <key>scale9Paddings</key>
+                <rect>115,117,231,235</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Assets/Aliens/Ship (10).png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>222,132,445,263</rect>
+                <key>scale9Paddings</key>
+                <rect>222,132,445,263</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Assets/Aliens/Ship (2).png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>144,115,289,229</rect>
+                <key>scale9Paddings</key>
+                <rect>144,115,289,229</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Assets/Aliens/Ship (3).png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>96,122,193,244</rect>
+                <key>scale9Paddings</key>
+                <rect>96,122,193,244</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Assets/Aliens/Ship (4).png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>129,117,259,235</rect>
+                <key>scale9Paddings</key>
+                <rect>129,117,259,235</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Assets/Aliens/Ship (5).png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>94,119,187,237</rect>
+                <key>scale9Paddings</key>
+                <rect>94,119,187,237</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Assets/Aliens/Ship (6).png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>160,108,321,215</rect>
+                <key>scale9Paddings</key>
+                <rect>160,108,321,215</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Assets/Aliens/Ship (7).png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>195,110,390,220</rect>
+                <key>scale9Paddings</key>
+                <rect>195,110,390,220</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Assets/Aliens/Ship (8).png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>183,133,367,267</rect>
+                <key>scale9Paddings</key>
+                <rect>183,133,367,267</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Assets/Aliens/Ship (9).png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>213,115,427,229</rect>
+                <key>scale9Paddings</key>
+                <rect>213,115,427,229</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../../../Assets/Asteroids/Asteroid 1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -1048,6 +1198,16 @@
             <filename>../../../Assets/Turrets/Turret Small 2.png</filename>
             <filename>../../../Assets/Turrets/Turret Small 3.png</filename>
             <filename>../../../Assets/Turrets/Turret Small 4.png</filename>
+            <filename>../../../Assets/Aliens/Ship (1).png</filename>
+            <filename>../../../Assets/Aliens/Ship (10).png</filename>
+            <filename>../../../Assets/Aliens/Ship (2).png</filename>
+            <filename>../../../Assets/Aliens/Ship (3).png</filename>
+            <filename>../../../Assets/Aliens/Ship (4).png</filename>
+            <filename>../../../Assets/Aliens/Ship (5).png</filename>
+            <filename>../../../Assets/Aliens/Ship (6).png</filename>
+            <filename>../../../Assets/Aliens/Ship (7).png</filename>
+            <filename>../../../Assets/Aliens/Ship (8).png</filename>
+            <filename>../../../Assets/Aliens/Ship (9).png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

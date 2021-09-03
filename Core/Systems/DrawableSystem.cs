@@ -43,8 +43,8 @@ namespace FinalFrontier
 
         private static List<DrawItem> _drawList = new List<DrawItem>();
         private static List<DrawItemText> _drawListText = new List<DrawItemText>();
-        private static List<Entity> _iconDrawList = new List<Entity>();
         private static SparseSet<Entity> _worldSpaceLabelEntities = new SparseSet<Entity>(1000);
+        private static SparseSet<Entity> _worldIconEntities = new SparseSet<Entity>(1000);
 
         public static void BuildDrawList(int zoomLevel, List<Vector2I> visibleSectors, SparseSet<Entity> entities, Group drawableGroup, GalaxyGenerator galaxyGenerator)
         {
@@ -71,13 +71,13 @@ namespace FinalFrontier
             }
         }
         
-        public static unsafe void RunDrawables(SparseSet<Entity> entities, SpriteBatch2D spriteBatch, Camera2D camera, Vector2I cameraSector)
+        public static unsafe void RunDrawables(SparseSet<Entity> entities, SpriteBatch2D spriteBatch, Camera2D camera, Vector2I cameraSector, int zoomLevel)
         {
             var cameraView = camera.ScaledView;
 
             _drawList.Clear();
-            _iconDrawList.Clear();
             _worldSpaceLabelEntities.Clear();
+            _worldIconEntities.Clear();
 
             foreach (var entity in entities)
             {
@@ -100,7 +100,12 @@ namespace FinalFrontier
                 if (lowDetail && drawable.MinSize == Vector2.Zero)
                 {
                     if (hasIcon)
-                        _iconDrawList.Add(entity);
+                    {
+                        _worldIconEntities.TryAdd(entity, out var _);
+
+                        if (zoomLevel <= Globals.MAX_LABEL_ZOOM_LEVEL && entity.HasComponent<WorldSpaceLabel>())
+                            _worldSpaceLabelEntities.TryAdd(entity, out var _);
+                    }
 
                     continue;
                 }
@@ -132,6 +137,35 @@ namespace FinalFrontier
             EndDrawList(spriteBatch);
 
         } // RunDrawables
+
+        public static void RunWorldIcons(SpriteBatch2D spriteBatch, Camera2D camera, Vector2I cameraSector)
+        {
+            _drawList.Clear();
+
+            foreach (var entity in _worldIconEntities)
+            {
+                ref var transform = ref entity.GetComponent<Transform>();
+                ref var worldIcon = ref entity.GetComponent<WorldIcon>();
+
+                var drawPosition = ((transform.TransformedSectorPosition - cameraSector).ToVector2() * Globals.GalaxySectorScale) + transform.TransformedPosition;
+                drawPosition = camera.WorldToScreen(drawPosition);
+
+                _drawList.Add(new DrawItem()
+                {
+                    Position = drawPosition,
+                    Origin = worldIcon.Origin,
+                    Scale = worldIcon.Scale,
+                    Rotation = transform.Rotation,
+                    SourceRect = worldIcon.AtlasRect,
+                    Texture = worldIcon.TextureReference,
+                    Layer = worldIcon.Layer,
+                    Color = RgbaFloat.White,
+                });
+            }
+
+            EndDrawList(spriteBatch);
+
+        } // RunWorldIcons
 
         public static void RunWorldSpaceLabels(SpriteBatch2D spriteBatch, Camera2D camera, Vector2I cameraSector, SpriteFont font)
         {

@@ -34,6 +34,8 @@ namespace FinalFrontier
         public const float WARP_DRIVE_GALAXY_DISTANCE = 500000f;
         public const float WARP_DRIVE_STOP_DISTANCE = 2500f;
 
+        public const int MAX_LABEL_ZOOM_LEVEL = 10;
+
         public static readonly float GalaxySectorScale = 1000000;
 
         public static FastRandom RNG = new FastRandom();

@@ -72,10 +72,16 @@ namespace FinalFrontier
                 {
                     engine.WarpIsActive = true;
                     engine.WarpCooldown = engine.BaseWarpCooldown;
+
+                    if (engineComponent != null)
+                        engine.WarpCooldown -= engineComponent.WarpCooldownReduction;
                 }
                 else if (engine.WarpIsActive && engine.WarpCooldown > 0)
                 {
                     engine.WarpCooldown -= gameTimer.DeltaS;
+
+                    if (engine.WarpCooldown <= 0)
+                        engine.WarpCooldown = 0;
 
                     if (entity.HasComponent<WorldSpaceLabel>())
                     {
@@ -83,9 +89,6 @@ namespace FinalFrontier
                         worldSpaceLabel.Text = worldSpaceLabel.BaseText + $" [Warp in {engine.WarpCooldown:0.00}]";
                         EntityUtility.SetNeedsTempNetworkSync<WorldSpaceLabel>(entity);
                     }
-
-                    if (engine.WarpCooldown <= 0)
-                        engine.WarpCooldown = 0;
                 }
                 else if (engine.WarpIsActive && engine.WarpCooldown == 0)
                 {
@@ -93,6 +96,9 @@ namespace FinalFrontier
 
                     if (distanceToDestination >= Globals.WARP_DRIVE_GALAXY_DISTANCE)
                         totalMoveSpeed = engine.GalaxyWarpSpeed;
+
+                    if (engineComponent != null)
+                        totalMoveSpeed *= engineComponent.WarpSpeedBonus;
                 }
 
                 var forwardVector = new Vector2(0f, -1f);
@@ -105,7 +111,7 @@ namespace FinalFrontier
                 var newEntityFullPosition = EntityUtility.GetEntityFullPosition(entity);
                 var movedDistance = Vector2D.GetDistance(newEntityFullPosition, target);
 
-                var checkDistanceDiff = 10f; //Math.Max(50d, movedDistance * 2);
+                var checkDistanceDiff = 25f; //Math.Max(50d, movedDistance * 2);
                 distanceToDestination = Vector2D.GetDistance(entityFullPosition, target);
 
                 if (!orbit && distanceToDestination <= checkDistanceDiff)

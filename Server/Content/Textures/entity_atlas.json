@@ -18,7 +18,7 @@
 },
 {
 	"filename": "Alien 3.png",
-	"frame": {"x":0,"y":1036,"w":209,"h":479},
+	"frame": {"x":892,"y":1839,"w":209,"h":479},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":209,"h":479},
@@ -98,7 +98,7 @@
 },
 {
 	"filename": "BigFlare.png",
-	"frame": {"x":209,"y":1036,"w":512,"h":512},
+	"frame": {"x":0,"y":2327,"w":512,"h":512},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
@@ -298,7 +298,7 @@
 },
 {
 	"filename": "Huge 1.png",
-	"frame": {"x":1787,"y":598,"w":166,"h":438},
+	"frame": {"x":641,"y":930,"w":166,"h":438},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":166,"h":438},
@@ -378,11 +378,91 @@
 },
 {
 	"filename": "Shield Bubble.png",
-	"frame": {"x":721,"y":1036,"w":512,"h":512},
+	"frame": {"x":512,"y":2327,"w":512,"h":512},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
 	"sourceSize": {"w":512,"h":512}
+},
+{
+	"filename": "Ship (1).png",
+	"frame": {"x":1430,"y":1370,"w":461,"h":469},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":461,"h":469},
+	"sourceSize": {"w":461,"h":469}
+},
+{
+	"filename": "Ship (2).png",
+	"frame": {"x":0,"y":1370,"w":577,"h":459},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":577,"h":459},
+	"sourceSize": {"w":577,"h":459}
+},
+{
+	"filename": "Ship (3).png",
+	"frame": {"x":1101,"y":1839,"w":385,"h":488},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":385,"h":488},
+	"sourceSize": {"w":385,"h":488}
+},
+{
+	"filename": "Ship (4).png",
+	"frame": {"x":0,"y":1839,"w":517,"h":469},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":517,"h":469},
+	"sourceSize": {"w":517,"h":469}
+},
+{
+	"filename": "Ship (5).png",
+	"frame": {"x":517,"y":1839,"w":375,"h":475},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":375,"h":475},
+	"sourceSize": {"w":375,"h":475}
+},
+{
+	"filename": "Ship (6).png",
+	"frame": {"x":0,"y":930,"w":641,"h":430},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":641,"h":430},
+	"sourceSize": {"w":641,"h":430}
+},
+{
+	"filename": "Ship (7).png",
+	"frame": {"x":807,"y":930,"w":780,"h":440},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":780,"h":440},
+	"sourceSize": {"w":780,"h":440}
+},
+{
+	"filename": "Ship (8).png",
+	"frame": {"x":0,"y":2854,"w":733,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":733,"h":533},
+	"sourceSize": {"w":733,"h":533}
+},
+{
+	"filename": "Ship (9).png",
+	"frame": {"x":577,"y":1370,"w":853,"h":459},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":853,"h":459},
+	"sourceSize": {"w":853,"h":459}
+},
+{
+	"filename": "Ship (10).png",
+	"frame": {"x":1024,"y":2327,"w":889,"h":527},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":889,"h":527},
+	"sourceSize": {"w":889,"h":527}
 },
 {
 	"filename": "Small Flare.png",
@@ -434,7 +514,7 @@
 },
 {
 	"filename": "Starflare.png",
-	"frame": {"x":1233,"y":1036,"w":649,"h":686},
+	"frame": {"x":733,"y":2854,"w":649,"h":686},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":649,"h":686},
@@ -549,8 +629,8 @@
 	"version": "1.0",
 	"image": "entity_atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1953,"h":1722},
+	"size": {"w":1913,"h":3540},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:62b2b2bf2653465f32719b21841d0130:5ddf9fcf55cce2647db6ebfa7440244b:7c680d00b580cf7b3522758452ae7f98$"
+	"smartupdate": "$TexturePacker:SmartUpdate:10d9b0b032650267971d23e0e15a9dd1:ac710c108d43446176d5643c70eafb08:7c680d00b580cf7b3522758452ae7f98$"
 }
 }

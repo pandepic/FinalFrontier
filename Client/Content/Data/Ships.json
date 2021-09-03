@@ -431,5 +431,105 @@
         }
       }
     ]
+  },
+  "Small Alien 1": {
+    "RequiredRank": 0,
+    "Name": "Small Alien 1",
+    "Cost": 0,
+    "Class": 0,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Ship (6).png",
+    "Scale": 0.25,
+    "HasHangar": false,
+    "BaseMoveSpeed": 800.0,
+    "BaseTurnSpeed": 250.0,
+    "BaseShield": 600.0,
+    "BaseArmour": 400.0,
+    "BaseShieldRegen": 2.0,
+    "Turrets": [
+      {
+        "Class": 0,
+        "Position": {
+          "X": 0.0,
+          "Y": 25.0
+        }
+      }
+    ]
+  },
+  "Medium Alien 1": {
+    "RequiredRank": 0,
+    "Name": "Medium Alien 1",
+    "Cost": 0,
+    "Class": 1,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Ship (3).png",
+    "Scale": 0.4,
+    "HasHangar": false,
+    "BaseMoveSpeed": 700.0,
+    "BaseTurnSpeed": 175.0,
+    "BaseShield": 1500.0,
+    "BaseArmour": 750.0,
+    "BaseShieldRegen": 5.0,
+    "Turrets": [
+      {
+        "Class": 0,
+        "Position": {
+          "X": 0.0,
+          "Y": -62.0
+        }
+      },
+      {
+        "Class": 1,
+        "Position": {
+          "X": 0.0,
+          "Y": 25.0
+        }
+      }
+    ]
+  },
+  "Large Alien 1": {
+    "RequiredRank": 0,
+    "Name": "Large Alien 1",
+    "Cost": 0,
+    "Class": 2,
+    "Atlas": "Textures/entity_atlas.json",
+    "Sprite": "Ship (4).png",
+    "Scale": 0.65,
+    "HasHangar": false,
+    "BaseMoveSpeed": 500.0,
+    "BaseTurnSpeed": 75.0,
+    "BaseShield": 3000.0,
+    "BaseArmour": 1500.0,
+    "BaseShieldRegen": 8.0,
+    "Turrets": [
+      {
+        "Class": 0,
+        "Position": {
+          "X": 79.0,
+          "Y": -81.0
+        }
+      },
+      {
+        "Class": 0,
+        "Position": {
+          "X": -79.0,
+          "Y": -81.0
+        }
+      },
+      {
+        "Class": 2,
+        "Position": {
+          "X": 88.0,
+          "Y": 12.0
+        }
+      },
+      {
+        "Class": 2,
+        "Position": {
+          "X": -88.0,
+          "Y": 12.0
+        }
+      }
+    ]
   }
 }
