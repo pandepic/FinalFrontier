@@ -14,7 +14,7 @@ namespace FinalFrontier.Components
     {
         public ShipComponentType Slot;
         public string Seed;
-        public ComponentQualityType Quality;
+        public QualityType Quality;
         public ShipComponentData ComponentData;
     }
 
@@ -22,12 +22,13 @@ namespace FinalFrontier.Components
     {
         public int Slot;
         public string Seed;
-        public ComponentQualityType Quality;
+        public QualityType Quality;
     }
 
     public struct Ship
     {
         public string ShipType;
+        public ClassType ShipClass;
         public float MoveSpeed;
         public float TurnSpeed;
         public float TargetRotation;
@@ -42,6 +43,7 @@ namespace FinalFrontier.Components
             ref var ship = ref entity.GetComponent<Ship>();
 
             packet.Writer.Write(ship.ShipType);
+            packet.Writer.Write((int)ship.ShipClass);
             packet.Writer.Write(ship.MoveSpeed);
             packet.Writer.Write(ship.TurnSpeed);
             packet.Writer.Write(ship.TargetRotation);
@@ -73,6 +75,7 @@ namespace FinalFrontier.Components
             var ship = new Ship();
 
             ship.ShipType = reader.ReadString();
+            ship.ShipClass = (ClassType)reader.ReadInt32();
             ship.MoveSpeed = reader.ReadSingle();
             ship.TurnSpeed = reader.ReadSingle();
             ship.TargetRotation = reader.ReadSingle();
@@ -85,7 +88,7 @@ namespace FinalFrontier.Components
             {
                 var slot = (ShipComponentType)reader.ReadInt32();
                 var seed = reader.ReadString();
-                var quality = (ComponentQualityType)reader.ReadInt32();
+                var quality = (QualityType)reader.ReadInt32();
 
                 ship.ShipComponentData.Add(slot, new ShipComponentSlotData()
                 {
@@ -101,7 +104,7 @@ namespace FinalFrontier.Components
             {
                 var slot = reader.ReadInt32();
                 var seed = reader.ReadString();
-                var quality = (ComponentQualityType)reader.ReadInt32();
+                var quality = (QualityType)reader.ReadInt32();
 
                 ship.ShipWeaponData.Add(slot, new ShipWeaponSlotData()
                 {

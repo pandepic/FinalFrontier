@@ -24,8 +24,12 @@ namespace FinalFrontier
 
         public Registry Registry;
 
+        public Group PhysicsGroup;
         public Group ColonyGroup;
         public Group ShipGroup;
+        public Group TurretGroup;
+        public Group ProjectileGroup;
+
         public Group HumanGroup;
         public Group AlienGroup;
 
@@ -50,8 +54,12 @@ namespace FinalFrontier
             ServerWorldManager = new ServerWorldManager(this);
             Registry = new Registry();
 
+            PhysicsGroup = Registry.RegisterGroup<Transform, Physics>();
             ColonyGroup = Registry.RegisterGroup<Colony>();
             ShipGroup = Registry.RegisterGroup<Transform, Ship>();
+            TurretGroup = Registry.RegisterGroup<Transform, Turret>();
+            ProjectileGroup = Registry.RegisterGroup<Projectile>();
+
             HumanGroup = Registry.RegisterGroup<Ship, Human>();
             AlienGroup = Registry.RegisterGroup<Ship, Alien>();
 
@@ -76,8 +84,11 @@ namespace FinalFrontier
 
         public override void Update(GameTimer gameTimer)
         {
-            ShipSystem.RunMovement(ShipGroup, gameTimer);
+            PhysicsSystem.Run(PhysicsGroup, gameTimer);
+            ShipSystem.Run(ShipGroup, gameTimer);
+            TurretSystem.Run(this, TurretGroup, gameTimer);
             AISystem.RunAlien(this, AlienGroup);
+            ProjectileSystem.Run(this, ProjectileGroup, gameTimer);
 
             NetworkServer.Update(gameTimer);
             Registry.SystemsFinished();

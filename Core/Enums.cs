@@ -66,7 +66,7 @@
         Missile,
     }
     
-    public enum ComponentQualityType
+    public enum QualityType
     {
         Common,
         Uncommon,

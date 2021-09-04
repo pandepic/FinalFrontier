@@ -14,7 +14,7 @@ namespace FinalFrontier.Database.Tables
         public string ShipName;
         public ShipComponentType Slot;
         public string Seed;
-        public ComponentQualityType Quality;
+        public QualityType Quality;
 
         public UserShipComponent() { }
 
@@ -24,7 +24,7 @@ namespace FinalFrontier.Database.Tables
             ShipName = reader["ShipName"].ToString();
             Slot = reader["Slot"].ToString().ToEnum<ShipComponentType>();
             Seed = reader["Seed"].ToString();
-            Quality = reader["Quality"].ToString().ToEnum<ComponentQualityType>();
+            Quality = reader["Quality"].ToString().ToEnum<QualityType>();
         }
 
         public override bool Insert(SQLiteCommand command)

@@ -10,7 +10,7 @@
       "Z": 1.0,
       "W": 1.0
     },
-    "Scale": 1.0
+    "Scale": 2.0
   },
   "Red Laser": {
     "Name": "Red Laser",
@@ -23,7 +23,7 @@
       "Z": 0.0,
       "W": 1.0
     },
-    "Scale": 1.0
+    "Scale": 2.0
   },
   "Purple Laser": {
     "Name": "Purple Laser",
@@ -36,7 +36,7 @@
       "Z": 0.5869565,
       "W": 1.0
     },
-    "Scale": 1.0
+    "Scale": 2.0
   },
   "Missile 1": {
     "Name": "Missile 1",
@@ -49,7 +49,7 @@
       "Z": 1.0,
       "W": 1.0
     },
-    "Scale": 1.0
+    "Scale": 2.0
   },
   "Missile 2": {
     "Name": "Missile 2",
@@ -62,7 +62,7 @@
       "Z": 1.0,
       "W": 1.0
     },
-    "Scale": 1.0
+    "Scale": 2.0
   },
   "Missile 3": {
     "Name": "Missile 3",
@@ -75,7 +75,7 @@
       "Z": 1.0,
       "W": 1.0
     },
-    "Scale": 1.0
+    "Scale": 2.0
   },
   "Missile 4": {
     "Name": "Missile 4",
@@ -88,7 +88,7 @@
       "Z": 1.0,
       "W": 1.0
     },
-    "Scale": 1.0
+    "Scale": 2.0
   },
   "Missile 5": {
     "Name": "Missile 5",
@@ -101,7 +101,7 @@
       "Z": 1.0,
       "W": 1.0
     },
-    "Scale": 1.0
+    "Scale": 2.0
   },
   "Missile 6": {
     "Name": "Missile 6",
@@ -114,6 +114,6 @@
       "Z": 1.0,
       "W": 1.0
     },
-    "Scale": 1.0
+    "Scale": 2.0
   }
 }

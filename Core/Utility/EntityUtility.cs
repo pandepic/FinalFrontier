@@ -35,6 +35,12 @@ namespace FinalFrontier
         } // GetOrbitPosition
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2D GetFullPosition(ref Transform transform)
+        {
+            return GetFullPosition(transform.TransformedPosition, transform.TransformedSectorPosition);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2D GetFullPosition(Vector2 position, Vector2I sector)
         {
             return new Vector2D(
@@ -109,6 +115,40 @@ namespace FinalFrontier
 
             return componentSlot.ComponentData as T;
         }
+
+        public static bool HandleRotationTowardsTarget(ref Transform transform, float turnSpeed, float targetRotation, float delta)
+        {
+            if (transform.Rotation == targetRotation)
+                return false;
+
+            var absRotDiff = Math.Abs(transform.Rotation - targetRotation);
+
+            if (absRotDiff < 1f)
+                return false;
+
+            if (transform.Rotation < targetRotation)
+            {
+                if (absRotDiff < 180.0f)
+                    transform.Rotation += turnSpeed * delta;
+                else
+                    transform.Rotation -= turnSpeed * delta;
+            }
+            else
+            {
+                if (absRotDiff < 180.0f)
+                    transform.Rotation -= turnSpeed * delta;
+                else
+                    transform.Rotation += turnSpeed * delta;
+            }
+
+            if (transform.Rotation < 0.0f)
+                transform.Rotation += 360.0f;
+            else if (transform.Rotation > 360.0f)
+                transform.Rotation -= 360.0f;
+
+            return true;
+
+        } // HandleRotationTowardsTarget
 
     } // EntityUtility
 }

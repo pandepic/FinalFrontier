@@ -18,7 +18,7 @@ namespace FinalFrontier
         {
             public ShipComponentType Slot;
             public string Seed;
-            public ComponentQualityType Quality;
+            public QualityType Quality;
 
             public ShipPrefabComponent(UserShipComponent component)
             {
@@ -32,7 +32,7 @@ namespace FinalFrontier
         {
             public int Slot;
             public string Seed;
-            public ComponentQualityType Quality;
+            public QualityType Quality;
 
             public ShipPrefabWeapon(UserShipWeapon weapon)
             {
@@ -68,6 +68,8 @@ namespace FinalFrontier
                 Position = spawnPosition,
                 SectorPosition = spawnSector,
             });
+
+            ship.TryAddComponent(new Physics());
 
             ship.TryAddComponent(new Drawable()
             {
@@ -206,7 +208,7 @@ namespace FinalFrontier
         public static Entity AlienShip(
             GameServer gameServer,
             ClassType shipClass,
-            ComponentQualityType level,
+            QualityType level,
             Vector2 spawnPosition,
             Vector2I spawnSector,
             Vector2 sentryPosition,

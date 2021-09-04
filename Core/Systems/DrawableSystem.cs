@@ -131,7 +131,7 @@ namespace FinalFrontier
                     SourceRect = drawable.AtlasRect,
                     Texture = drawable.TextureReference,
                     Layer = drawable.Layer,
-                    Color = RgbaFloat.White,
+                    Color = drawable.Color.ToRgbaFloat(),
                 });
 
                 if (entity.HasComponent<WorldSpaceLabel>())

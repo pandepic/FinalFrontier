@@ -24,7 +24,7 @@ namespace FinalFrontier.GameData
 
             switch (data.Quality)
             {
-                case ComponentQualityType.Common:
+                case QualityType.Common:
                     {
                         var speedBonus = rng.Next(5, 20);
                         var turnBonus = rng.Next(5, 20);
@@ -38,7 +38,7 @@ namespace FinalFrontier.GameData
                     }
                     break;
 
-                case ComponentQualityType.Uncommon:
+                case QualityType.Uncommon:
                     {
                         var speedBonus = rng.Next(20, 40);
                         var turnBonus = rng.Next(20, 40);
@@ -52,7 +52,7 @@ namespace FinalFrontier.GameData
                     }
                     break;
 
-                case ComponentQualityType.Rare:
+                case QualityType.Rare:
                     {
                         var speedBonus = rng.Next(40, 60);
                         var turnBonus = rng.Next(40, 60);
@@ -66,7 +66,7 @@ namespace FinalFrontier.GameData
                     }
                     break;
 
-                case ComponentQualityType.Legendary:
+                case QualityType.Legendary:
                     {
                         var speedBonus = rng.Next(60, 100);
                         var turnBonus = rng.Next(60, 100);

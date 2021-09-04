@@ -28,11 +28,13 @@ namespace FinalFrontier
     public static class Globals
     {
         #region Constants
+        public const int LAYER_PROJECTILE = 100000000;
+
         public const float BASE_SECTOR_WARP_SPEED = 25000f;
         public const float BASE_GALAXY_WARP_SPEED = 2500000f;
         public const float BASE_WARP_COOLDOWN = 5f; // in seconds
         public const float WARP_DRIVE_SECTOR_DISTANCE = 25000f;
-        public const float WARP_DRIVE_GALAXY_DISTANCE = 500000f;
+        public const float WARP_DRIVE_GALAXY_DISTANCE = 300000f;
         public const float WARP_DRIVE_STOP_DISTANCE = 2500f;
 
         public const int MAX_LABEL_ZOOM_LEVEL = 10;

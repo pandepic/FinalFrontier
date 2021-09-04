@@ -13,7 +13,7 @@ namespace FinalFrontier
 {
     public static class ShipSystem
     {
-        public static void RunMovement(Group shipGroup, GameTimer gameTimer)
+        public static void Run(Group shipGroup, GameTimer gameTimer)
         {
             foreach (var entity in shipGroup.Entities)
             {
@@ -38,6 +38,7 @@ namespace FinalFrontier
                 }
 
                 ref var transform = ref entity.GetComponent<Transform>();
+                ref var physics = ref entity.GetComponent<Physics>();
                 ref var ship = ref entity.GetComponent<Ship>();
                 ref var engine = ref entity.GetComponent<ShipEngine>();
 
@@ -54,7 +55,7 @@ namespace FinalFrontier
                     totalTurnSpeed *= engineComponent.TurnSpeedBonus;
                 }
 
-                var rotated = HandleRotationTowardsTarget(ref transform, totalTurnSpeed, ship.TargetRotation, gameTimer.DeltaS);
+                var rotated = EntityUtility.HandleRotationTowardsTarget(ref transform, totalTurnSpeed, ship.TargetRotation, gameTimer.DeltaS);
                 var distanceToDestination = Vector2D.GetDistance(entityFullPosition, target);
 
                 if (engine.WarpIsActive && distanceToDestination <= Globals.WARP_DRIVE_STOP_DISTANCE)
@@ -106,12 +107,9 @@ namespace FinalFrontier
                 forwardVector = Vector2.TransformNormal(forwardVector, rotaterMatrix);
 
                 var currentMoveSpeed = forwardVector * totalMoveSpeed;
-                transform.Position += currentMoveSpeed * gameTimer.DeltaS;
+                physics.Velocity = currentMoveSpeed;
 
-                var newEntityFullPosition = EntityUtility.GetEntityFullPosition(entity);
-                var movedDistance = Vector2D.GetDistance(newEntityFullPosition, target);
-
-                var checkDistanceDiff = 25f; //Math.Max(50d, movedDistance * 2);
+                var checkDistanceDiff = 25f;
                 distanceToDestination = Vector2D.GetDistance(entityFullPosition, target);
 
                 if (entity.HasComponent<MoveToEntity>())
@@ -121,71 +119,12 @@ namespace FinalFrontier
                 }
 
                 if (!orbit && distanceToDestination <= checkDistanceDiff)
-                    EntityUtility.RemoveMovementComponents(entity);
-
-                // update entity current sector if it has no transform parent
-                if (!transform.Parent.IsAlive)
                 {
-                    var entityRect = EntityUtility.GetEntityRect(entity);
-
-                    if (entityRect.Center.X < 0)
-                    {
-                        transform.SectorPosition.X -= 1;
-                        transform.Position.X += Globals.GalaxySectorScale;
-                    }
-                    else if (entityRect.Center.X >= Globals.GalaxySectorScale)
-                    {
-                        transform.SectorPosition.X += 1;
-                        transform.Position.X -= Globals.GalaxySectorScale;
-                    }
-
-                    if (entityRect.Center.Y < 0)
-                    {
-                        transform.SectorPosition.Y -= 1;
-                        transform.Position.Y += Globals.GalaxySectorScale;
-                    }
-                    else if (entityRect.Center.Y >= Globals.GalaxySectorScale)
-                    {
-                        transform.SectorPosition.Y += 1;
-                        transform.Position.Y -= Globals.GalaxySectorScale;
-                    }
+                    physics.Velocity = Vector2.Zero;
+                    EntityUtility.RemoveMovementComponents(entity);
                 }
             }
-        } // RunMovement
-
-        private static bool HandleRotationTowardsTarget(ref Transform transform, float turnSpeed, float targetRotation, float delta)
-        {
-            if (transform.Rotation == targetRotation)
-                return false;
-
-            var absRotDiff = Math.Abs(transform.Rotation - targetRotation);
-
-            if (absRotDiff < 1f)
-                return false;
-
-            if (transform.Rotation < targetRotation)
-            {
-                if (absRotDiff < 180.0f)
-                    transform.Rotation += turnSpeed * delta;
-                else
-                    transform.Rotation -= turnSpeed * delta;
-            }
-            else
-            {
-                if (absRotDiff < 180.0f)
-                    transform.Rotation -= turnSpeed * delta;
-                else
-                    transform.Rotation += turnSpeed * delta;
-            }
-
-            if (transform.Rotation < 0.0f)
-                transform.Rotation += 360.0f;
-            else if (transform.Rotation > 360.0f)
-                transform.Rotation -= 360.0f;
-
-            return true;
-
-        } // HandleRotationTowardsTarget
+        } // Run
 
     } // ShipSystem
 }

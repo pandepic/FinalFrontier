@@ -49,38 +49,38 @@ namespace FinalFrontier
 
             ref var homeWorldTransform = ref homeWorld.GetComponent<Transform>();
 
-            while (NextColonyNameIndex < Globals.ColonyNames.Count)
-            {
-                Entity closestPotentialColony = new Entity();
-                float closestPotentialColonyDistance = 0f;
+            //while (NextColonyNameIndex < Globals.ColonyNames.Count)
+            //{
+            //    Entity closestPotentialColony = new Entity();
+            //    float closestPotentialColonyDistance = 0f;
 
-                foreach (var (sectorPosition, sectorData) in GameServer.GalaxyGenerator.GalaxyStars)
-                {
-                    foreach (var planet in sectorData.Planets)
-                    {
-                        if (planet.HasComponent<Colonisable>() && !planet.HasComponent<Colony>())
-                        {
-                            ref var planetTransform = ref planet.GetComponent<Transform>();
+            //    foreach (var (sectorPosition, sectorData) in GameServer.GalaxyGenerator.GalaxyStars)
+            //    {
+            //        foreach (var planet in sectorData.Planets)
+            //        {
+            //            if (planet.HasComponent<Colonisable>() && !planet.HasComponent<Colony>())
+            //            {
+            //                ref var planetTransform = ref planet.GetComponent<Transform>();
 
-                            if (ColonisedSectors.Contains(planetTransform.TransformedSectorPosition))
-                                continue;
+            //                if (ColonisedSectors.Contains(planetTransform.TransformedSectorPosition))
+            //                    continue;
 
-                            var distance = homeWorldTransform.TransformedSectorPosition.GetDistance(planetTransform.TransformedSectorPosition);
+            //                var distance = homeWorldTransform.TransformedSectorPosition.GetDistance(planetTransform.TransformedSectorPosition);
 
-                            if (closestPotentialColonyDistance == 0 || distance < closestPotentialColonyDistance)
-                            {
-                                closestPotentialColony = planet;
-                                closestPotentialColonyDistance = distance;
-                            }
-                        }
-                    }
-                }
+            //                if (closestPotentialColonyDistance == 0 || distance < closestPotentialColonyDistance)
+            //                {
+            //                    closestPotentialColony = planet;
+            //                    closestPotentialColonyDistance = distance;
+            //                }
+            //            }
+            //        }
+            //    }
 
-                if (!closestPotentialColony.IsAlive)
-                    break;
+            //    if (!closestPotentialColony.IsAlive)
+            //        break;
 
-                AddColony(closestPotentialColony);
-            }
+            //    AddColony(closestPotentialColony);
+            //}
         } // SetupWorld
 
         public void AddColony(Entity planet)
@@ -135,7 +135,7 @@ namespace FinalFrontier
             {
                 var sentryPosition = targetColonyTransform.TransformedPosition + new Vector2(Globals.RNG.Next(-1000, 1000), Globals.RNG.Next(-1000, 1000));
 
-                ShipPrefabs.AlienShip(GameServer, ClassType.Small, ComponentQualityType.Common,
+                ShipPrefabs.AlienShip(GameServer, ClassType.Small, QualityType.Common,
                     spawnOrigin + new Vector2(Globals.RNG.Next(-1000, 1000), Globals.RNG.Next(-1000, 1000)), spawnSector,
                     sentryPosition, sentrySector);
             }
@@ -169,7 +169,7 @@ namespace FinalFrontier
                         ShipName = shipData.Name,
                         Slot = slot,
                         Seed = Guid.NewGuid().ToString(),
-                        Quality = ComponentQualityType.Common,
+                        Quality = QualityType.Common,
                     });
                 }
 
@@ -181,7 +181,7 @@ namespace FinalFrontier
                         ShipName = shipData.Name,
                         Slot = i,
                         Seed = Guid.NewGuid().ToString(),
-                        Quality = ComponentQualityType.Common,
+                        Quality = QualityType.Common,
                     });
                 }
 
