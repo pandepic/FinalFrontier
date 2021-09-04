@@ -78,10 +78,11 @@ namespace FinalFrontier
 
             foreach (var entity in drawableGroup.Entities)
             {
-                ref var transform = ref entity.GetComponent<Transform>();
+                entities.TryAdd(entity, out var _);
+                //ref var transform = ref entity.GetComponent<Transform>();
 
-                if (visibleSectors.Contains(transform.TransformedSectorPosition))
-                    entities.TryAdd(entity, out var _);
+                //if (visibleSectors.Contains(transform.TransformedSectorPosition))
+                //    entities.TryAdd(entity, out var _);
             }
         }
 

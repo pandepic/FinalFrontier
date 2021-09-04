@@ -116,6 +116,15 @@ namespace FinalFrontier.Networking
 
             while (CurrentTickTime > SecondsPerTick)
             {
+                foreach (var player in PlayerManager.Players)
+                {
+                    if (!player.IsPlaying)
+                        continue;
+
+                    if (!player.Ship.IsAlive)
+                        GameServer.ServerWorldManager.SpawnPlayerShip(GameServer, Database, player);
+                }
+
                 WorldUpdateReply.Write(NextPacket, WorldTime);
 
                 foreach (var loop in NetworkSyncManager.ServerEveryFrameSyncLoops)

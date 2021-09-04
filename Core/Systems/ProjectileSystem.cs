@@ -87,6 +87,9 @@ namespace FinalFrontier
                     ref var missile = ref entity.GetComponent<Missile>();
                     ref var physics = ref entity.GetComponent<Physics>();
 
+                    if (!missile.Target.IsAlive)
+                        continue;
+
                     var targetFullPosition = EntityUtility.GetEntityFullPosition(missile.Target);
                     missile.TargetRotation = (float)MathHelper.GetAngleDegreesBetweenPositions(entityFullPosition, targetFullPosition);
 

@@ -17,6 +17,7 @@ namespace FinalFrontier
         {
             foreach (var entity in shipGroup.Entities)
             {
+                ref var physics = ref entity.GetComponent<Physics>();
                 Vector2D target;
                 bool orbit;
 
@@ -29,6 +30,14 @@ namespace FinalFrontier
                 else if (entity.HasComponent<MoveToEntity>())
                 {
                     ref var moveToEntity = ref entity.GetComponent<MoveToEntity>();
+
+                    if (!moveToEntity.Target.IsAlive)
+                    {
+                        physics.Velocity = Vector2.Zero;
+                        EntityUtility.RemoveMovementComponents(entity);
+                        continue;
+                    }
+
                     target = EntityUtility.GetEntityFullPosition(moveToEntity.Target);
                     orbit = moveToEntity.Orbit;
                 }
@@ -38,7 +47,6 @@ namespace FinalFrontier
                 }
 
                 ref var transform = ref entity.GetComponent<Transform>();
-                ref var physics = ref entity.GetComponent<Physics>();
                 ref var ship = ref entity.GetComponent<Ship>();
                 ref var engine = ref entity.GetComponent<ShipEngine>();
 

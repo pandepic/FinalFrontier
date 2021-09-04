@@ -69,7 +69,19 @@ namespace FinalFrontier
                     }
 
                     if (_possibleTargetList.Count == 0)
+                    {
+                        if (distanceFromSentryTarget > 1000f)
+                        {
+                            entity.TryAddComponent(new MoveToPosition()
+                            {
+                                Position = aiSentry.SentryPosition,
+                                SectorPosition = aiSentry.Sector,
+                                Orbit = false,
+                            });
+                        }
+
                         continue;
+                    }
 
                     var enemyTarget = _possibleTargetList.GetRandomItem();
                     entity.TryAddComponent(new MoveToEntity()
