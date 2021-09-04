@@ -50,10 +50,20 @@ namespace FinalFrontier
                             ref var enemyShield = ref enemyEntity.GetComponent<Shield>();
                             ref var enemyArmour = ref enemyEntity.GetComponent<Armour>();
 
+                            var remainingDamage = 0f;
+
                             if (enemyShield.CurrentValue > 0)
+                            {
                                 enemyShield.CurrentValue -= projectile.Damage;
+
+                                if (enemyShield.CurrentValue < 0)
+                                    remainingDamage = Math.Abs(enemyShield.CurrentValue);
+                            }
                             else
                                 enemyArmour.CurrentValue -= projectile.Damage;
+
+                            if (remainingDamage > 0)
+                                enemyArmour.CurrentValue -= remainingDamage;
 
                             if (enemyShield.CurrentValue < 0)
                                 enemyShield.CurrentValue = 0;
