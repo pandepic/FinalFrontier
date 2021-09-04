@@ -126,7 +126,20 @@ namespace FinalFrontier
         [Conditional("DEBUG")]
         public void DrawDebug()
         {
-            SpriteBatch.DrawText(_defaultFont, $"World Time: {GameClient.WorldTime:0.00}\nCamera Sector: {CameraSector}\nCamera Position: {Camera.Position}", new Vector2(25), RgbaByte.White, 20, 1);
+            var debugText = $"World Time: {GameClient.WorldTime:0.00}\nCamera Sector: {CameraSector}\nCamera Position: {Camera.Position}";
+
+            if (ClientGlobals.PlayerShip.IsAlive)
+            {
+                ref var playerShip = ref ClientGlobals.PlayerShip.GetComponent<PlayerShip>();
+                var expToNext = "";
+
+                if (playerShip.Rank != RankType.Admiral)
+                    expToNext = $"/{PlayerShip.RankExpRequirements[(RankType)((int)playerShip.Rank + 1)]}";
+
+                debugText += $"\nMoney: {playerShip.Money}\nExp: {playerShip.Exp}{expToNext}\nRank: {playerShip.Rank}";
+            }
+
+            SpriteBatch.DrawText(_defaultFont, debugText, new Vector2(25), RgbaByte.White, 20, 1);
         }
 
         public void HandleCamera()

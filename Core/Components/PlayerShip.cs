@@ -13,6 +13,9 @@ namespace FinalFrontier.Components
     public struct PlayerShip
     {
         public string Username;
+        public int Money;
+        public int Exp;
+        public RankType Rank;
 
         public static void WriteSync(NetworkPacket packet, Entity entity)
         {
@@ -22,6 +25,9 @@ namespace FinalFrontier.Components
             ref var player = ref entity.GetComponent<PlayerShip>();
 
             packet.Writer.Write(player.Username);
+            packet.Writer.Write(player.Money);
+            packet.Writer.Write(player.Exp);
+            packet.Writer.Write((int)player.Rank);
 
             packet.DataCount += 1;
         }
@@ -33,6 +39,9 @@ namespace FinalFrontier.Components
             var player = new PlayerShip();
 
             player.Username = reader.ReadString();
+            player.Money = reader.ReadInt32();
+            player.Exp = reader.ReadInt32();
+            player.Rank = (RankType)reader.ReadInt32();
 
             var entity = registry.CreateEntity(entityID);
             entity.TryAddComponent(player);
@@ -51,5 +60,26 @@ namespace FinalFrontier.Components
                 }
             }
         }
-    }
+
+        public static Dictionary<RankType, int> RankExpRequirements = new Dictionary<RankType, int>()
+        {
+            {RankType.Ensign, 0 },
+            {RankType.Lieutenant, 2000 },
+            {RankType.LieutenantCommander, 10000 },
+            {RankType.Commander, 25000 },
+            {RankType.Captain, 75000 },
+            {RankType.ViceAdmiral, 150000 },
+            {RankType.Admiral, 500000},
+        };
+
+        public void CheckRankUp()
+        {
+            foreach (var (rank, exp) in RankExpRequirements)
+            {
+                if (Exp >= exp)
+                    Rank = rank;
+            }
+        }
+
+    } // PlayerShip
 }

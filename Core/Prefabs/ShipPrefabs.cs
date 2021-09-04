@@ -261,6 +261,12 @@ namespace FinalFrontier
                 MaxEnemyChaseRange = 100000,
             });
 
+            ship.TryAddComponent(new Loot()
+            {
+                Exp = shipData.ExpValue + level * 10,
+                Bounty = shipData.BountyValue + level * 25,
+            });
+
             EntityUtility.SetNeedsTempNetworkSync<WorldSpaceLabel>(ship);
             EntityUtility.SetNeedsTempNetworkSync<WorldIcon>(ship);
 

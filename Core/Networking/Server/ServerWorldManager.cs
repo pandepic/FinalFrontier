@@ -238,7 +238,7 @@ namespace FinalFrontier
 
             if (playerShips.Count == 0)
             {
-                var shipData = GameDataManager.Ships["Patrol Cutter"];
+                var shipData = GameDataManager.Ships["Leviathan"];
 
                 activeShip = new UserShip()
                 {

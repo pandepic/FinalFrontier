@@ -14,6 +14,8 @@ namespace FinalFrontier.Database.Tables
         public string Password;
         public string Salt;
         public uint Money;
+        public uint Exp;
+        public RankType Rank;
         public string AuthToken;
         public DateTime Registered;
         public DateTime LastLogin;
@@ -26,6 +28,8 @@ namespace FinalFrontier.Database.Tables
             Password = reader["Password"].ToString();
             Salt = reader["Salt"].ToString();
             Money = reader["Money"].ConvertTo<uint>();
+            Exp = reader["Exp"].ConvertTo<uint>();
+            Rank = reader["Rank"].ToString().ToEnum<RankType>();
             AuthToken = reader["AuthToken"].ToString();
             Registered = DateTime.Parse(reader["Registered"].ToString());
             LastLogin = DateTime.Parse(reader["LastLogin"].ToString());
@@ -34,13 +38,15 @@ namespace FinalFrontier.Database.Tables
         public override bool Insert(SQLiteCommand command)
         {
             command.CommandText = @$"
-                insert into User (Username, Password, Salt, Money, AuthToken, Registered, LastLogin)
+                insert into User (Username, Password, Salt, Money, Exp, Rank, AuthToken, Registered, LastLogin)
                 values
                 (
                     @Username,
                     @Password,
                     @Salt,
                     @Money,
+                    @Exp,
+                    @Rank,
                     @AuthToken,
                     @Registered,
                     @LastLogin
@@ -50,6 +56,8 @@ namespace FinalFrontier.Database.Tables
             command.Parameters.AddWithValue("@Password", Password);
             command.Parameters.AddWithValue("@Salt", Salt);
             command.Parameters.AddWithValue("@Money", Money);
+            command.Parameters.AddWithValue("@Exp", Exp);
+            command.Parameters.AddWithValue("@Rank", Rank.ToString());
             command.Parameters.AddWithValue("@AuthToken", AuthToken);
             command.Parameters.AddWithValue("@Registered", Registered.ToString(Networking.Database.DateFormatString));
             command.Parameters.AddWithValue("@LastLogin", LastLogin.ToString(Networking.Database.DateFormatString));
@@ -64,6 +72,8 @@ namespace FinalFrontier.Database.Tables
                 UPDATE User
                 SET
                     Money = @Money,
+                    Exp = @Exp,
+                    Rank = @Rank,
                     AuthToken = @AuthToken,
                     Registered = @Registered,
                     LastLogin = @LastLogin
@@ -71,6 +81,8 @@ namespace FinalFrontier.Database.Tables
 
             command.Parameters.AddWithValue("@Username", Username);
             command.Parameters.AddWithValue("@Money", Money);
+            command.Parameters.AddWithValue("@Exp", Exp);
+            command.Parameters.AddWithValue("@Rank", Rank.ToString());
             command.Parameters.AddWithValue("@AuthToken", AuthToken);
             command.Parameters.AddWithValue("@Registered", Registered.ToString(Networking.Database.DateFormatString));
             command.Parameters.AddWithValue("@LastLogin", LastLogin.ToString(Networking.Database.DateFormatString));
@@ -81,7 +93,7 @@ namespace FinalFrontier.Database.Tables
 
         public static string CreateTable()
         {
-            return "create table User (Username TEXT, Password TEXT, Salt TEXT, Money INTEGER, AuthToken TEXT, Registered TEXT, LastLogin TEXT)";
+            return "create table User (Username TEXT, Password TEXT, Salt TEXT, Money INTEGER, Exp INTEGER, Rank TEXT, AuthToken TEXT, Registered TEXT, LastLogin TEXT)";
         }
 
         public static Dictionary<string, User> GetUsers(SQLiteCommand command)

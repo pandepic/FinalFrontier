@@ -109,6 +109,9 @@ namespace FinalFrontier
 
             foreach (var entity in entities)
             {
+                if (!entity.IsAlive)
+                    continue;
+
                 ref var transform = ref entity.GetComponent<Transform>();
                 ref var drawable = ref entity.GetComponent<Drawable>();
 

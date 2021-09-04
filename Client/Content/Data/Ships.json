@@ -28,7 +28,9 @@
           "Y": -20.0
         }
       }
-    ]
+    ],
+    "ExpValue": 0,
+    "BountyValue": 0
   },
   "Corvette": {
     "RequiredRank": 1,
@@ -66,7 +68,9 @@
           "Y": 50.0
         }
       }
-    ]
+    ],
+    "ExpValue": 0,
+    "BountyValue": 0
   },
   "Destroyer": {
     "RequiredRank": 2,
@@ -111,7 +115,9 @@
           "Y": 75.0
         }
       }
-    ]
+    ],
+    "ExpValue": 0,
+    "BountyValue": 0
   },
   "Frigate": {
     "RequiredRank": 3,
@@ -156,7 +162,9 @@
           "Y": 0.0
         }
       }
-    ]
+    ],
+    "ExpValue": 0,
+    "BountyValue": 0
   },
   "Cruiser": {
     "RequiredRank": 4,
@@ -208,7 +216,9 @@
           "Y": -2.0
         }
       }
-    ]
+    ],
+    "ExpValue": 0,
+    "BountyValue": 0
   },
   "Carrier": {
     "RequiredRank": 5,
@@ -253,7 +263,9 @@
           "Y": 115.0
         }
       }
-    ]
+    ],
+    "ExpValue": 0,
+    "BountyValue": 0
   },
   "Battleship": {
     "RequiredRank": 6,
@@ -298,7 +310,9 @@
           "Y": -100.0
         }
       }
-    ]
+    ],
+    "ExpValue": 0,
+    "BountyValue": 0
   },
   "Battlecruiser": {
     "RequiredRank": 6,
@@ -357,7 +371,9 @@
           "Y": 180.0
         }
       }
-    ]
+    ],
+    "ExpValue": 0,
+    "BountyValue": 0
   },
   "Leviathan": {
     "RequiredRank": 6,
@@ -430,7 +446,9 @@
           "Y": 150.0
         }
       }
-    ]
+    ],
+    "ExpValue": 0,
+    "BountyValue": 0
   },
   "Small Alien": {
     "RequiredRank": 0,
@@ -454,7 +472,9 @@
           "Y": 25.0
         }
       }
-    ]
+    ],
+    "ExpValue": 50,
+    "BountyValue": 100
   },
   "Medium Alien": {
     "RequiredRank": 0,
@@ -485,7 +505,9 @@
           "Y": 25.0
         }
       }
-    ]
+    ],
+    "ExpValue": 150,
+    "BountyValue": 300
   },
   "Large Alien": {
     "RequiredRank": 0,
@@ -530,6 +552,8 @@
           "Y": 12.0
         }
       }
-    ]
+    ],
+    "ExpValue": 500,
+    "BountyValue": 1000
   }
 }

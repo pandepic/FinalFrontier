@@ -102,6 +102,8 @@ namespace Editor
             ImGui.InputFloat("Base Shield", ref _editingShip.BaseShield);
             ImGui.InputFloat("Base Armour", ref _editingShip.BaseArmour);
             ImGui.InputFloat("Base Shield Regen", ref _editingShip.BaseShieldRegen);
+            ImGui.InputInt("Exp Value", ref _editingShip.ExpValue);
+            ImGui.InputInt("Bounty Value", ref _editingShip.BountyValue);
 
             ImGui.InputText("Sprite##EditShip", ref _editingShip.Sprite, 200);
             ImGui.SameLine();

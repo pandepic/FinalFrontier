@@ -31,5 +31,7 @@ namespace FinalFrontier.GameData
         public float BaseArmour;
         public float BaseShieldRegen; // per second
         public List<ShipTurretData> Turrets = new List<ShipTurretData>();
+        public int ExpValue;
+        public int BountyValue;
     }
 }
