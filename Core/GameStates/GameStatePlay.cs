@@ -3,6 +3,7 @@ using ElementEngine.ECS;
 using ElementEngine.ElementUI;
 using FinalFrontier.Components;
 using FinalFrontier.Networking;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
 using Veldrid;
@@ -50,6 +51,7 @@ namespace FinalFrontier
             0.00000762939f,
         };
 
+        protected List<Vector2I> _visibleSectors = new List<Vector2I>();
         protected SpriteFont _defaultFont;
 
         public GameStatePlay(GameClient client)
@@ -91,21 +93,24 @@ namespace FinalFrontier
 
         public override void Update(GameTimer gameTimer)
         {
+            _visibleSectors.Clear();
+            _visibleSectors = ClientUtility.GetVisibleSectors(Camera, CameraSector, GameClient.GalaxyGenerator);
+
             UIScreen.Update(gameTimer);
             HandleCamera();
 
-            OrbitSystem.Run(GameClient.GalaxyGenerator, Camera, CameraSector, GameClient.WorldTime);
+            if (_zoomIndex <= Globals.MAX_ZOOM_PLANET)
+                OrbitSystem.Run(GameClient.GalaxyGenerator, Camera, CameraSector, GameClient.WorldTime, _visibleSectors);
+
             GameClient.Registry.SystemsFinished();
         }
 
         public override void Draw(GameTimer gameTimer)
         {
-            var visibleSectors = ClientUtility.GetVisibleSectors(Camera, CameraSector);
-
             // World space
             SpriteBatch.Begin(SamplerType.Linear, Camera.GetViewMatrix());
             EntityDrawList.Clear();
-            DrawableSystem.BuildDrawList(_zoomIndex, visibleSectors, EntityDrawList, GameClient.DrawableGroup, GameClient.GalaxyGenerator);
+            DrawableSystem.BuildDrawList(_zoomIndex, _visibleSectors, EntityDrawList, GameClient.DrawableGroup, GameClient.GalaxyGenerator);
             DrawableSystem.RunDrawables(EntityDrawList, SpriteBatch, Camera, CameraSector, _zoomIndex);
             SpriteBatch.End();
 

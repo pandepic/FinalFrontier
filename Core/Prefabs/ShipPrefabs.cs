@@ -208,11 +208,12 @@ namespace FinalFrontier
         public static Entity AlienShip(
             GameServer gameServer,
             ClassType shipClass,
-            QualityType level,
+            QualityType quality,
             Vector2 spawnPosition,
             Vector2I spawnSector,
             Vector2 sentryPosition,
-            Vector2I sentrySector)
+            Vector2I sentrySector,
+            int level)
         {
             var shipName = shipClass + " Alien";
             var shipData = GameDataManager.Ships[shipName];
@@ -226,7 +227,7 @@ namespace FinalFrontier
                 {
                     Slot = i,
                     Seed = Guid.NewGuid().ToString(),
-                    Quality = level,
+                    Quality = quality,
                 });
             }
 
@@ -236,8 +237,8 @@ namespace FinalFrontier
             ship.TryAddComponent(new WorldSpaceLabel()
             {
                 TextSize = 20,
-                BaseText = shipName,
-                Text = shipName,
+                BaseText = shipName + " LVL " + level.ToString(),
+                Text = shipName + " LVL " + level.ToString(),
                 Color = Veldrid.RgbaByte.Red,
                 TextOutline = 1,
                 MarginBottom = 0,

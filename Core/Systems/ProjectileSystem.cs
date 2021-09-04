@@ -66,9 +66,6 @@ namespace FinalFrontier
                             {
                                 EntityUtility.SetNeedsTempNetworkSync<Shield>(enemyEntity);
                                 EntityUtility.SetNeedsTempNetworkSync<Armour>(enemyEntity);
-
-                                if (enemyEntity.HasComponent<Alien>())
-                                    Console.WriteLine($"Alien Shield {enemyShield.CurrentValue} Armour {enemyArmour.CurrentValue}");
                             }
 
                             gameServer.ServerWorldManager.DestroyEntity(gameServer.NetworkServer.NextPacket, entity);

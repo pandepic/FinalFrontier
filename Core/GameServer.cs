@@ -90,6 +90,7 @@ namespace FinalFrontier
             AISystem.RunAlien(this, AlienGroup);
             ProjectileSystem.Run(this, ProjectileGroup, gameTimer);
 
+            ServerWorldManager.Update();
             NetworkServer.Update(gameTimer);
             Registry.SystemsFinished();
             IMGUIManager.Update(gameTimer);
@@ -129,8 +130,8 @@ namespace FinalFrontier
             ImGui.SetNextWindowSizeConstraints(new Vector2(200, 400), new Vector2(800, 800));
             ImGui.Begin("Tools", ImGuiWindowFlags.AlwaysAutoResize);
 
-            if (ImGui.Button("Spawn Alien Wave"))
-                ServerWorldManager.SpawnAlienWave(this, 1);
+            //if (ImGui.Button("Spawn Alien Wave"))
+            //    ServerWorldManager.SpawnAlienWave(this, 1);
 
             ImGui.End();
 

@@ -28,6 +28,10 @@ namespace FinalFrontier
     public static class Globals
     {
         #region Constants
+        public const int MAX_ZOOM_PLANET = 14;
+        public const int MAX_ZOOM_MOON = 10;
+        public const int MAX_ZOOM_ASTEROID = 10;
+
         public const int LAYER_PROJECTILE = 100000000;
 
         public const float BASE_SECTOR_WARP_SPEED = 25000f;
@@ -130,23 +134,23 @@ namespace FinalFrontier
             "Modoetia",
             "Salernum",
             "Aquileia",
-            "Ascrivium",
-            "Palma",
-            "Massa",
-            "Pompaelo",
-            "Naissus",
-            "Brigantium",
-            "Florentia",
-            "Vesontio",
-            "Lugdunum",
-            "Noviodunum",
-            "Siscia",
-            "Marsonia",
-            "Caesarea",
-            "Novaesium",
-            "Ovilava",
-            "Turicum",
-            "Argentoratum",
+            //"Ascrivium",
+            //"Palma",
+            //"Massa",
+            //"Pompaelo",
+            //"Naissus",
+            //"Brigantium",
+            //"Florentia",
+            //"Vesontio",
+            //"Lugdunum",
+            //"Noviodunum",
+            //"Siscia",
+            //"Marsonia",
+            //"Caesarea",
+            //"Novaesium",
+            //"Ovilava",
+            //"Turicum",
+            //"Argentoratum",
         };
 
     } // Globals

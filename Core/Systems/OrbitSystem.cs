@@ -10,10 +10,8 @@ namespace FinalFrontier
 {
     public static class OrbitSystem
     {
-        public static void Run(GalaxyGenerator galaxyGenerator, Camera2D camera, Vector2I cameraSector, double worldTime)
+        public static void Run(GalaxyGenerator galaxyGenerator, Camera2D camera, Vector2I cameraSector, double worldTime, List<Vector2I> visibleSectors)
         {
-            var visibleSectors = ClientUtility.GetVisibleSectors(camera, cameraSector);
-
             foreach (var sectorPos in visibleSectors)
             {
                 if (!galaxyGenerator.GalaxyStars.TryGetValue(sectorPos, out var sectorData))

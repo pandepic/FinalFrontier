@@ -11,7 +11,7 @@ namespace FinalFrontier
     {
         private static List<Vector2I> _visibleSectors = new List<Vector2I>();
 
-        public static List<Vector2I> GetVisibleSectors(Camera2D camera, Vector2I cameraSector)
+        public static List<Vector2I> GetVisibleSectors(Camera2D camera, Vector2I cameraSector, GalaxyGenerator galaxyGenerator)
         {
             var cameraView = camera.ScaledView;
 
@@ -25,10 +25,14 @@ namespace FinalFrontier
             {
                 for (var y = sectorTopLeft.Y - 1; y <= sectorBottomRight.Y + 1; y++)
                 {
+                    var sector = cameraSector + new Vector2I(x, y);
+                    if (!galaxyGenerator.GalaxyStars.ContainsKey(sector))
+                        continue;
+
                     //if (x == 0 && y == 0)
                     //    continue;
 
-                    _visibleSectors.Add(cameraSector + new Vector2I(x, y));
+                    _visibleSectors.Add(sector);
                 }
             }
 

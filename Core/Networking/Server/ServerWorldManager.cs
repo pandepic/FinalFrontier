@@ -15,19 +15,54 @@ namespace FinalFrontier
 {
     public class ServerWorldManager
     {
+        public class SpawnPoint
+        {
+            public Vector2I Sector;
+            public ClassType Class;
+            public QualityType Quality;
+            public int Level;
+            public Entity Target;
+            public int WaveSizeMin;
+            public int WaveSizeMax;
+            public List<Entity> CurrentWave = new List<Entity>();
+        }
+
         public GameServer GameServer;
         public int NextColonyNameIndex = 0;
 
         public List<Vector2I> ColonisedSectors = new List<Vector2I>();
         public List<Entity> Colonies = new List<Entity>();
+        public List<SpawnPoint> SpawnPoints = new List<SpawnPoint>();
 
         public ServerWorldManager(GameServer gameServer)
         {
             GameServer = gameServer;
         }
 
+        public void Update()
+        {
+            foreach (var spawnPoint in SpawnPoints)
+            {
+                for (var i = spawnPoint.CurrentWave.Count - 1; i >= 0; i--)
+                {
+                    var entity = spawnPoint.CurrentWave[i];
+
+                    if (!entity.IsAlive)
+                        SpawnPoints.RemoveAt(i);
+                }
+
+                if (spawnPoint.CurrentWave.Count == 0)
+                    SpawnAlienWave(Globals.RNG.Next(spawnPoint.WaveSizeMin, spawnPoint.WaveSizeMax + 1), spawnPoint.Target, spawnPoint);
+            }
+
+        } // Update
+
         public void SetupWorld()
         {
+            ColonisedSectors.Clear();
+            Colonies.Clear();
+            SpawnPoints.Clear();
+
             Entity homeWorld = new Entity();
 
             foreach (var (sectorPosition, sectorData) in GameServer.GalaxyGenerator.GalaxyStars)
@@ -49,38 +84,90 @@ namespace FinalFrontier
 
             ref var homeWorldTransform = ref homeWorld.GetComponent<Transform>();
 
-            //while (NextColonyNameIndex < Globals.ColonyNames.Count)
-            //{
-            //    Entity closestPotentialColony = new Entity();
-            //    float closestPotentialColonyDistance = 0f;
+            while (NextColonyNameIndex < Globals.ColonyNames.Count)
+            {
+                Entity closestPotentialColony = new Entity();
+                float closestPotentialColonyDistance = 0f;
 
-            //    foreach (var (sectorPosition, sectorData) in GameServer.GalaxyGenerator.GalaxyStars)
-            //    {
-            //        foreach (var planet in sectorData.Planets)
-            //        {
-            //            if (planet.HasComponent<Colonisable>() && !planet.HasComponent<Colony>())
-            //            {
-            //                ref var planetTransform = ref planet.GetComponent<Transform>();
+                foreach (var (sectorPosition, sectorData) in GameServer.GalaxyGenerator.GalaxyStars)
+                {
+                    foreach (var planet in sectorData.Planets)
+                    {
+                        if (planet.HasComponent<Colonisable>() && !planet.HasComponent<Colony>())
+                        {
+                            ref var planetTransform = ref planet.GetComponent<Transform>();
 
-            //                if (ColonisedSectors.Contains(planetTransform.TransformedSectorPosition))
-            //                    continue;
+                            if (ColonisedSectors.Contains(planetTransform.TransformedSectorPosition))
+                                continue;
 
-            //                var distance = homeWorldTransform.TransformedSectorPosition.GetDistance(planetTransform.TransformedSectorPosition);
+                            var distance = homeWorldTransform.TransformedSectorPosition.GetDistance(planetTransform.TransformedSectorPosition);
 
-            //                if (closestPotentialColonyDistance == 0 || distance < closestPotentialColonyDistance)
-            //                {
-            //                    closestPotentialColony = planet;
-            //                    closestPotentialColonyDistance = distance;
-            //                }
-            //            }
-            //        }
-            //    }
+                            if (closestPotentialColonyDistance == 0 || distance < closestPotentialColonyDistance)
+                            {
+                                closestPotentialColony = planet;
+                                closestPotentialColonyDistance = distance;
+                            }
+                        }
+                    }
+                }
 
-            //    if (!closestPotentialColony.IsAlive)
-            //        break;
+                if (!closestPotentialColony.IsAlive)
+                    break;
 
-            //    AddColony(closestPotentialColony);
-            //}
+                AddColony(closestPotentialColony);
+            }
+
+            foreach (var (sectorPosition, sectorData) in GameServer.GalaxyGenerator.GalaxyStars)
+            {
+                if (ColonisedSectors.Contains(sectorPosition))
+                    continue;
+
+                var distanceFromHomeWorld = ColonisedSectors[0].GetDistance(sectorPosition);
+                var level = (int)(distanceFromHomeWorld / 10) + 1;
+
+                var spawnClass = level / 7;
+                if (spawnClass > 2)
+                    spawnClass = 2;
+
+                var spawnQualityIndex = level % 7;
+                var spawnQuality = QualityType.Common;
+
+                switch (spawnQualityIndex)
+                {
+                    case 0:
+                    case 1:
+                        spawnQuality = QualityType.Common;
+                        break;
+
+                    case 2:
+                    case 3:
+                        spawnQuality = QualityType.Uncommon;
+                        break;
+
+                    case 4:
+                    case 5:
+                        spawnQuality = QualityType.Rare;
+                        break;
+
+                    case 6:
+                        spawnQuality = QualityType.Legendary;
+                        break;
+                }
+
+                var spawnPoint = new SpawnPoint()
+                {
+                    Sector = sectorPosition,
+                    Class = (ClassType)spawnClass,
+                    Quality = spawnQuality,
+                    Target = sectorData.Planets.GetRandomItem(),
+                    Level = level,
+                    WaveSizeMin = (level / 5) + 1,
+                    WaveSizeMax = (level / 5) + 1,
+                };
+
+                SpawnPoints.Add(spawnPoint);
+            }
+            
         } // SetupWorld
 
         public void AddColony(Entity planet)
@@ -119,28 +206,28 @@ namespace FinalFrontier
             DestroyEntityRequest.Write(packet, entity.ID);
         }
 
-        public void SpawnAlienWave(GameServer gameServer, int waveSize)
+        public void SpawnAlienWave(int waveSize, Entity target, SpawnPoint spawnPoint)
         {
-            var targetColony = Colonies.GetRandomItem();
-            ref var targetColonyTransform = ref targetColony.GetComponent<Transform>();
-            ref var colonyComponent = ref targetColony.GetComponent<Colony>();
+            Console.WriteLine($"Spawning {waveSize} aliens at {spawnPoint.Sector}");
 
-            var spawnSector = targetColonyTransform.TransformedSectorPosition + Globals.SurroundingPositions.GetRandomItem();
+            ref var targetTransform = ref target.GetComponent<Transform>();
+
+            var spawnSector = targetTransform.TransformedSectorPosition + Globals.SurroundingPositions.GetRandomItem();
             var spawnOrigin = new Vector2(Globals.GalaxySectorScale / 2);
 
-            targetColonyTransform.Position = EntityUtility.GetOrbitPosition(targetColony, gameServer.NetworkServer.WorldTime);
-            var sentrySector = targetColonyTransform.TransformedSectorPosition;
+            targetTransform.Position = EntityUtility.GetOrbitPosition(target, GameServer.NetworkServer.WorldTime);
+            var sentrySector = targetTransform.TransformedSectorPosition;
 
             for (var i = 0; i < waveSize; i++)
             {
-                var sentryPosition = targetColonyTransform.TransformedPosition + new Vector2(Globals.RNG.Next(-1000, 1000), Globals.RNG.Next(-1000, 1000));
+                var sentryPosition = targetTransform.TransformedPosition + new Vector2(Globals.RNG.Next(-1000, 1000), Globals.RNG.Next(-1000, 1000));
 
-                ShipPrefabs.AlienShip(GameServer, ClassType.Small, QualityType.Common,
+                var ship = ShipPrefabs.AlienShip(GameServer, spawnPoint.Class, spawnPoint.Quality,
                     spawnOrigin + new Vector2(Globals.RNG.Next(-1000, 1000), Globals.RNG.Next(-1000, 1000)), spawnSector,
-                    sentryPosition, sentrySector);
-            }
+                    sentryPosition, sentrySector, spawnPoint.Level);
 
-            Logging.Information("Spawned alien wave at {spawnSector} to attack {colony} at {colonySector}", spawnSector, colonyComponent.Name, targetColonyTransform.TransformedSectorPosition);
+                spawnPoint.CurrentWave.Add(ship);
+            }
         }
 
         public void SpawnPlayerShip(GameServer gameServer, Networking.Database database, Networking.Server.Player player)

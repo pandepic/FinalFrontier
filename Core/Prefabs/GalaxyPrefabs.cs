@@ -98,7 +98,7 @@ namespace FinalFrontier
                     TextureReference = AssetManager.LoadTexture2D(data.Sprite),
                     Layer = drawLayer,
                     MinSize = new Vector2(2),
-                    MaxZoomLevel = 14,
+                    MaxZoomLevel = Globals.MAX_ZOOM_PLANET,
                     Color = Veldrid.RgbaByte.White,
                 });
             }
@@ -144,7 +144,7 @@ namespace FinalFrontier
                     TextureReference = AssetManager.LoadTexture2D(data.Sprite),
                     Layer = drawLayer,
                     MinSize = new Vector2(2),
-                    MaxZoomLevel = 10,
+                    MaxZoomLevel = Globals.MAX_ZOOM_MOON,
                     Color = Veldrid.RgbaByte.White,
                 });
             }
@@ -193,7 +193,7 @@ namespace FinalFrontier
                     TextureReference = AssetManager.LoadTexture2D(Globals.EntityAtlas.TextureAsset),
                     Layer = drawLayer,
                     MinSize = new Vector2(1),
-                    MaxZoomLevel = 10,
+                    MaxZoomLevel = Globals.MAX_ZOOM_ASTEROID,
                     Color = Veldrid.RgbaByte.White,
                 });
             }

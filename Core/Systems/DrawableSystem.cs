@@ -55,16 +55,25 @@ namespace FinalFrontier
                 if (!galaxyGenerator.GalaxyStars.TryGetValue(sectorPos, out var sectorData))
                     continue;
 
-                foreach (var entity in sectorData.Entities)
-                {
-                    ref var drawable = ref entity.GetComponent<Drawable>();
+                entities.TryAdd(sectorData.Star, out var _);
 
-                    if (entity.HasComponent<WorldSpaceLabel>())
-                        _worldSpaceLabelEntities.TryAdd(entity, out var _);
+                AddOrbitalBodiesToDrawList(sectorData.Planets, zoomLevel, entities);
 
-                    if (drawable.MaxZoomLevel == 0 || zoomLevel <= drawable.MaxZoomLevel)
-                        entities.TryAdd(entity, out var _);
-                }
+                if (zoomLevel <= Globals.MAX_ZOOM_MOON)
+                    AddOrbitalBodiesToDrawList(sectorData.Planets, zoomLevel, entities);
+                if (zoomLevel <= Globals.MAX_ZOOM_ASTEROID)
+                    AddOrbitalBodiesToDrawList(sectorData.Asteroids, zoomLevel, entities);
+
+                //foreach (var entity in sectorData.Entities)
+                //{
+                //    ref var drawable = ref entity.GetComponent<Drawable>();
+
+                //    if (entity.HasComponent<WorldSpaceLabel>())
+                //        _worldSpaceLabelEntities.TryAdd(entity, out var _);
+
+                //    if (drawable.MaxZoomLevel == 0 || zoomLevel <= drawable.MaxZoomLevel)
+                //        entities.TryAdd(entity, out var _);
+                //}
             }
 
             foreach (var entity in drawableGroup.Entities)
@@ -72,6 +81,20 @@ namespace FinalFrontier
                 ref var transform = ref entity.GetComponent<Transform>();
 
                 if (visibleSectors.Contains(transform.TransformedSectorPosition))
+                    entities.TryAdd(entity, out var _);
+            }
+        }
+
+        private static void AddOrbitalBodiesToDrawList(List<Entity> orbitalBodies, int zoomLevel, SparseSet<Entity> entities)
+        {
+            foreach (var entity in orbitalBodies)
+            {
+                ref var drawable = ref entity.GetComponent<Drawable>();
+
+                if (entity.HasComponent<WorldSpaceLabel>())
+                    _worldSpaceLabelEntities.TryAdd(entity, out var _);
+
+                if (drawable.MaxZoomLevel == 0 || zoomLevel <= drawable.MaxZoomLevel)
                     entities.TryAdd(entity, out var _);
             }
         }
