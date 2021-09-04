@@ -48,7 +48,7 @@ namespace FinalFrontier
                     var entity = spawnPoint.CurrentWave[i];
 
                     if (!entity.IsAlive)
-                        SpawnPoints.RemoveAt(i);
+                        spawnPoint.CurrentWave.RemoveAt(i);
                 }
 
                 if (spawnPoint.CurrentWave.Count == 0)
@@ -208,7 +208,8 @@ namespace FinalFrontier
 
         public void SpawnAlienWave(int waveSize, Entity target, SpawnPoint spawnPoint)
         {
-            Console.WriteLine($"Spawning {waveSize} aliens at {spawnPoint.Sector}");
+            Logging.Debug("Spawning {waveSize} aliens at level {level} in sector {spawnSector} with class {class} and quality {quality}",
+                waveSize, spawnPoint.Level, spawnPoint.Sector, spawnPoint.Class, spawnPoint.Quality);
 
             ref var targetTransform = ref target.GetComponent<Transform>();
 
@@ -228,7 +229,7 @@ namespace FinalFrontier
 
                 spawnPoint.CurrentWave.Add(ship);
             }
-        }
+        } // SpawnAlienWave
 
         public void SpawnPlayerShip(GameServer gameServer, Networking.Database database, Networking.Server.Player player)
         {
@@ -292,7 +293,8 @@ namespace FinalFrontier
             homeWorldTransform.Position = EntityUtility.GetOrbitPosition(homeWorld, gameServer.NetworkServer.WorldTime);
 
             player.Ship = ShipPrefabs.PlayerShip(gameServer, player, activeShip, homeWorldTransform.TransformedPosition, homeWorldTransform.TransformedSectorPosition);
-        }
+
+        } // SpawnPlayerShip
 
     } // ServerWorldManager
 }

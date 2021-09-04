@@ -198,7 +198,9 @@ namespace FinalFrontier
         public static void RunWorldSpaceLabels(SpriteBatch2D spriteBatch, Camera2D camera, Vector2I cameraSector, SpriteFont font)
         {
             var cameraView = camera.ScaledView;
+
             _drawListText.Clear();
+            _drawList.Clear();
 
             foreach (var entity in _worldSpaceLabelEntities)
             {
@@ -216,6 +218,58 @@ namespace FinalFrontier
                 var textSize = font.MeasureText(worldSpaceLabel.Text, worldSpaceLabel.TextSize, worldSpaceLabel.TextOutline);
                 var screenRect = camera.WorldToScreen(entityRect);
                 var textPosition = screenRect.Location + new Vector2I(screenRect.Width / 2, 0) - new Vector2I(textSize.X / 2, textSize.Y + worldSpaceLabel.MarginBottom);
+
+                var statusBarSpacing = 0;
+
+                if (entity.HasComponent<Shield>())
+                {
+                    ref var shield = ref entity.GetComponent<Shield>();
+
+                    var shieldBarRect = Globals.UIAtlas.GetSpriteRect("slider_fill_blue.png");
+                    var shieldPosition = new Vector2I(screenRect.Location.X + (screenRect.Width / 2) - (shieldBarRect.Width / 4), textPosition.Y);
+
+                    statusBarSpacing = (int)textSize.Y + shieldBarRect.Height;
+                    shieldPosition.Y += statusBarSpacing;
+
+                    var shieldPercentage = shield.CurrentValue / shield.BaseValue;
+
+                    _drawList.Add(new DrawItem()
+                    {
+                        Position = shieldPosition.ToVector2(),
+                        Origin = Vector2.Zero,
+                        Scale = new Vector2(0.5f * shieldPercentage, 1f),
+                        Rotation = 0f,
+                        SourceRect = shieldBarRect,
+                        Texture = Globals.UIAtlas.Texture,
+                        Layer = 0,
+                        Color = RgbaFloat.White,
+                    });
+                }
+
+                if (entity.HasComponent<Armour>())
+                {
+                    ref var armour = ref entity.GetComponent<Armour>();
+                    
+                    var hpBarRect = Globals.UIAtlas.GetSpriteRect("slider_fill_orange.png");
+                    var armourPosition = new Vector2I(screenRect.Location.X + (screenRect.Width / 2) - (hpBarRect.Width / 4), textPosition.Y);
+
+                    statusBarSpacing += hpBarRect.Height;
+                    armourPosition.Y += statusBarSpacing;
+
+                    var armourPercentage = armour.CurrentValue / armour.BaseValue;
+
+                    _drawList.Add(new DrawItem()
+                    {
+                        Position = armourPosition.ToVector2(),
+                        Origin = Vector2.Zero,
+                        Scale = new Vector2(0.5f * armourPercentage, 1f),
+                        Rotation = 0f,
+                        SourceRect = hpBarRect,
+                        Texture = Globals.UIAtlas.Texture,
+                        Layer = 0,
+                        Color = RgbaFloat.White,
+                    });
+                }
 
                 _drawListText.Add(new DrawItemText()
                 {
@@ -249,6 +303,9 @@ namespace FinalFrontier
 
             foreach (var item in _drawListText)
                 spriteBatch.DrawText(font, item.Text, item.Position, item.Color, item.Size, item.Outline);
+
+            if (_drawList.Count > 0)
+                EndDrawList(spriteBatch);
 
         } // RunWorldSpaceLabels
 

@@ -192,7 +192,7 @@ namespace FinalFrontier
                 Text = player.User.Username,
                 Color = Veldrid.RgbaByte.White,
                 TextOutline = 1,
-                MarginBottom = 0,
+                MarginBottom = 15,
             });
 
             ship.TryAddComponent(new Human());
@@ -241,7 +241,7 @@ namespace FinalFrontier
                 Text = shipName + " LVL " + level.ToString(),
                 Color = Veldrid.RgbaByte.Red,
                 TextOutline = 1,
-                MarginBottom = 0,
+                MarginBottom = 15,
             });
 
             ship.TryAddComponent(new WorldIcon()
