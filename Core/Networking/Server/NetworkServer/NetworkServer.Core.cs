@@ -19,7 +19,7 @@ namespace FinalFrontier.Networking
     {
         public static StringCryptography StringCryptography = new StringCryptography();
 
-        public const int TicksPerSecond = 60;
+        public const int TicksPerSecond = 30;
         public const float SecondsPerTick = 1f / TicksPerSecond;
 
         public readonly GameServer GameServer;
@@ -135,14 +135,7 @@ namespace FinalFrontier.Networking
 
                 if (NextPacket.DataCount > 0)
                 {
-                    foreach (var player in PlayerManager.Players)
-                    {
-                        if (!player.IsPlaying)
-                            continue;
-
-                        NextPacket.Send(player.Peer);
-                    }
-
+                    SendPacketToPlaying(NextPacket);
                     NextPacket?.Dispose();
                     NextPacket = new NetworkPacket();
                 }
@@ -150,6 +143,17 @@ namespace FinalFrontier.Networking
                 CurrentTickTime -= SecondsPerTick;
             }
         } // Update
+
+        public void SendPacketToPlaying(NetworkPacket packet)
+        {
+            foreach (var player in PlayerManager.Players)
+            {
+                if (!player.IsPlaying)
+                    continue;
+
+                packet.Send(player.Peer);
+            }
+        }
 
         public void HandlePacket(int dataCount, byte[] data, NetPeer peer)
         {
@@ -199,7 +203,7 @@ namespace FinalFrontier.Networking
 
                         player.IsPlaying = true;
 
-                        var packet = new NetworkPacket();
+                        using var packet = new NetworkPacket();
 
                         foreach (var loop in NetworkSyncManager.ServerPlayerJoinedSyncLoops)
                             loop(packet);
@@ -241,6 +245,25 @@ namespace FinalFrontier.Networking
                             GameServer.ServerWorldManager.DestroyEntity(NextPacket, player.Ship);
 
                         PlayerManager.RemovePlayer(peer);
+                    }
+                    break;
+
+                case NetworkPacketDataType.ChatMessage:
+                    {
+                        var auth = CheckAuth(reader, out var username, out var authToken, out var player);
+
+                        if (!auth)
+                        {
+                            LogAuthFailed(type, username, authToken);
+                            return;
+                        }
+
+                        ChatMessageRequest.Read(reader, out var message);
+                        var replyMessage = player.User.Username + ": " + message;
+
+                        using var packet = new NetworkPacket();
+                        ChatMessageReply.Write(packet, replyMessage);
+                        SendPacketToPlaying(packet);
                     }
                     break;
             }

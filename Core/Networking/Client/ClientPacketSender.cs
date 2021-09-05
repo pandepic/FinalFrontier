@@ -54,5 +54,12 @@ namespace FinalFrontier.Networking
             SendPacket(packet);
         }
 
+        public static void ChatMessage(string message)
+        {
+            using var packet = new NetworkPacket();
+            ChatMessageRequest.Write(packet, message);
+            SendPacket(packet);
+        }
+
     } // ClientPackets
 }

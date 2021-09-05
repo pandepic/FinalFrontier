@@ -25,6 +25,14 @@ namespace FinalFrontier.Networking
                 return;
             }
 
+            if (user.IsBanned)
+            {
+                using var packetError = new NetworkPacket();
+                LoginReply.Write(packetError, "", "InvalidUsernamePassword", "");
+                packetError.Send(peer);
+                return;
+            }
+
             var hashedPassword = StringCryptography.GetSaltedHashedValueAsString(password, user.Salt);
 
             if (hashedPassword != user.Password)

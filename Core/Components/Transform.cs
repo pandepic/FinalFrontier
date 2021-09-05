@@ -58,7 +58,7 @@ namespace FinalFrontier.Components
             ref var transform = ref entity.GetComponent<Transform>();
 
             packet.Writer.Write(transform.Parent.IsAlive ? transform.Parent.ID : -1);
-            packet.Writer.Write(transform.Rotation);
+            packet.Writer.Write((int)transform.Rotation);
             packet.Writer.Write(ref transform.SectorPosition);
             packet.Writer.Write(ref transform.Position);
 
@@ -72,7 +72,7 @@ namespace FinalFrontier.Components
 
             var transform = new Transform();
 
-            transform.Rotation = reader.ReadSingle();
+            transform.Rotation = reader.ReadInt32();
             transform.SectorPosition = reader.ReadVector2I();
             transform.Position = reader.ReadVector2();
 

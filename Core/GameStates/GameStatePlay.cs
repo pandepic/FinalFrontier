@@ -62,8 +62,6 @@ namespace FinalFrontier
         public override void Initialize()
         {
             SpriteBatch = new SpriteBatch2D();
-            UIScreen = new UIScreen();
-
             _defaultFont = UITheme.FontRoboto.GetFont(UIFontStyle.Normal, UIFontWeight.Black);
         }
 
@@ -81,9 +79,21 @@ namespace FinalFrontier
 
             CameraSector = Vector2I.Zero;
 
+            ClientPacketSender.JoinGame();
+
+            UIScreen = UIBuilderIngame.Build(this);
             UIScreen?.ShowEnable();
 
-            ClientPacketSender.JoinGame();
+            //UIBuilderIngame.AddChatMessage("Pandepic: Test 1 abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc test end");
+            //UIBuilderIngame.AddChatMessage("Pandepic: Test 2");
+            //UIBuilderIngame.AddChatMessage("Pandepic: Test 3");
+            //UIBuilderIngame.AddChatMessage("Pandepic: Test 4");
+            //UIBuilderIngame.AddChatMessage("Pandepic: Test 5");
+            //UIBuilderIngame.AddChatMessage("Pandepic: Test 6");
+            //UIBuilderIngame.AddChatMessage("Pandepic: Test 7");
+            //UIBuilderIngame.AddChatMessage("Pandepic: Test 8");
+            //UIBuilderIngame.AddChatMessage("Pandepic: Test 9");
+            //UIBuilderIngame.AddChatMessage("Pandepic: Test 10");
         }
 
         public override void Unload()
@@ -184,6 +194,19 @@ namespace FinalFrontier
 
             switch (controlName)
             {
+                case "SendChatMessage":
+                    if (state == GameControlState.Released)
+                    {
+                        var chatTextbox = UIScreen.FindChildByName<UITextbox>("ChatTextbox", true);
+
+                        if (chatTextbox.IsFocused && !string.IsNullOrWhiteSpace(chatTextbox.Text))
+                        {
+                            ClientPacketSender.ChatMessage(chatTextbox.Text);
+                            chatTextbox.Text = "";
+                        }
+                    }
+                    break;
+
                 case "DragCamera":
                     {
                         if (state == GameControlState.Pressed)

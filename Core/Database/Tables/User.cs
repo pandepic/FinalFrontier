@@ -19,6 +19,7 @@ namespace FinalFrontier.Database.Tables
         public string AuthToken;
         public DateTime Registered;
         public DateTime LastLogin;
+        public bool IsBanned;
 
         public User() { }
 
@@ -33,12 +34,13 @@ namespace FinalFrontier.Database.Tables
             AuthToken = reader["AuthToken"].ToString();
             Registered = DateTime.Parse(reader["Registered"].ToString());
             LastLogin = DateTime.Parse(reader["LastLogin"].ToString());
+            IsBanned = reader["IsBanned"].ConvertTo<int>() > 0;
         }
 
         public override bool Insert(SQLiteCommand command)
         {
             command.CommandText = @$"
-                insert into User (Username, Password, Salt, Money, Exp, Rank, AuthToken, Registered, LastLogin)
+                insert into User (Username, Password, Salt, Money, Exp, Rank, AuthToken, Registered, LastLogin, IsBanned)
                 values
                 (
                     @Username,
@@ -49,7 +51,8 @@ namespace FinalFrontier.Database.Tables
                     @Rank,
                     @AuthToken,
                     @Registered,
-                    @LastLogin
+                    @LastLogin,
+                    @IsBanned
                 )";
 
             command.Parameters.AddWithValue("@Username", Username);
@@ -61,6 +64,7 @@ namespace FinalFrontier.Database.Tables
             command.Parameters.AddWithValue("@AuthToken", AuthToken);
             command.Parameters.AddWithValue("@Registered", Registered.ToString(Networking.Database.DateFormatString));
             command.Parameters.AddWithValue("@LastLogin", LastLogin.ToString(Networking.Database.DateFormatString));
+            command.Parameters.AddWithValue("@IsBanned", IsBanned ? 1 : 0);
             command.Prepare();
 
             return command.ExecuteNonQuery() > 0;
@@ -76,7 +80,8 @@ namespace FinalFrontier.Database.Tables
                     Rank = @Rank,
                     AuthToken = @AuthToken,
                     Registered = @Registered,
-                    LastLogin = @LastLogin
+                    LastLogin = @LastLogin,
+                    IsBanned = @IsBanned
                 WHERE Username = @Username";
 
             command.Parameters.AddWithValue("@Username", Username);
@@ -86,6 +91,7 @@ namespace FinalFrontier.Database.Tables
             command.Parameters.AddWithValue("@AuthToken", AuthToken);
             command.Parameters.AddWithValue("@Registered", Registered.ToString(Networking.Database.DateFormatString));
             command.Parameters.AddWithValue("@LastLogin", LastLogin.ToString(Networking.Database.DateFormatString));
+            command.Parameters.AddWithValue("@IsBanned", IsBanned ? 1 : 0);
             command.Prepare();
 
             return command.ExecuteNonQuery() > 0;
@@ -93,7 +99,7 @@ namespace FinalFrontier.Database.Tables
 
         public static string CreateTable()
         {
-            return "create table User (Username TEXT, Password TEXT, Salt TEXT, Money INTEGER, Exp INTEGER, Rank TEXT, AuthToken TEXT, Registered TEXT, LastLogin TEXT)";
+            return "create table User (Username TEXT, Password TEXT, Salt TEXT, Money INTEGER, Exp INTEGER, Rank TEXT, AuthToken TEXT, Registered TEXT, LastLogin TEXT, IsBanned INTEGER)";
         }
 
         public static Dictionary<string, User> GetUsers(SQLiteCommand command)

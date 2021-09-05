@@ -11,6 +11,7 @@
         PlayerMoveToPosition,
         DestroyEntity,
         Logout,
+        ChatMessage,
 
         // Sync components
         SyncTransform,

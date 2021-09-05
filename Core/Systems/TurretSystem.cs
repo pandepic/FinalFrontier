@@ -53,9 +53,17 @@ namespace FinalFrontier
                         var angle = MathF.Abs((float)MathHelper.GetAngleDegreesBetweenPositions(entityFullPosition, targetFullPosition) - transform.Rotation);
 
                         if (angle <= turret.WeaponData.MaxFiringAngle)
-                            TurretPrefabs.TurretProjectile(gameServer, entity, transform.Rotation, turret.WeaponData, turret.Target, turret.Parent);
+                        {
+                            if (turret.Parent.HasComponent<ShipEngine>())
+                            {
+                                ref var shipEngine = ref turret.Parent.GetComponent<ShipEngine>();
+                                if (shipEngine.WarpIsActive)
+                                    continue;
+                            }
 
-                        turret.CurrentCooldown = turret.WeaponData.Cooldown;
+                            TurretPrefabs.TurretProjectile(gameServer, entity, transform.Rotation, turret.WeaponData, turret.Target, turret.Parent);
+                            turret.CurrentCooldown = turret.WeaponData.Cooldown;
+                        }
                     }
                 }
                 else // has no target

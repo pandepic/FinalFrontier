@@ -145,6 +145,13 @@ namespace FinalFrontier.Networking
                         GameClient.Registry.DestroyEntity(GameClient.Registry.CreateEntity(id));
                     }
                     break;
+
+                case NetworkPacketDataType.ChatMessage:
+                    {
+                        ChatMessageReply.Read(reader, out var message);
+                        UIBuilderIngame.AddChatMessage(message);
+                    }
+                    break;
             }
         } // HandlePacketData
 

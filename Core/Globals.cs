@@ -111,8 +111,9 @@ namespace FinalFrontier
         public static string EntityAtlasData = "Textures/entity_atlas.json";
         public static string EntityAtlasTexture = "Textures/entity_atlas.png";
 
-        public static string ServerAddress = "66.70.191.87";
-        public static int ServerPort = 21461;
+        //public static string ServerAddress = "66.70.191.87";
+        public static string ServerAddress = "138.91.153.213";
+        public static int ServerPort = 21462;
         public const string ConnectionKey = "b0beb091-902e-418d-b60c-2c7f4156696a";
 
         public static void Load()

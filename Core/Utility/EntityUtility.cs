@@ -123,7 +123,7 @@ namespace FinalFrontier
 
             var absRotDiff = Math.Abs(transform.Rotation - targetRotation);
 
-            if (absRotDiff < 1f)
+            if (absRotDiff < 2f)
                 return false;
 
             if (transform.Rotation < targetRotation)

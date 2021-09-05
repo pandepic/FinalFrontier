@@ -521,6 +521,82 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../../../Assets/UI/Chat/chat_bubble_symbol.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>6,5,11,11</rect>
+                <key>scale9Paddings</key>
+                <rect>6,5,11,11</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Assets/UI/Chat/text_container.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>113,44,225,87</rect>
+                <key>scale9Paddings</key>
+                <rect>113,44,225,87</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Assets/UI/Chat/type_box.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>106,8,212,15</rect>
+                <key>scale9Paddings</key>
+                <rect>106,8,212,15</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Assets/UI/Inventory/inventory_box_merge1.png</key>
+            <key type="filename">../../../Assets/UI/Inventory/inventory_box_merge4.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>141,147,281,295</rect>
+                <key>scale9Paddings</key>
+                <rect>141,147,281,295</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Assets/UI/Inventory/money_icon.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>6,6,12,13</rect>
+                <key>scale9Paddings</key>
+                <rect>6,6,12,13</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../../../Assets/UI/Scroll_Dropdown/dd_rail.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -718,6 +794,12 @@
             <filename>../../../Assets/UI/12 Options/button_normal_p.png</filename>
             <filename>../../../Assets/UI/12 Options/options_box_merge2.png</filename>
             <filename>../../../Assets/UI/12 Options/General UI Elements/heading_holo.png</filename>
+            <filename>../../../Assets/UI/Inventory/inventory_box_merge1.png</filename>
+            <filename>../../../Assets/UI/Inventory/inventory_box_merge4.png</filename>
+            <filename>../../../Assets/UI/Inventory/money_icon.png</filename>
+            <filename>../../../Assets/UI/Chat/chat_bubble_symbol.png</filename>
+            <filename>../../../Assets/UI/Chat/text_container.png</filename>
+            <filename>../../../Assets/UI/Chat/type_box.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
