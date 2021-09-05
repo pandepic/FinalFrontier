@@ -37,6 +37,19 @@ namespace FinalFrontier
             var screen = new UIScreen();
             UIScreen = screen;
 
+            var logoutButton = new UIButton("", UITheme.BaseWideButtonStyle);
+            var logoutLabel = new UILabel("", UITheme.BaseButtonLabelStyle, "Exit Game");
+            logoutButton.Y = 25;
+            logoutButton.AnchorRight = true;
+            logoutButton.MarginRight = 25;
+            logoutButton.AddChild(logoutLabel);
+            screen.AddChild(logoutButton);
+
+            logoutButton.OnClick += (args) =>
+            {
+                play.GameClient.Quit();
+            };
+
             BuildChat(screen);
             BuildInventory(screen);
             BuildBuyShip(screen);

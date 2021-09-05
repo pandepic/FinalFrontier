@@ -89,5 +89,12 @@ namespace FinalFrontier.Networking
             SendPacket(packet);
         }
 
+        public static void Logout()
+        {
+            using var packet = new NetworkPacket();
+            LogoutRequest.Write(packet);
+            SendPacket(packet);
+        }
+
     } // ClientPackets
 }

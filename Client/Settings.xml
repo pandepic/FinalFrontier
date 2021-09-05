@@ -2,14 +2,14 @@
 
 <Settings>
   <Section Name="Window">
-    <Setting Name="Width" Value="1600" />
-    <Setting Name="Height" Value="900" />
+    <Setting Name="Width" Value="" />
+    <Setting Name="Height" Value="" />
     <Setting Name="BorderlessFullscreen" Value="false" />
     <Setting Name="Vsync" Value="true" />
   </Section>
   <Section Name="Sound">
     <Setting Name="MasterVolume" Value="0.5" />
-    <Setting Name="MusicVolume" Value="0.0" />
+    <Setting Name="MusicVolume" Value="0.25" />
     <Setting Name="SFXVolume" Value="0.3" />
     <Setting Name="UIVolume" Value="0.2" />
   </Section>

@@ -86,6 +86,8 @@ namespace FinalFrontier
             NetworkClient = new NetworkClient(this);
             SetGameState(GameStateType.Menu);
 
+            SoundManager.Play(AssetManager.LoadAudioSourceByExtension("Audio/Bold - Full.ogg"), (int)AudioType.Music, true);
+
         } // Load
 
         public override void Update(GameTimer gameTimer)
