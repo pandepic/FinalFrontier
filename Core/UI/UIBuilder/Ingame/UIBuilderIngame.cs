@@ -300,9 +300,9 @@ namespace FinalFrontier
             }
 
             itemContainer.AddChild(itemLabel);
-
             groupContainer.AddChild(itemContainer);
-        }
+
+        } // CreateInventoryComponent
 
         public static void CreateInventoryWeapon(UIContainer groupContainer, string text, int? equippedSlot, ClassType classType, ShipData shipData, string seed)
         {
@@ -361,7 +361,8 @@ namespace FinalFrontier
             }
 
             groupContainer.AddChild(itemContainer);
-        }
+
+        } // CreateInventoryWeapon
 
     } // UIBuilderIngame
 }

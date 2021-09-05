@@ -17,14 +17,15 @@ namespace FinalFrontier.Components
 
         public Armour(ShipData shipData, ref Ship ship)
         {
-            BaseValue = shipData.BaseShield;
-            CurrentValue = shipData.BaseShield;
+            BaseValue = shipData.BaseArmour;
 
             if (ship.ShipComponentData.TryGetValue(ShipComponentType.Armour, out var armour))
             {
                 var armourData = new ShipArmourData(armour);
                 BaseValue *= armourData.ArmourBonus;
             }
+
+            CurrentValue = BaseValue;
         }
 
         public static void WriteSync(NetworkPacket packet, Entity entity)

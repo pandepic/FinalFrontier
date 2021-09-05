@@ -19,7 +19,6 @@ namespace FinalFrontier.Components
         public Shield(ShipData shipData, ref Ship ship)
         {
             BaseValue = shipData.BaseShield;
-            CurrentValue = shipData.BaseShield;
             RechargeRate = shipData.BaseShieldRegen;
 
             if (ship.ShipComponentData.TryGetValue(ShipComponentType.Shield, out var shield))
@@ -28,6 +27,8 @@ namespace FinalFrontier.Components
                 BaseValue *= shieldData.ShieldBonus;
                 RechargeRate += shieldData.RechargeBonus;
             }
+
+            CurrentValue = BaseValue;
         }
 
         public static void WriteSync(NetworkPacket packet, Entity entity)

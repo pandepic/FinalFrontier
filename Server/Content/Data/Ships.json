@@ -220,55 +220,8 @@
     "ExpValue": 0,
     "BountyValue": 0
   },
-  "Carrier": {
-    "RequiredRank": 5,
-    "Name": "Carrier",
-    "Cost": 80000,
-    "Class": 2,
-    "Atlas": "Textures/entity_atlas.json",
-    "Sprite": "Carrier 1.png",
-    "Scale": 1.0,
-    "HasHangar": false,
-    "BaseMoveSpeed": 300.0,
-    "BaseTurnSpeed": 100.0,
-    "BaseShield": 3500.0,
-    "BaseArmour": 1750.0,
-    "BaseShieldRegen": 10.0,
-    "Turrets": [
-      {
-        "Class": 0,
-        "Position": {
-          "X": 0.0,
-          "Y": -25.0
-        }
-      },
-      {
-        "Class": 0,
-        "Position": {
-          "X": 0.0,
-          "Y": 50.0
-        }
-      },
-      {
-        "Class": 1,
-        "Position": {
-          "X": 57.0,
-          "Y": 50.0
-        }
-      },
-      {
-        "Class": 1,
-        "Position": {
-          "X": -25.0,
-          "Y": 115.0
-        }
-      }
-    ],
-    "ExpValue": 0,
-    "BountyValue": 0
-  },
   "Battleship": {
-    "RequiredRank": 6,
+    "RequiredRank": 5,
     "Name": "Battleship",
     "Cost": 150000,
     "Class": 2,

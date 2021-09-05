@@ -30,6 +30,7 @@ namespace FinalFrontier
         public Group TurretGroup;
         public Group ProjectileGroup;
         public Group ShieldGroup;
+        public Group ArmourGroup;
 
         public Group HumanGroup;
         public Group AlienGroup;
@@ -61,7 +62,8 @@ namespace FinalFrontier
             TurretGroup = Registry.RegisterGroup<Transform, Turret>();
             ProjectileGroup = Registry.RegisterGroup<Projectile>();
             ShieldGroup = Registry.RegisterGroup<Shield>();
-
+            ArmourGroup = Registry.RegisterGroup<Transform, Armour, Human>();
+            
             HumanGroup = Registry.RegisterGroup<Ship, Human>();
             AlienGroup = Registry.RegisterGroup<Ship, Alien>();
 
@@ -87,6 +89,7 @@ namespace FinalFrontier
         public override void Update(GameTimer gameTimer)
         {
             StatusSystem.RunShield(ShieldGroup, gameTimer);
+            StatusSystem.RunArmour(this, ArmourGroup, gameTimer);
             PhysicsSystem.Run(PhysicsGroup, gameTimer);
             ShipSystem.Run(ShipGroup, gameTimer);
             TurretSystem.Run(this, TurretGroup, gameTimer);

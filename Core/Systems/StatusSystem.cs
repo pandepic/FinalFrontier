@@ -26,7 +26,27 @@ namespace FinalFrontier
                     EntityUtility.SetNeedsTempNetworkSync<Shield>(entity);
                 }
             }
-        }
+        } // RunShield
+
+        public static void RunArmour(GameServer gameServer, Group armourGroup, GameTimer gameTimer)
+        {
+            foreach (var entity in armourGroup.Entities)
+            {
+                ref var armour = ref entity.GetComponent<Armour>();
+                ref var transform = ref entity.GetComponent<Transform>();
+
+                if (gameServer.ServerWorldManager.ColonisedSectors.Contains(transform.TransformedSectorPosition))
+                {
+                    var healRate = armour.BaseValue * 0.05f;
+
+                    armour.CurrentValue += healRate * gameTimer.DeltaS;
+                    if (armour.CurrentValue > armour.BaseValue)
+                        armour.CurrentValue = armour.BaseValue;
+
+                    EntityUtility.SetNeedsTempNetworkSync<Armour>(entity);
+                }
+            }
+        } // RunArmour
 
     } // StatusSystem
 }

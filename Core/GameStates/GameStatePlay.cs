@@ -129,8 +129,23 @@ namespace FinalFrontier
             DrawableSystem.RunWorldIcons(SpriteBatch, Camera, CameraSector);
             DrawableSystem.RunWorldSpaceLabels(SpriteBatch, Camera, CameraSector, _defaultFont);
             UIScreen.Draw(SpriteBatch);
-            DrawDebug();
+            //DrawDebug();
+            DrawInfo();
             SpriteBatch.End();
+        }
+
+        public void DrawInfo()
+        {
+            if (!ClientGlobals.PlayerShip.IsAlive)
+                return;
+
+            ref var playerShip = ref ClientGlobals.PlayerShip.GetComponent<PlayerShip>();
+            var expToNext = "";
+
+            if (playerShip.Rank != RankType.Admiral)
+                expToNext = $"/{PlayerShip.RankExpRequirements[(RankType)((int)playerShip.Rank + 1)]}";
+
+            SpriteBatch.DrawText(_defaultFont, $"Money: {playerShip.Money}\nExp: {playerShip.Exp}{expToNext}\nRank: {playerShip.Rank}", new Vector2(25), RgbaByte.White, 20, 1);
         }
 
         [Conditional("DEBUG")]
