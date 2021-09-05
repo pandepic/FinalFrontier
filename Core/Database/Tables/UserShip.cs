@@ -154,5 +154,26 @@ namespace FinalFrontier.Database.Tables
             return ships;
         }
 
+        public static void ClearShips(SQLiteCommand command, string username)
+        {
+            command.CommandText = "DELETE FROM UserShip WHERE Username = @Username";
+            command.Parameters.AddWithValue("@Username", username);
+            command.Prepare();
+
+            command.ExecuteNonQuery();
+
+            command.CommandText = "DELETE FROM UserShipComponent WHERE Username = @Username";
+            command.Parameters.AddWithValue("@Username", username);
+            command.Prepare();
+
+            command.ExecuteNonQuery();
+
+            command.CommandText = "DELETE FROM UserShipWeapon WHERE Username = @Username";
+            command.Parameters.AddWithValue("@Username", username);
+            command.Prepare();
+
+            command.ExecuteNonQuery();
+        }
+
     } // UserShip
 }

@@ -34,6 +34,7 @@
     <Setting Name="Cancel" Value="Escape" Type="Keyboard" />
     <Setting Name="SendChatMessage" Value="Enter" Type="Keyboard" />
     <Setting Name="OpenInventory" Value="I" Type="Keyboard" />
+    <Setting Name="BuyShip" Value="B" Type="Keyboard" />
 
   </Section>
 </Settings>

@@ -7,10 +7,6 @@ using System.Threading.Tasks;
 
 namespace FinalFrontier.Networking.Packets
 {
-    class ChatMessage
-    {
-    }
-
     public static class ChatMessageRequest
     {
         public static void Write(NetworkPacket packet, string message)

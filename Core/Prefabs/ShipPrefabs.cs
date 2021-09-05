@@ -178,6 +178,9 @@ namespace FinalFrontier
             ship.TryAddComponent(new PlayerShip()
             {
                 Username = player.User.Username,
+                Money = (int)player.User.Money,
+                Exp = (int)player.User.Exp,
+                Rank = player.User.Rank,
             });
 
             ship.TryAddComponent(new WorldIcon()

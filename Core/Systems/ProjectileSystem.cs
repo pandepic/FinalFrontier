@@ -70,6 +70,11 @@ namespace FinalFrontier
 
                             if (enemyArmour.CurrentValue < 0)
                             {
+                                ref var enemyShip = ref enemyEntity.GetComponent<Ship>();
+
+                                foreach (var (_, enemyTurret) in enemyShip.Turrets)
+                                    gameServer.ServerWorldManager.DestroyEntity(gameServer.NetworkServer.NextPacket, enemyTurret);
+
                                 gameServer.ServerWorldManager.DestroyEntity(gameServer.NetworkServer.NextPacket, enemyEntity);
 
                                 var projectileTurret = projectile.Parent.GetComponent<Turret>();

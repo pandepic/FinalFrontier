@@ -75,5 +75,19 @@ namespace FinalFrontier.Networking
             SendPacket(packet);
         }
 
+        public static void SellItem(string seed)
+        {
+            using var packet = new NetworkPacket();
+            SellItemRequest.Write(packet, seed);
+            SendPacket(packet);
+        }
+
+        public static void BuyShip(string shipName)
+        {
+            using var packet = new NetworkPacket();
+            BuyShipRequest.Write(packet, shipName);
+            SendPacket(packet);
+        }
+
     } // ClientPackets
 }

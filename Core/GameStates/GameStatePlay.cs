@@ -209,6 +209,22 @@ namespace FinalFrontier
 
             switch (controlName)
             {
+                case "BuyShip":
+                    {
+                        var buyShipContainer = UIScreen.FindChildByName<UIContainer>("BuyShipContainer", true);
+
+                        if (buyShipContainer != null)
+                        {
+                            UIBuilderIngame.UpdateBuyShip();
+
+                            if (!buyShipContainer.IsVisible)
+                                buyShipContainer.ShowEnable();
+                            else
+                                buyShipContainer.HideDisable();
+                        }
+                    }
+                    break;
+
                 case "SendChatMessage":
                     if (state == GameControlState.Released)
                     {

@@ -124,7 +124,21 @@ namespace FinalFrontier.Networking
                         continue;
 
                     if (!player.Ship.IsAlive)
-                        GameServer.ServerWorldManager.SpawnPlayerShip(GameServer, Database, player);
+                    {
+                        if (player.RespawnTicks < 0)
+                        {
+                            player.RespawnTicks = 10;
+                            continue;
+                        }
+
+                        player.RespawnTicks -= 1;
+
+                        if (player.RespawnTicks == 0)
+                        {
+                            GameServer.ServerWorldManager.SpawnPlayerShip(GameServer, Database, player);
+                            player.RespawnTicks = -1;
+                        }
+                    }
                 }
 
                 WorldUpdateReply.Write(NextPacket, WorldTime);
@@ -398,6 +412,155 @@ namespace FinalFrontier.Networking
 
                         EntityUtility.SetNeedsTempNetworkSync<Ship>(player.Ship);
                         EntityUtility.SetNeedsTempNetworkSync<Inventory>(player.Ship);
+                    }
+                    break;
+
+                case NetworkPacketDataType.SellItem:
+                    {
+                        var auth = CheckAuth(reader, out var username, out var authToken, out var player);
+
+                        if (!auth)
+                        {
+                            LogAuthFailed(type, username, authToken);
+                            return;
+                        }
+
+                        SellItemRequest.Read(reader, out var seed);
+
+                        ref var inventory = ref player.Ship.GetComponent<Inventory>();
+
+                        var itemIndex = inventory.Items.FindIndex((item) => item.Seed == seed);
+
+                        if (itemIndex == -1)
+                            return;
+
+                        var item = inventory.Items[itemIndex];
+                        var price = item.Quality switch
+                        {
+                            QualityType.Common => 250,
+                            QualityType.Uncommon => 500,
+                            QualityType.Rare => 2000,
+                            QualityType.Legendary => 10000,
+                            _ => throw new NotImplementedException(),
+                        };
+
+                        using var command = Database.Connection.CreateCommand();
+                        item.Remove(command);
+                        inventory.Items.RemoveAt(itemIndex);
+
+                        PlayerManager.GiveMoney(username, price);
+                        EntityUtility.SetNeedsTempNetworkSync<Inventory>(player.Ship);
+                    }
+                    break;
+
+                case NetworkPacketDataType.BuyShip:
+                    {
+                        var auth = CheckAuth(reader, out var username, out var authToken, out var player);
+
+                        if (!auth)
+                        {
+                            LogAuthFailed(type, username, authToken);
+                            return;
+                        }
+
+                        BuyShipRequest.Read(reader, out var shipName);
+
+                        ref var transform = ref player.Ship.GetComponent<Transform>();
+                        if (!GameServer.ServerWorldManager.ColonisedSectors.Contains(transform.TransformedSectorPosition))
+                        {
+                            SendSystemMessage(player, "You can only buy ships in a friendly sector.");
+                            return;
+                        }
+
+                        var buyShipData = GameDataManager.Ships[shipName];
+
+                        if ((int)buyShipData.RequiredRank > (int)player.User.Rank)
+                            return;
+                        if (buyShipData.Cost > player.User.Money)
+                            return;
+
+                        PlayerManager.SpendMoney(username, buyShipData.Cost);
+
+                        using var command = Database.Connection.CreateCommand();
+                        
+                        ref var ship = ref player.Ship.GetComponent<Ship>();
+                        var prevShipData = GameDataManager.Ships[ship.ShipType];
+
+                        foreach (var (slot, component) in ship.ShipComponentData)
+                        {
+                            if (component.Quality == QualityType.Common)
+                                continue;
+
+                            var newItem = new InventoryItem()
+                            {
+                                Username = username,
+                                ComponentType = slot,
+                                Seed = component.Seed,
+                                Quality = component.Quality,
+                                ClassType = null,
+                            };
+
+                            newItem.Insert(command);
+                        }
+
+                        foreach (var (slot, weapon) in ship.ShipWeaponData)
+                        {
+                            if (weapon.Quality == QualityType.Common)
+                                continue;
+
+                            var newItem = new InventoryItem()
+                            {
+                                Username = username,
+                                ComponentType = null,
+                                Seed = weapon.Seed,
+                                Quality = weapon.Quality,
+                                ClassType = prevShipData.Turrets[slot].Class,
+                            };
+
+                            newItem.Insert(command);
+                        }
+
+                        foreach (var (_, turret) in ship.Turrets)
+                            GameServer.ServerWorldManager.DestroyEntity(NextPacket, turret);
+
+                        GameServer.ServerWorldManager.DestroyEntity(NextPacket, player.Ship);
+
+                        UserShip.ClearShips(command, username);
+
+                        var newShip = new UserShip()
+                        {
+                            Username = player.User.Username,
+                            ShipName = buyShipData.Name,
+                            IsActive = true,
+                            Weapons = new List<UserShipWeapon>(),
+                            Components = new List<UserShipComponent>(),
+                        };
+
+                        foreach (var slot in Enum.GetValues<ShipComponentType>())
+                        {
+                            newShip.Components.Add(new UserShipComponent()
+                            {
+                                Username = player.User.Username,
+                                ShipName = buyShipData.Name,
+                                Slot = slot,
+                                Seed = Guid.NewGuid().ToString(),
+                                Quality = QualityType.Common,
+                            });
+                        }
+
+                        for (int i = 0; i < buyShipData.Turrets.Count; i++)
+                        {
+                            newShip.Weapons.Add(new UserShipWeapon()
+                            {
+                                Username = player.User.Username,
+                                ShipName = buyShipData.Name,
+                                Slot = i,
+                                Seed = Guid.NewGuid().ToString(),
+                                Quality = QualityType.Common,
+                            });
+                        }
+
+                        newShip.Insert(command);
                     }
                     break;
             }

@@ -18,6 +18,7 @@ namespace FinalFrontier.Networking.Server
         public Entity Ship;
         public bool IsLoggedIn;
         public bool IsPlaying;
+        public int RespawnTicks;
     }
 
     public class PlayerManager
@@ -83,5 +84,42 @@ namespace FinalFrontier.Networking.Server
 
         } // GiveExpMoney
 
+        public void GiveMoney(string username, int money)
+        {
+            var player = GetPlayer(username);
+
+            if (player == null || !player.IsPlaying || !player.Ship.IsAlive)
+                return;
+
+            ref var playerShip = ref player.Ship.GetComponent<PlayerShip>();
+
+            playerShip.Money += money;
+            EntityUtility.SetNeedsTempNetworkSync<PlayerShip>(player.Ship);
+
+            player.User.Money = (uint)playerShip.Money;
+            using var command = NetworkServer.Database.Connection.CreateCommand();
+            player.User.Update(command);
+
+            NetworkServer.SendSystemMessage(player, $"Gained {money} credits.");
+        }
+
+        public void SpendMoney(string username, int money)
+        {
+            var player = GetPlayer(username);
+
+            if (player == null || !player.IsPlaying || !player.Ship.IsAlive)
+                return;
+
+            ref var playerShip = ref player.Ship.GetComponent<PlayerShip>();
+
+            playerShip.Money -= money;
+            EntityUtility.SetNeedsTempNetworkSync<PlayerShip>(player.Ship);
+
+            player.User.Money = (uint)playerShip.Money;
+            using var command = NetworkServer.Database.Connection.CreateCommand();
+            player.User.Update(command);
+
+            NetworkServer.SendSystemMessage(player, $"Spent {money} credits.");
+        }
     } // PlayerManager
 }

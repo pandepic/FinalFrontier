@@ -21,6 +21,8 @@ namespace FinalFrontier
         public static UILabelStyle ChatMessageLabelStyle;
         public static UIContainer ChatMessageContainer;
         public static UIContainer InventoryContainer;
+        public static UIContainer BuyShipContainer;
+        public static UIContainer InnerBuyShipContainer;
 
         public static List<(string Name, ShipComponentType? ComponentType)> InventoryGroups = new List<(string Name, ShipComponentType? ComponentType)>()
         {
@@ -37,6 +39,7 @@ namespace FinalFrontier
 
             BuildChat(screen);
             BuildInventory(screen);
+            BuildBuyShip(screen);
 
             return screen;
 
@@ -293,9 +296,20 @@ namespace FinalFrontier
 
                 itemContainer.AddChild(equipButton);
 
+                var sellButton = new UIButton("", UITheme.BaseNormalButtonStyle);
+                sellButton.SetPosition(370, 50);
+                var sellLabel = new UILabel("", UITheme.BaseButtonLabelStyle, "Sell");
+                sellButton.AddChild(sellLabel);
+                itemContainer.AddChild(sellButton);
+
                 equipButton.OnClick += (args) =>
                 {
                     ClientPacketSender.EquipComponent(type, seed);
+                };
+
+                sellButton.OnClick += (args) =>
+                {
+                    ClientPacketSender.SellItem(seed);
                 };
             }
 
@@ -342,7 +356,6 @@ namespace FinalFrontier
                 {
                     var equipButton = new UIButton("", UITheme.BaseNormalButtonStyle);
                     equipButton.SetPosition(0, 25);
-                    equipButton.RespectMargins = true;
 
                     var slotDropDown = new UIDropdownList<int>("", UITheme.BaseDropdownListStyle, slotsList);
                     slotDropDown.SetPosition(125, 25);
@@ -353,9 +366,20 @@ namespace FinalFrontier
                     itemContainer.AddChild(equipButton);
                     itemContainer.AddChild(slotDropDown);
 
+                    var sellButton = new UIButton("", UITheme.BaseNormalButtonStyle);
+                    sellButton.SetPosition(370, 25);
+                    var sellLabel = new UILabel("", UITheme.BaseButtonLabelStyle, "Sell");
+                    sellButton.AddChild(sellLabel);
+                    itemContainer.AddChild(sellButton);
+
                     equipButton.OnClick += (args) =>
                     {
                         ClientPacketSender.EquipWeapon(slotDropDown.SelectedItem.Value - 1, seed);
+                    };
+
+                    sellButton.OnClick += (args) =>
+                    {
+                        ClientPacketSender.SellItem(seed);
                     };
                 }
             }
@@ -363,6 +387,103 @@ namespace FinalFrontier
             groupContainer.AddChild(itemContainer);
 
         } // CreateInventoryWeapon
+
+        public static void BuildBuyShip(UIScreen screen)
+        {
+            var buyShipContainerStyle = new UIContainerStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("inventory_box_merge1.png")));
+            BuyShipContainer = new UIContainer("BuyShipContainer", buyShipContainerStyle);
+            BuyShipContainer.Center();
+
+            var innerBuyShipContainerStyle = new UIContainerStyle(new UISpriteColor(RgbaByte.Clear), scrollbarV: UITheme.ContainerScrollbarVStyle)
+            {
+                UISize = new UISize() { Size = new Vector2I(502, 403) },
+                UIPosition = new UIPosition() { Position = new Vector2I(30, 100) },
+                Padding = new UISpacing(5),
+                OverflowType = OverflowType.Scroll,
+            };
+
+            InnerBuyShipContainer = new UIContainer("InnerBuyShipContainerContainer", innerBuyShipContainerStyle);
+            BuyShipContainer.AddChild(InnerBuyShipContainer);
+
+            var inventoryCreditsContainerStyle = new UIContainerStyle(new UISpriteColor(RgbaByte.Clear))
+            {
+                UISize = new UISize() { Size = new Vector2I(502, 45) },
+                UIPosition = new UIPosition() { Position = new Vector2I(30, 510) },
+            };
+
+            var creditsContainer = new UIContainer("CreditsContainer", inventoryCreditsContainerStyle);
+            BuyShipContainer.AddChild(creditsContainer);
+
+            var closeBuyShip = new UIButton("CloseBuyShipContainer", UITheme.BaseCloseButtonStyle);
+            closeBuyShip.IgnoreParentPadding = true;
+            closeBuyShip.Y = 8;
+            closeBuyShip.AnchorRight = true;
+            closeBuyShip.MarginRight = 30;
+            BuyShipContainer.AddChild(closeBuyShip);
+
+            closeBuyShip.OnClick += (args) =>
+            {
+                BuyShipContainer?.HideDisable();
+            };
+
+            BuyShipContainer.HideDisable();
+            screen.AddChild(BuyShipContainer);
+
+        } // BuildBuyShip
+
+        public static void UpdateBuyShip()
+        {
+            if (!ClientGlobals.PlayerShip.IsAlive)
+                return;
+
+            InnerBuyShipContainer.ClearChildren();
+
+            ref var playerShip = ref ClientGlobals.PlayerShip.GetComponent<PlayerShip>();
+            ref var ship = ref ClientGlobals.PlayerShip.GetComponent<Ship>();
+
+            var buyShipItemContainerStyle = new UIContainerStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("full_segment_bg.png")))
+            {
+                UIPosition = new UIPosition() { CenterX = true, Position = new Vector2I(0), },
+                Margins = new UISpacing(0, 0, 0, 5),
+                Padding = new UISpacing(10),
+                UISize = new UISize() { AutoHeight = true },
+            };
+            
+            foreach (var (shipName, shipData) in GameDataManager.Ships)
+            {
+                if (shipName == ship.ShipType)
+                    continue;
+                if (shipData.Cost == 0)
+                    continue;
+
+                var shipText = $"{shipName} [Cost: {shipData.Cost:0}] [Rank: {shipData.RequiredRank}]";
+
+                var labelStyle = new UILabelStyle(UITheme.BaseLabelStyle);
+
+                var itemContainer = new UIContainer("", buyShipItemContainerStyle);
+                itemContainer.IgnoreMouseWheelEvents = true;
+
+                var itemLabel = new UILabel("", labelStyle, shipText);
+                itemLabel.SetPosition(0, 0);
+                itemContainer.AddChild(itemLabel);
+
+                var buyButton = new UIButton("", UITheme.BaseNormalButtonStyle);
+                buyButton.SetPosition(0, 25);
+
+                var buyLabel = new UILabel("", UITheme.BaseButtonLabelStyle, "Buy");
+                buyButton.AddChild(buyLabel);
+
+                itemContainer.AddChild(buyButton);
+
+                InnerBuyShipContainer.AddChild(itemContainer);
+
+                buyButton.OnClick += (args) =>
+                {
+                    ClientPacketSender.BuyShip(shipName);
+                };
+            }
+
+        } // UpdateBuyShip
 
     } // UIBuilderIngame
 }

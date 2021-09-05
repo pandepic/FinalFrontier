@@ -49,6 +49,7 @@ namespace FinalFrontier.Components
             if (player.Username == ClientGlobals.Username)
             {
                 ClientGlobals.PlayerShip = entity;
+                UIBuilderIngame.UpdateBuyShip();
 
                 if (entity.HasComponent<WorldIcon>())
                 {

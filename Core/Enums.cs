@@ -14,6 +14,8 @@
         ChatMessage,
         EquipComponent,
         EquipWeapon,
+        SellItem,
+        BuyShip,
 
         // Sync components
         SyncTransform,
