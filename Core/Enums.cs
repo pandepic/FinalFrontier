@@ -12,6 +12,8 @@
         DestroyEntity,
         Logout,
         ChatMessage,
+        EquipComponent,
+        EquipWeapon,
 
         // Sync components
         SyncTransform,
@@ -23,6 +25,7 @@
         SyncWorldSpaceLabel,
         SyncShield,
         SyncArmour,
+        SyncInventory,
     }
 
     public enum GameStateType
@@ -52,10 +55,6 @@
 
     public enum ShipComponentType
     {
-        Pilot,
-        Gunner,
-        Engineer,
-        
         Engine,
         Shield,
         Armour,

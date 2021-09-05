@@ -238,7 +238,8 @@ namespace FinalFrontier
 
             if (playerShips.Count == 0)
             {
-                var shipData = GameDataManager.Ships["Patrol Cutter"];
+                //var shipData = GameDataManager.Ships["Patrol Cutter"];
+                var shipData = GameDataManager.Ships["Leviathan"];
 
                 activeShip = new UserShip()
                 {
@@ -294,7 +295,79 @@ namespace FinalFrontier
 
             player.Ship = ShipPrefabs.PlayerShip(gameServer, player, activeShip, homeWorldTransform.TransformedPosition, homeWorldTransform.TransformedSectorPosition);
 
+            //for (var i = 0; i < 100; i++)
+            //    CheckLootDrop(player.User.Username);
+
         } // SpawnPlayerShip
+
+        public void CheckLootDrop(string username)
+        {
+            var player = GameServer.NetworkServer.PlayerManager.GetPlayer(username);
+
+            if (player == null || !player.IsPlaying || !player.Ship.IsAlive)
+                return;
+
+            ref var inventory = ref player.Ship.GetComponent<Inventory>();
+
+            if (Globals.RNG.Next(0, 100) > 20)
+                return;
+
+            if (inventory.Items.Count >= 25)
+            {
+                GameServer.NetworkServer.SendSystemMessage(player, $"Couldn't pick up loot, inventory is full at 25 items.");
+                return;
+            }
+
+            var qualityRoll = Globals.RNG.Next(0, 100);
+            var quality = QualityType.Common;
+
+            if (qualityRoll > 95)
+                quality = QualityType.Legendary;
+            else if (qualityRoll > 70)
+                quality = QualityType.Rare;
+            else if (qualityRoll > 40)
+                quality = QualityType.Uncommon;
+
+            var dropTypeRoll = Globals.RNG.Next(0, 4);
+
+            ShipComponentType? dropType = dropTypeRoll switch
+            {
+                0 => null,
+                1 => ShipComponentType.Engine,
+                2 => ShipComponentType.Shield,
+                3 => ShipComponentType.Armour,
+                _ => throw new NotImplementedException(),
+            };
+
+            var classTypeRoll = Globals.RNG.Next(0, 3);
+
+            var classType = classTypeRoll switch
+            {
+                0 => ClassType.Small,
+                1 => ClassType.Medium,
+                2 => ClassType.Large,
+                _ => throw new NotImplementedException(),
+            };
+
+            var inventoryItem = new InventoryItem()
+            {
+                Username = username,
+                ComponentType = dropType,
+                Seed = Guid.NewGuid().ToString(),
+                Quality = quality,
+                ClassType = dropType.HasValue ? null : classType,
+            };
+
+            using var command = GameServer.NetworkServer.Database.Connection.CreateCommand();
+            inventoryItem.Insert(command);
+            inventory.Items.Add(inventoryItem);
+
+            var dropTypeText = dropType.HasValue ? dropType.Value.ToString() : "Weapon";
+
+            EntityUtility.SetNeedsTempNetworkSync<Inventory>(player.Ship);
+            GameServer.NetworkServer.SendSystemMessage(player, $"Looted a {quality} {dropTypeText}.");
+
+        } // CheckLootDrop
 
     } // ServerWorldManager
 }

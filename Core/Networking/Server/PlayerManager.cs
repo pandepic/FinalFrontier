@@ -1,5 +1,7 @@
 ﻿using ElementEngine.ECS;
+using FinalFrontier.Components;
 using FinalFrontier.Database.Tables;
+using FinalFrontier.Networking.Packets;
 using LiteNetLib;
 using System;
 using System.Collections.Generic;
@@ -20,10 +22,12 @@ namespace FinalFrontier.Networking.Server
 
     public class PlayerManager
     {
+        public NetworkServer NetworkServer;
         public List<Player> Players = new List<Player>();
 
-        public PlayerManager()
+        public PlayerManager(NetworkServer networkServer)
         {
+            NetworkServer = networkServer;
         }
 
         public void AddPlayer(NetPeer peer)
@@ -53,6 +57,31 @@ namespace FinalFrontier.Networking.Server
             var index = Players.FindIndex((p) => p.User != null && p.User.Username == username);
             return index == -1 ? null : Players[index];
         }
+
+        public void GiveExpMoney(string username, int exp, int money)
+        {
+            var player = GetPlayer(username);
+
+            if (player == null || !player.IsPlaying || !player.Ship.IsAlive)
+                return;
+
+            ref var playerShip = ref player.Ship.GetComponent<PlayerShip>();
+
+            playerShip.Money += money;
+            playerShip.Exp += exp;
+            playerShip.CheckRankUp();
+            EntityUtility.SetNeedsTempNetworkSync<PlayerShip>(player.Ship);
+
+            player.User.Money = (uint)playerShip.Money;
+            player.User.Exp = (uint)playerShip.Exp;
+            player.User.Rank = playerShip.Rank;
+
+            using var command = NetworkServer.Database.Connection.CreateCommand();
+            player.User.Update(command);
+
+            NetworkServer.SendSystemMessage(player, $"Gained {exp} exp and {money} credits.");
+
+        } // GiveExpMoney
 
     } // PlayerManager
 }

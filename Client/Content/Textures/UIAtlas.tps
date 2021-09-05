@@ -566,8 +566,69 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../../../Assets/UI/Game UI/links_panel.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>109,11,217,22</rect>
+                <key>scale9Paddings</key>
+                <rect>109,11,217,22</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Assets/UI/Game UI/main_action_bar.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>207,24,415,47</rect>
+                <key>scale9Paddings</key>
+                <rect>207,24,415,47</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Assets/UI/Inventory/inv_tab_h.png</key>
+            <key type="filename">../../../Assets/UI/Inventory/inv_tab_p.png</key>
+            <key type="filename">../../../Assets/UI/Inventory/inv_tab_s.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>25,7,51,13</rect>
+                <key>scale9Paddings</key>
+                <rect>25,7,51,13</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Assets/UI/Inventory/inv_tab_n.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>25,7,49,13</rect>
+                <key>scale9Paddings</key>
+                <rect>25,7,49,13</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../../../Assets/UI/Inventory/inventory_box_merge1.png</key>
-            <key type="filename">../../../Assets/UI/Inventory/inventory_box_merge4.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -794,12 +855,17 @@
             <filename>../../../Assets/UI/12 Options/button_normal_p.png</filename>
             <filename>../../../Assets/UI/12 Options/options_box_merge2.png</filename>
             <filename>../../../Assets/UI/12 Options/General UI Elements/heading_holo.png</filename>
-            <filename>../../../Assets/UI/Inventory/inventory_box_merge1.png</filename>
-            <filename>../../../Assets/UI/Inventory/inventory_box_merge4.png</filename>
             <filename>../../../Assets/UI/Inventory/money_icon.png</filename>
             <filename>../../../Assets/UI/Chat/chat_bubble_symbol.png</filename>
             <filename>../../../Assets/UI/Chat/text_container.png</filename>
             <filename>../../../Assets/UI/Chat/type_box.png</filename>
+            <filename>../../../Assets/UI/Game UI/main_action_bar.png</filename>
+            <filename>../../../Assets/UI/Game UI/links_panel.png</filename>
+            <filename>../../../Assets/UI/Inventory/inventory_box_merge1.png</filename>
+            <filename>../../../Assets/UI/Inventory/inv_tab_h.png</filename>
+            <filename>../../../Assets/UI/Inventory/inv_tab_n.png</filename>
+            <filename>../../../Assets/UI/Inventory/inv_tab_p.png</filename>
+            <filename>../../../Assets/UI/Inventory/inv_tab_s.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

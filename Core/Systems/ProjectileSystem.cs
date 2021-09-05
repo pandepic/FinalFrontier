@@ -80,18 +80,8 @@ namespace FinalFrontier
                                     ref var loot = ref enemyEntity.GetComponent<Loot>();
                                     ref var playerShip = ref projectileShip.GetComponent<PlayerShip>();
 
-                                    playerShip.Money += loot.Bounty;
-                                    playerShip.Exp += loot.Exp;
-                                    playerShip.CheckRankUp();
-                                    EntityUtility.SetNeedsTempNetworkSync<PlayerShip>(projectileShip);
-
-                                    var player = gameServer.NetworkServer.PlayerManager.GetPlayer(playerShip.Username);
-                                    player.User.Money = (uint)playerShip.Money;
-                                    player.User.Exp = (uint)playerShip.Exp;
-                                    player.User.Rank = playerShip.Rank;
-
-                                    using var command = gameServer.NetworkServer.Database.Connection.CreateCommand();
-                                    player.User.Update(command);
+                                    gameServer.NetworkServer.PlayerManager.GiveExpMoney(playerShip.Username, loot.Bounty, loot.Exp);
+                                    gameServer.ServerWorldManager.CheckLootDrop(playerShip.Username);
                                 }
                             }
                             else

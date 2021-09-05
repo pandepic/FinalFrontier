@@ -33,6 +33,7 @@
     <Setting Name="LockCamera" Value="Space" Type="Keyboard" />
     <Setting Name="Cancel" Value="Escape" Type="Keyboard" />
     <Setting Name="SendChatMessage" Value="Enter" Type="Keyboard" />
+    <Setting Name="OpenInventory" Value="I" Type="Keyboard" />
 
   </Section>
 </Settings>

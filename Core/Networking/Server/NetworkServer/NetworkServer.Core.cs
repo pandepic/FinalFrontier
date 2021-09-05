@@ -2,6 +2,7 @@
 using ElementEngine.ECS;
 using FinalFrontier.Components;
 using FinalFrontier.Database.Tables;
+using FinalFrontier.GameData;
 using FinalFrontier.Networking;
 using FinalFrontier.Networking.Packets;
 using FinalFrontier.Networking.Server;
@@ -31,7 +32,7 @@ namespace FinalFrontier.Networking
         public double WorldTime = 10000000;
 
         public Database Database;
-        public PlayerManager PlayerManager = new PlayerManager();
+        public PlayerManager PlayerManager;
 
         public void Dispose()
         {
@@ -42,6 +43,7 @@ namespace FinalFrontier.Networking
         public NetworkServer(GameServer gameServer)
         {
             GameServer = gameServer;
+            PlayerManager = new PlayerManager(this);
         }
 
         public void Load()
@@ -266,8 +268,147 @@ namespace FinalFrontier.Networking
                         SendPacketToPlaying(packet);
                     }
                     break;
+
+                case NetworkPacketDataType.EquipComponent:
+                    {
+                        var auth = CheckAuth(reader, out var username, out var authToken, out var player);
+
+                        if (!auth)
+                        {
+                            LogAuthFailed(type, username, authToken);
+                            return;
+                        }
+
+                        EquipComponentRequest.Read(reader, out var componentType, out var seed);
+
+                        ref var inventory = ref player.Ship.GetComponent<Inventory>();
+                        ref var ship = ref player.Ship.GetComponent<Ship>();
+
+                        var itemIndex = inventory.Items.FindIndex((item) => item.Seed == seed);
+
+                        if (itemIndex == -1)
+                            return;
+
+                        var shipData = GameDataManager.Ships[ship.ShipType];
+                        var replacing = ship.ShipComponentData[componentType];
+
+                        using var command = Database.Connection.CreateCommand();
+                        var item = inventory.Items[itemIndex];
+                        item.Remove(command);
+                        inventory.Items.RemoveAt(itemIndex);
+
+                        var newItem = new InventoryItem()
+                        {
+                            Username = item.Username,
+                            ComponentType = componentType,
+                            Seed = replacing.Seed,
+                            Quality = replacing.Quality,
+                            ClassType = null,
+                        };
+
+                        newItem.Insert(command);
+                        inventory.Items.Add(newItem);
+
+                        var componentSlotData =  new ShipComponentSlotData()
+                        {
+                            Slot = componentType,
+                            Seed = item.Seed,
+                            Quality = item.Quality,
+                        };
+
+                        if (componentType == ShipComponentType.Engine)
+                            componentSlotData.ComponentData = new ShipEngineData(componentSlotData);
+
+                        ship.ShipComponentData[componentType] = componentSlotData;
+
+                        switch (componentType)
+                        {
+                            case ShipComponentType.Shield:
+                                {
+                                    var shield = new Shield(shipData, ref ship);
+                                    player.Ship.TryAddComponent(shield);
+                                    EntityUtility.SetNeedsTempNetworkSync<Shield>(player.Ship);
+                                }
+                                break;
+
+                            case ShipComponentType.Armour:
+                                {
+                                    var armour = new Armour(shipData, ref ship);
+                                    player.Ship.TryAddComponent(armour);
+                                    EntityUtility.SetNeedsTempNetworkSync<Armour>(player.Ship);
+                                }
+                                break;
+                        }
+
+                        EntityUtility.SetNeedsTempNetworkSync<Ship>(player.Ship);
+                        EntityUtility.SetNeedsTempNetworkSync<Inventory>(player.Ship);
+                    }
+                    break;
+
+                case NetworkPacketDataType.EquipWeapon:
+                    {
+                        var auth = CheckAuth(reader, out var username, out var authToken, out var player);
+
+                        if (!auth)
+                        {
+                            LogAuthFailed(type, username, authToken);
+                            return;
+                        }
+
+                        EquipWeaponRequest.Read(reader, out var slot, out var seed);
+
+                        ref var inventory = ref player.Ship.GetComponent<Inventory>();
+                        ref var ship = ref player.Ship.GetComponent<Ship>();
+                        ref var drawable = ref player.Ship.GetComponent<Drawable>();
+
+                        var itemIndex = inventory.Items.FindIndex((item) => item.Seed == seed);
+
+                        if (itemIndex == -1)
+                            return;
+
+                        var shipData = GameDataManager.Ships[ship.ShipType];
+                        var replacing = ship.ShipWeaponData[slot];
+
+                        using var command = Database.Connection.CreateCommand();
+                        var item = inventory.Items[itemIndex];
+                        item.Remove(command);
+                        inventory.Items.RemoveAt(itemIndex);
+
+                        var newItem = new InventoryItem()
+                        {
+                            Username = item.Username,
+                            ComponentType = null,
+                            Seed = replacing.Seed,
+                            Quality = replacing.Quality,
+                            ClassType = shipData.Turrets[slot].Class,
+                        };
+
+                        newItem.Insert(command);
+                        inventory.Items.Add(newItem);
+
+                        ship.ShipWeaponData[slot] = new ShipWeaponSlotData()
+                        {
+                            Slot = slot,
+                            Seed = item.Seed,
+                            Quality = item.Quality,
+                        };
+
+                        GameServer.ServerWorldManager.DestroyEntity(NextPacket, ship.Turrets[slot]);
+                        ship.Turrets[slot] = TurretPrefabs.ShipTurret(GameServer, player.Ship, drawable.Layer + 1, ship.ShipWeaponData[slot], shipData);
+
+                        EntityUtility.SetNeedsTempNetworkSync<Ship>(player.Ship);
+                        EntityUtility.SetNeedsTempNetworkSync<Inventory>(player.Ship);
+                    }
+                    break;
             }
         } // HandlePacketData
+
+        public void SendSystemMessage(Player player, string message)
+        {
+            using var packet = new NetworkPacket();
+            ChatMessageReply.Write(packet, "System: " + message);
+            packet.Send(player.Peer);
+        }
 
         public bool CheckAuth(BinaryReader reader, out string username, out string authToken, out Player player)
         {

@@ -68,6 +68,9 @@ namespace FinalFrontier.Networking
             command.CommandText = UserShipComponent.CreateTable();
             command.ExecuteNonQuery();
 
+            command.CommandText = InventoryItem.CreateTable();
+            command.ExecuteNonQuery();
+
             var testUser = new User()
             {
                 Username = "Pandepic",

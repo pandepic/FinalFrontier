@@ -1,4 +1,5 @@
 ﻿using ElementEngine.ECS;
+using FinalFrontier.GameData;
 using FinalFrontier.Networking;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,20 @@ namespace FinalFrontier.Components
         public float BaseValue;
         public float CurrentValue;
         public float RechargeRate;
+
+        public Shield(ShipData shipData, ref Ship ship)
+        {
+            BaseValue = shipData.BaseShield;
+            CurrentValue = shipData.BaseShield;
+            RechargeRate = shipData.BaseShieldRegen;
+
+            if (ship.ShipComponentData.TryGetValue(ShipComponentType.Shield, out var shield))
+            {
+                var shieldData = new ShipShieldData(shield);
+                BaseValue *= shieldData.ShieldBonus;
+                RechargeRate += shieldData.RechargeBonus;
+            }
+        }
 
         public static void WriteSync(NetworkPacket packet, Entity entity)
         {

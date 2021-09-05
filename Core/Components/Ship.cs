@@ -34,6 +34,7 @@ namespace FinalFrontier.Components
         public float TargetRotation;
         public Dictionary<ShipComponentType, ShipComponentSlotData> ShipComponentData;
         public Dictionary<int, ShipWeaponSlotData> ShipWeaponData;
+        public Dictionary<int, Entity> Turrets;
 
         public static void WriteSync(NetworkPacket packet, Entity entity)
         {

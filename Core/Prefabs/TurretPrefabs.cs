@@ -45,6 +45,13 @@ namespace FinalFrontier
                 WeaponData = shipWeaponData,
             });
 
+            ref var ship = ref parent.GetComponent<Ship>();
+
+            if (ship.Turrets.ContainsKey(slotData.Slot))
+                ship.Turrets.Remove(slotData.Slot);
+
+            ship.Turrets.Add(slotData.Slot, turret);
+
             EntityUtility.SetNeedsTempNetworkSync<Transform>(turret);
             EntityUtility.SetNeedsTempNetworkSync<Drawable>(turret);
 

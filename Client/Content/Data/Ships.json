@@ -461,9 +461,9 @@
     "HasHangar": false,
     "BaseMoveSpeed": 600.0,
     "BaseTurnSpeed": 200.0,
-    "BaseShield": 600.0,
-    "BaseArmour": 400.0,
-    "BaseShieldRegen": 2.0,
+    "BaseShield": 300.0,
+    "BaseArmour": 250.0,
+    "BaseShieldRegen": 1.0,
     "Turrets": [
       {
         "Class": 0,
@@ -487,8 +487,8 @@
     "HasHangar": false,
     "BaseMoveSpeed": 450.0,
     "BaseTurnSpeed": 150.0,
-    "BaseShield": 1500.0,
-    "BaseArmour": 750.0,
+    "BaseShield": 1800.0,
+    "BaseArmour": 900.0,
     "BaseShieldRegen": 5.0,
     "Turrets": [
       {

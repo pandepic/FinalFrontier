@@ -61,5 +61,19 @@ namespace FinalFrontier.Networking
             SendPacket(packet);
         }
 
+        public static void EquipComponent(ShipComponentType type, string seed)
+        {
+            using var packet = new NetworkPacket();
+            EquipComponentRequest.Write(packet, type, seed);
+            SendPacket(packet);
+        }
+
+        public static void EquipWeapon(int slot, string seed)
+        {
+            using var packet = new NetworkPacket();
+            EquipWeaponRequest.Write(packet, slot, seed);
+            SendPacket(packet);
+        }
+
     } // ClientPackets
 }

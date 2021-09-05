@@ -87,6 +87,7 @@ namespace FinalFrontier
                 TurnSpeed = shipData.BaseTurnSpeed,
                 ShipComponentData = new Dictionary<ShipComponentType, ShipComponentSlotData>(),
                 ShipWeaponData = new Dictionary<int, ShipWeaponSlotData>(),
+                Turrets = new Dictionary<int, Entity>(),
             };
 
             foreach (var component in components)
@@ -108,6 +109,20 @@ namespace FinalFrontier
                 shipComponent.ShipComponentData.Add(component.Slot, componentSlotData);
             }
 
+            foreach (var weapon in weapons)
+            {
+                var slotData = new ShipWeaponSlotData()
+                {
+                    Slot = weapon.Slot,
+                    Seed = weapon.Seed,
+                    Quality = weapon.Quality,
+                };
+
+                shipComponent.ShipWeaponData.Add(weapon.Slot, slotData);
+            }
+
+            ship.TryAddComponent(shipComponent);
+
             var turretLayer = layer + 1;
 
             foreach (var weapon in weapons)
@@ -119,12 +134,9 @@ namespace FinalFrontier
                     Quality = weapon.Quality,
                 };
 
-                shipComponent.ShipWeaponData.Add(weapon.Slot, slotData);
                 TurretPrefabs.ShipTurret(gameServer, ship, turretLayer, slotData, shipData);
                 turretLayer += 1;
             }
-
-            ship.TryAddComponent(shipComponent);
 
             ship.TryAddComponent(new ShipEngine()
             {
@@ -135,18 +147,8 @@ namespace FinalFrontier
                 WarpIsActive = false,
             });
 
-            ship.TryAddComponent(new Shield()
-            {
-                BaseValue = shipData.BaseShield,
-                CurrentValue = shipData.BaseShield,
-                RechargeRate = shipData.BaseShieldRegen,
-            });
-
-            ship.TryAddComponent(new Armour()
-            {
-                BaseValue = shipData.BaseArmour,
-                CurrentValue = shipData.BaseArmour,
-            });
+            ship.TryAddComponent(new Shield(shipData, ref shipComponent));
+            ship.TryAddComponent(new Armour(shipData, ref shipComponent));
 
             EntityUtility.SetNeedsTempNetworkSync<Transform>(ship);
             EntityUtility.SetNeedsTempNetworkSync<Drawable>(ship);
@@ -197,9 +199,19 @@ namespace FinalFrontier
 
             ship.TryAddComponent(new Human());
 
+            using var command = gameServer.NetworkServer.Database.Connection.CreateCommand();
+
+            var inventory = new Inventory()
+            {
+                Items = InventoryItem.GetItems(command, player.User.Username),
+            };
+
+            ship.TryAddComponent(inventory);
+
             EntityUtility.SetNeedsTempNetworkSync<PlayerShip>(ship);
             EntityUtility.SetNeedsTempNetworkSync<WorldSpaceLabel>(ship);
             EntityUtility.SetNeedsTempNetworkSync<WorldIcon>(ship);
+            EntityUtility.SetNeedsTempNetworkSync<Inventory>(ship);
 
             return ship;
 

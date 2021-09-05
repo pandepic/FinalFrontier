@@ -1,4 +1,5 @@
 ﻿using ElementEngine.ECS;
+using FinalFrontier.GameData;
 using FinalFrontier.Networking;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,18 @@ namespace FinalFrontier.Components
     {
         public float BaseValue;
         public float CurrentValue;
+
+        public Armour(ShipData shipData, ref Ship ship)
+        {
+            BaseValue = shipData.BaseShield;
+            CurrentValue = shipData.BaseShield;
+
+            if (ship.ShipComponentData.TryGetValue(ShipComponentType.Armour, out var armour))
+            {
+                var armourData = new ShipArmourData(armour);
+                BaseValue *= armourData.ArmourBonus;
+            }
+        }
 
         public static void WriteSync(NetworkPacket packet, Entity entity)
         {

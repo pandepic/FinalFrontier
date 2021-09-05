@@ -69,6 +69,7 @@ namespace FinalFrontier.Networking
             RegisterTempSyncType<WorldSpaceLabel>(NetworkPacketDataType.SyncWorldSpaceLabel, WorldSpaceLabel.WriteSync, WorldSpaceLabel.ReadSync);
             RegisterTempSyncType<Shield>(NetworkPacketDataType.SyncShield, Shield.WriteSync, Shield.ReadSync);
             RegisterTempSyncType<Armour>(NetworkPacketDataType.SyncArmour, Armour.WriteSync, Armour.ReadSync);
+            RegisterTempSyncType<Inventory>(NetworkPacketDataType.SyncInventory, Inventory.WriteSync, Inventory.ReadSync);
 
             RegisterEveryFrameSyncGroup<Transform>(NetworkPacketDataType.SyncTransform, Transform.WriteSync, Transform.ReadSync);
         }

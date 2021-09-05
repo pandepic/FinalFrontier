@@ -13,18 +13,18 @@ namespace FinalFrontier.GameData
     {
         public static Dictionary<QualityType, (int Min, int Max)> DamageRanges = new Dictionary<QualityType, (int Min, int Max)>()
         {
-            { QualityType.Common, (40, 100) },
-            { QualityType.Uncommon, (100, 150) },
-            { QualityType.Rare, (150, 200) },
-            { QualityType.Legendary, (200, 300) },
+            { QualityType.Common, (60, 150) },
+            { QualityType.Uncommon, (150, 225) },
+            { QualityType.Rare, (225, 300) },
+            { QualityType.Legendary, (300, 450) },
         };
 
         public static Dictionary<QualityType, (int Min, int Max)> DPSRanges = new Dictionary<QualityType, (int Min, int Max)>()
         {
-            { QualityType.Common, (100, 200) },
-            { QualityType.Uncommon, (150, 300) },
-            { QualityType.Rare, (200, 400) },
-            { QualityType.Legendary, (300, 600) },
+            { QualityType.Common, (150, 300) },
+            { QualityType.Uncommon, (225, 450) },
+            { QualityType.Rare, (300, 600) },
+            { QualityType.Legendary, (450, 900) },
         };
 
         public static Dictionary<ClassType, float> DamageMultipliers = new Dictionary<ClassType, float>()

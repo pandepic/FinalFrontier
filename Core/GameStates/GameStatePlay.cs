@@ -207,6 +207,20 @@ namespace FinalFrontier
                     }
                     break;
 
+                case "OpenInventory":
+                    {
+                        var inventoryContainer = UIScreen.FindChildByName<UIContainer>("InventoryContainer", true);
+
+                        if (inventoryContainer != null)
+                        {
+                            if (!inventoryContainer.IsVisible)
+                                inventoryContainer.ShowEnable();
+                            else
+                                inventoryContainer.HideDisable();
+                        }
+                    }
+                    break;
+
                 case "DragCamera":
                     {
                         if (state == GameControlState.Pressed)
