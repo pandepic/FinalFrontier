@@ -207,10 +207,15 @@ namespace FinalFrontier
             var mousePosition = InputManager.MousePosition;
             var mouseWorldPosition = Camera.ScreenToWorld(mousePosition);
 
+            var textbox = UIScreen.FindChildByName<UITextbox>("ChatTextbox", true);
+
             switch (controlName)
             {
                 case "BuyShip":
                     {
+                        if (textbox != null && textbox.IsFocused)
+                            return;
+
                         var buyShipContainer = UIScreen.FindChildByName<UIContainer>("BuyShipContainer", true);
 
                         if (buyShipContainer != null)
@@ -240,6 +245,9 @@ namespace FinalFrontier
 
                 case "OpenInventory":
                     {
+                        if (textbox != null && textbox.IsFocused)
+                            return;
+
                         var inventoryContainer = UIScreen.FindChildByName<UIContainer>("InventoryContainer", true);
 
                         if (inventoryContainer != null)

@@ -354,6 +354,17 @@ namespace FinalFrontier.Networking
                                 break;
                         }
 
+                        foreach (var component in player.UserShip.Components)
+                        {
+                            if (component.Slot == componentType)
+                            {
+                                component.Seed = item.Seed;
+                                component.Quality = item.Quality;
+                            }
+                        }
+
+                        player.UserShip.Update(command);
+
                         EntityUtility.SetNeedsTempNetworkSync<Ship>(player.Ship);
                         EntityUtility.SetNeedsTempNetworkSync<Inventory>(player.Ship);
                     }
@@ -409,6 +420,17 @@ namespace FinalFrontier.Networking
 
                         GameServer.ServerWorldManager.DestroyEntity(NextPacket, ship.Turrets[slot]);
                         ship.Turrets[slot] = TurretPrefabs.ShipTurret(GameServer, player.Ship, drawable.Layer + 1, ship.ShipWeaponData[slot], shipData);
+
+                        foreach (var weapon in player.UserShip.Weapons)
+                        {
+                            if (weapon.Slot == slot)
+                            {
+                                weapon.Seed = item.Seed;
+                                weapon.Quality = item.Quality;
+                            }
+                        }
+
+                        player.UserShip.Update(command);
 
                         EntityUtility.SetNeedsTempNetworkSync<Ship>(player.Ship);
                         EntityUtility.SetNeedsTempNetworkSync<Inventory>(player.Ship);

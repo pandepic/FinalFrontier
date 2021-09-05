@@ -292,6 +292,7 @@ namespace FinalFrontier
             ref var homeWorldTransform = ref homeWorld.GetComponent<Transform>();
             homeWorldTransform.Position = EntityUtility.GetOrbitPosition(homeWorld, gameServer.NetworkServer.WorldTime);
 
+            player.UserShip = activeShip;
             player.Ship = ShipPrefabs.PlayerShip(gameServer, player, activeShip, homeWorldTransform.TransformedPosition, homeWorldTransform.TransformedSectorPosition);
 
             //for (var i = 0; i < 100; i++)
@@ -308,7 +309,7 @@ namespace FinalFrontier
 
             ref var inventory = ref player.Ship.GetComponent<Inventory>();
 
-            if (Globals.RNG.Next(0, 100) > 20)
+            if (Globals.RNG.Next(0, 100) > 40)
                 return;
 
             if (inventory.Items.Count >= 25)

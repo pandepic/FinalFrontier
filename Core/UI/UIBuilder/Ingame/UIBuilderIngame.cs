@@ -64,7 +64,7 @@ namespace FinalFrontier
             {
                 UIPosition = new UIPosition() { Position = new Vector2I(0) },
                 Margins = new UISpacing(0, 5),
-                WordWrapWidth = 450,
+                WordWrapWidth = 400,
             };
 
             var chatContainerStyle = new UIContainerStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("text_container.png")), fullDraggableRect: true);
@@ -92,7 +92,7 @@ namespace FinalFrontier
             {
                 UISize = new UISize() { Size = new Vector2I(447, 140) },
                 UIPosition = new UIPosition() { Position = new Vector2I(2, 2) },
-                Padding = new UISpacing(5),
+                Padding = new UISpacing(15, 5),
                 OverflowType = OverflowType.Scroll,
             };
 

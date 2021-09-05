@@ -19,6 +19,7 @@ namespace FinalFrontier.Networking.Server
         public bool IsLoggedIn;
         public bool IsPlaying;
         public int RespawnTicks;
+        public UserShip UserShip;
     }
 
     public class PlayerManager
@@ -69,7 +70,7 @@ namespace FinalFrontier.Networking.Server
             ref var playerShip = ref player.Ship.GetComponent<PlayerShip>();
 
             playerShip.Money += money;
-            playerShip.Exp += exp;
+            playerShip.Exp += (int)(exp * 1.25f);
             playerShip.CheckRankUp();
             EntityUtility.SetNeedsTempNetworkSync<PlayerShip>(player.Ship);
 
