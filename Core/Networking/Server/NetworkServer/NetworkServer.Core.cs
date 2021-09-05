@@ -475,9 +475,16 @@ namespace FinalFrontier.Networking
                         var buyShipData = GameDataManager.Ships[shipName];
 
                         if ((int)buyShipData.RequiredRank > (int)player.User.Rank)
+                        {
+                            SendSystemMessage(player, "Your rank is too low to buy this ship.");
                             return;
+                        }
+
                         if (buyShipData.Cost > player.User.Money)
+                        {
+                            SendSystemMessage(player, "Not enough credits to buy this ship.");
                             return;
+                        }
 
                         PlayerManager.SpendMoney(username, buyShipData.Cost);
 
