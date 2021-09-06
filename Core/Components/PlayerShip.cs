@@ -50,6 +50,8 @@ namespace FinalFrontier.Components
             {
                 ClientGlobals.PlayerShip = entity;
                 UIBuilderIngame.UpdateBuyShip();
+                UIBuilderIngame.UpdateCredits(player.Money);
+                UIBuilderIngame.UpdateTopbarLabel();
 
                 if (entity.HasComponent<WorldIcon>())
                 {

@@ -24,6 +24,9 @@ namespace FinalFrontier
         public static UIContainer BuyShipContainer;
         public static UIContainer InnerBuyShipContainer;
 
+        public static string ArmourValue = "";
+        public static string ShieldValue = "";
+
         public static List<(string Name, ShipComponentType? ComponentType)> InventoryGroups = new List<(string Name, ShipComponentType? ComponentType)>()
         {
             ("Weapons", null),
@@ -50,13 +53,114 @@ namespace FinalFrontier
                 play.GameClient.Quit();
             };
 
+            BuildPlayerFrame(screen);
             BuildChat(screen);
             BuildInventory(screen);
             BuildBuyShip(screen);
 
+            var topBarContainerStyle = new UIContainerStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("links_panel.png")));
+            var topBarContainer = new UIContainer("TopbarContainer", topBarContainerStyle);
+            topBarContainer.CenterX = true;
+
+            var topBarLabelStyle = new UILabelStyle(UITheme.BaseLabelStyle);
+            topBarLabelStyle.FontSize = 18;
+            var topBarLabel = new UILabel("TopbarLabel", topBarLabelStyle, "");
+            topBarLabel.Center();
+            topBarContainer.AddChild(topBarLabel);
+
+            screen.AddChild(topBarContainer);
+
             return screen;
 
         } // Build
+
+        public static void BuildPlayerFrame(UIScreen screen)
+        {
+            var playerFrameStyle = new UIContainerStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("player_frame_base.png")), fullDraggableRect: true);
+            var playerFrameContainer = new UIContainer("TopbarContainer", playerFrameStyle);
+            playerFrameContainer.SetPosition(25, 25);
+
+            var statusLabelStyle = new UILabelStyle(UITheme.BaseLabelStyle);
+            statusLabelStyle.FontSize = 16;
+
+            var playerShieldBarStyle = new UIProgressbarStyleH(
+                new UIImageStyle(new UISpriteColor(RgbaByte.Clear)),
+                new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("player_resource_fill_blue.png"))))
+            {
+                UISize = new UISize() { Size = new Vector2I(206, 14) },
+            };
+
+            var playerShieldBar = new UIProgressbarH("ShieldProgressBar", playerShieldBarStyle, 0, 100, 100);
+            playerShieldBar.SetPosition(109, 17);
+            var playerShieldBarLabel = new UILabel("ShieldProgressBarLabel", statusLabelStyle, "Shield");
+            playerShieldBarLabel.Center();
+            playerShieldBar.AddChild(playerShieldBarLabel);
+            playerFrameContainer.AddChild(playerShieldBar);
+
+            var playerArmourBarStyle = new UIProgressbarStyleH(
+                new UIImageStyle(new UISpriteColor(RgbaByte.Clear)),
+                new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("player_resource_fill_orange.png"))))
+            {
+                UISize = new UISize() { Size = new Vector2I(206, 14) },
+            };
+
+            var playerArmourBar = new UIProgressbarH("ArmourProgressBar", playerArmourBarStyle, 0, 100, 100);
+            playerArmourBar.SetPosition(109, 37);
+            var playerArmourBarLabel = new UILabel("ArmourProgressBarLabel", statusLabelStyle, "Armour");
+            playerArmourBarLabel.Center();
+            playerArmourBar.AddChild(playerArmourBarLabel);
+            playerFrameContainer.AddChild(playerArmourBar);
+
+            var playerNameLabel = new UILabel("PlayerNameLabel", statusLabelStyle, "");
+            playerNameLabel.X = 15;
+            playerNameLabel.Y = 25;
+            playerFrameContainer.AddChild(playerNameLabel);
+
+            screen.AddChild(playerFrameContainer);
+
+        } // BuildPlayerFrame
+
+        public static void UpdatePlayerFrame()
+        {
+            if (!ClientGlobals.PlayerShip.IsAlive)
+                return;
+
+            var playerNameLabel = UIScreen.FindChildByName<UILabel>("PlayerNameLabel", true);
+            if (playerNameLabel.Text.Length == 0)
+                playerNameLabel.Text = ClientGlobals.Username;
+
+            //ref var playerShip = ref ClientGlobals.PlayerShip.GetComponent<PlayerShip>();
+            ref var shield = ref ClientGlobals.PlayerShip.GetComponent<Shield>();
+
+            var shieldPercentage = (shield.CurrentValue / shield.BaseValue) * 100f;
+            var shieldString = $"{shield.CurrentValue:0} / {shield.BaseValue:0} (+{shield.RechargeRate}/s)";
+
+            if (ShieldValue != shieldString)
+            {
+                ShieldValue = shieldString;
+                var shieldBar = UIScreen.FindChildByName<UIProgressbarH>("ShieldProgressBar", true);
+                var shieldLabel = UIScreen.FindChildByName<UILabel>("ShieldProgressBarLabel", true);
+
+                shieldBar.CurrentValue = (int)shieldPercentage;
+                shieldLabel.Text = $"{shieldString}";
+            }
+
+            ref var armour = ref ClientGlobals.PlayerShip.GetComponent<Armour>();
+
+            var armourPercentage = (armour.CurrentValue / armour.BaseValue) * 100f;
+            var armourString = $"{armour.CurrentValue:0} / {armour.BaseValue:0}";
+
+            if (ArmourValue != armourString)
+            {
+                ArmourValue = armourString;
+                var armourBar = UIScreen.FindChildByName<UIProgressbarH>("ArmourProgressBar", true);
+                var armourLabel = UIScreen.FindChildByName<UILabel>("ArmourProgressBarLabel", true);
+
+                armourBar.CurrentValue = (int)armourPercentage;
+                armourLabel.Text = $"{armourString}";
+            }
+
+        } // UpdatePlayerFrame
 
         public static void BuildChat(UIScreen screen)
         {
@@ -125,6 +229,11 @@ namespace FinalFrontier
             InventoryContainer = new UIContainer("InventoryContainer", inventoryContainerStyle);
             InventoryContainer.Center();
 
+            var title = new UILabel("", UITheme.BaseLabelStyle, "Inventory");
+            title.Y = 15;
+            title.CenterX = true;
+            InventoryContainer.AddChild(title);
+
             var innerInventoryContainerStyle = new UIContainerStyle(new UISpriteColor(RgbaByte.Clear), scrollbarV: UITheme.ContainerScrollbarVStyle)
             {
                 UISize = new UISize() { Size = new Vector2I(502, 403) },
@@ -177,6 +286,16 @@ namespace FinalFrontier
 
             var creditsContainer = new UIContainer("CreditsContainer", inventoryCreditsContainerStyle);
             InventoryContainer.AddChild(creditsContainer);
+
+            var creditsIcon = new UIImage("", new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("money_icon.png"))));
+            creditsIcon.X = 15;
+            creditsIcon.CenterY = true;
+            creditsContainer.AddChild(creditsIcon);
+
+            var creditsLabel = new UILabel("CreditsLabel", UITheme.BaseLabelStyle, "CREDITS");
+            creditsLabel.X = 50;
+            creditsLabel.CenterY = true;
+            creditsContainer.AddChild(creditsLabel);
 
             var closeInventory = new UIButton("CloseInventory", UITheme.BaseCloseButtonStyle);
             closeInventory.IgnoreParentPadding = true;
@@ -379,22 +498,22 @@ namespace FinalFrontier
                     itemContainer.AddChild(equipButton);
                     itemContainer.AddChild(slotDropDown);
 
-                    var sellButton = new UIButton("", UITheme.BaseNormalButtonStyle);
-                    sellButton.SetPosition(370, 25);
-                    var sellLabel = new UILabel("", UITheme.BaseButtonLabelStyle, "Sell");
-                    sellButton.AddChild(sellLabel);
-                    itemContainer.AddChild(sellButton);
-
                     equipButton.OnClick += (args) =>
                     {
                         ClientPacketSender.EquipWeapon(slotDropDown.SelectedItem.Value - 1, seed);
                     };
-
-                    sellButton.OnClick += (args) =>
-                    {
-                        ClientPacketSender.SellItem(seed);
-                    };
                 }
+
+                var sellButton = new UIButton("", UITheme.BaseNormalButtonStyle);
+                sellButton.SetPosition(370, 25);
+                var sellLabel = new UILabel("", UITheme.BaseButtonLabelStyle, "Sell");
+                sellButton.AddChild(sellLabel);
+                itemContainer.AddChild(sellButton);
+
+                sellButton.OnClick += (args) =>
+                {
+                    ClientPacketSender.SellItem(seed);
+                };
             }
 
             groupContainer.AddChild(itemContainer);
@@ -406,6 +525,11 @@ namespace FinalFrontier
             var buyShipContainerStyle = new UIContainerStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("inventory_box_merge1.png")));
             BuyShipContainer = new UIContainer("BuyShipContainer", buyShipContainerStyle);
             BuyShipContainer.Center();
+
+            var title = new UILabel("", UITheme.BaseLabelStyle, "Buy Ship");
+            title.Y = 15;
+            title.CenterX = true;
+            BuyShipContainer.AddChild(title);
 
             var innerBuyShipContainerStyle = new UIContainerStyle(new UISpriteColor(RgbaByte.Clear), scrollbarV: UITheme.ContainerScrollbarVStyle)
             {
@@ -426,6 +550,16 @@ namespace FinalFrontier
 
             var creditsContainer = new UIContainer("CreditsContainer", inventoryCreditsContainerStyle);
             BuyShipContainer.AddChild(creditsContainer);
+
+            var creditsIcon = new UIImage("", new UIImageStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("money_icon.png"))));
+            creditsIcon.X = 15;
+            creditsIcon.CenterY = true;
+            creditsContainer.AddChild(creditsIcon);
+
+            var creditsLabel = new UILabel("CreditsLabel", UITheme.BaseLabelStyle, "CREDITS");
+            creditsLabel.X = 50;
+            creditsLabel.CenterY = true;
+            creditsContainer.AddChild(creditsLabel);
 
             var closeBuyShip = new UIButton("CloseBuyShipContainer", UITheme.BaseCloseButtonStyle);
             closeBuyShip.IgnoreParentPadding = true;
@@ -497,6 +631,33 @@ namespace FinalFrontier
             }
 
         } // UpdateBuyShip
+
+        public static void UpdateTopbarLabel()
+        {
+            var label = UIScreen.FindChildByName<UILabel>("TopbarLabel", true);
+
+            if (label == null)
+                return;
+
+            if (!ClientGlobals.PlayerShip.IsAlive)
+                return;
+
+            ref var playerShip = ref ClientGlobals.PlayerShip.GetComponent<PlayerShip>();
+            var expToNext = "";
+
+            if (playerShip.Rank != RankType.Admiral)
+                expToNext = $"/{PlayerShip.RankExpRequirements[(RankType)((int)playerShip.Rank + 1)]}";
+
+            label.Text = $"Credits: {playerShip.Money}  Exp: {playerShip.Exp}{expToNext} ({playerShip.Rank})";
+        }
+
+        public static void UpdateCredits(int credits)
+        {
+            var labels = UIScreen.FindChildrenByName<UILabel>("CreditsLabel", true);
+
+            foreach (var label in labels)
+                label.Text = credits.ToString();
+        }
 
     } // UIBuilderIngame
 }

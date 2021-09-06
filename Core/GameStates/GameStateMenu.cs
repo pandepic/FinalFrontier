@@ -20,6 +20,7 @@ namespace FinalFrontier
         public CallbackTimer ServerStatusTimer;
 
         private string _prevServerStatus = "";
+        private bool _musicPlaying = false;
 
         public GameStateMenu(GameClient client)
         {
@@ -38,6 +39,12 @@ namespace FinalFrontier
 
             ServerStatusTimer = TimerManager.AddTimer(new CallbackTimer(5, true, ServerStatusTimer_Tick));
             ServerStatusTimer.Start();
+
+            if (!_musicPlaying)
+            {
+                SoundManager.Play(AssetManager.LoadAudioSourceByExtension("Audio/Bold - Full.ogg"), (int)AudioType.Music, true);
+                _musicPlaying = true;
+            }
         }
 
         public override void Unload()

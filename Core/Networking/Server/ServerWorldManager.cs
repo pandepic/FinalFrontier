@@ -295,9 +295,6 @@ namespace FinalFrontier
             player.UserShip = activeShip;
             player.Ship = ShipPrefabs.PlayerShip(gameServer, player, activeShip, homeWorldTransform.TransformedPosition, homeWorldTransform.TransformedSectorPosition);
 
-            //for (var i = 0; i < 100; i++)
-            //    CheckLootDrop(player.User.Username);
-
         } // SpawnPlayerShip
 
         public void CheckLootDrop(string username)

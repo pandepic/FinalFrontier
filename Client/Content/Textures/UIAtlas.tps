@@ -596,6 +596,37 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../../../Assets/UI/Game UI/player_frame_base.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>83,19,167,39</rect>
+                <key>scale9Paddings</key>
+                <rect>83,19,167,39</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Assets/UI/Game UI/player_resource_fill_blue.png</key>
+            <key type="filename">../../../Assets/UI/Game UI/player_resource_fill_orange.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>51,3,103,7</rect>
+                <key>scale9Paddings</key>
+                <rect>51,3,103,7</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../../../Assets/UI/Inventory/inv_tab_h.png</key>
             <key type="filename">../../../Assets/UI/Inventory/inv_tab_p.png</key>
             <key type="filename">../../../Assets/UI/Inventory/inv_tab_s.png</key>
@@ -866,6 +897,9 @@
             <filename>../../../Assets/UI/Inventory/inv_tab_n.png</filename>
             <filename>../../../Assets/UI/Inventory/inv_tab_p.png</filename>
             <filename>../../../Assets/UI/Inventory/inv_tab_s.png</filename>
+            <filename>../../../Assets/UI/Game UI/player_frame_base.png</filename>
+            <filename>../../../Assets/UI/Game UI/player_resource_fill_blue.png</filename>
+            <filename>../../../Assets/UI/Game UI/player_resource_fill_orange.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

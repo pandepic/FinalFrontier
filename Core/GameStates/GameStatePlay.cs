@@ -113,6 +113,7 @@ namespace FinalFrontier
                 OrbitSystem.Run(GameClient.GalaxyGenerator, Camera, CameraSector, GameClient.WorldTime, _visibleSectors);
 
             GameClient.Registry.SystemsFinished();
+            UIBuilderIngame.UpdatePlayerFrame();
         }
 
         public override void Draw(GameTimer gameTimer)
@@ -130,7 +131,7 @@ namespace FinalFrontier
             DrawableSystem.RunWorldSpaceLabels(SpriteBatch, Camera, CameraSector, _defaultFont);
             UIScreen.Draw(SpriteBatch);
             //DrawDebug();
-            DrawInfo();
+            //DrawInfo();
             SpriteBatch.End();
         }
 
@@ -279,7 +280,11 @@ namespace FinalFrontier
                     break;
 
                 case "LockCamera":
+                    if (state == GameControlState.Released)
                     {
+                        if (textbox != null && textbox.IsFocused)
+                            return;
+
                         _dragging = false;
                         _cameraLocked = true;
                     }
