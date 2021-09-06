@@ -339,7 +339,9 @@ namespace FinalFrontier.Networking
                         {
                             case ShipComponentType.Shield:
                                 {
+                                    ref var prevShield = ref player.Ship.GetComponent<Shield>();
                                     var shield = new Shield(shipData, ref ship);
+                                    shield.CurrentValue = Math.Min(shield.BaseValue, prevShield.CurrentValue);
                                     player.Ship.TryAddComponent(shield);
                                     EntityUtility.SetNeedsTempNetworkSync<Shield>(player.Ship);
                                 }
@@ -347,7 +349,9 @@ namespace FinalFrontier.Networking
 
                             case ShipComponentType.Armour:
                                 {
+                                    ref var prevArmour = ref player.Ship.GetComponent<Armour>();
                                     var armour = new Armour(shipData, ref ship);
+                                    armour.CurrentValue = Math.Min(armour.BaseValue, prevArmour.CurrentValue);
                                     player.Ship.TryAddComponent(armour);
                                     EntityUtility.SetNeedsTempNetworkSync<Armour>(player.Ship);
                                 }
