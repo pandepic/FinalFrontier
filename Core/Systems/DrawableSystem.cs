@@ -60,7 +60,7 @@ namespace FinalFrontier
                 AddOrbitalBodiesToDrawList(sectorData.Planets, zoomLevel, entities);
 
                 if (zoomLevel <= Globals.MAX_ZOOM_MOON)
-                    AddOrbitalBodiesToDrawList(sectorData.Planets, zoomLevel, entities);
+                    AddOrbitalBodiesToDrawList(sectorData.Moons, zoomLevel, entities);
                 if (zoomLevel <= Globals.MAX_ZOOM_ASTEROID)
                     AddOrbitalBodiesToDrawList(sectorData.Asteroids, zoomLevel, entities);
 
