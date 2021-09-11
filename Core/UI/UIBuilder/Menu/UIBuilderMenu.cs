@@ -26,7 +26,7 @@ namespace FinalFrontier
             screen.AddChild(title);
 
             BuildLoginContainer(screen, menu);
-            UIBuilderMenuSettings.Build(screen, menu);
+            UIBuilderMenuSettings.Build(screen);
 
             var menuButtonContainerStyle = new UIContainerStyle(UITheme.ClearInnerContainerStyle)
             {

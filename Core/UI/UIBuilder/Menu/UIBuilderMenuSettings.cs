@@ -63,7 +63,7 @@ namespace FinalFrontier
             scrlUIVolume.NormalizedValue = SettingsManager.GetSetting<float>("Sound", "UIVolume");
         }
 
-        public static void Build(UIScreen screen, GameStateMenu menu)
+        public static void Build(UIScreen screen)
         {
             var settingsContainerStyle = new UIContainerStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("options_box_merge2.png")));
             var settingsContainer = new UIContainer("SettingsContainer", settingsContainerStyle);

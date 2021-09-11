@@ -40,11 +40,28 @@ namespace FinalFrontier
             var screen = new UIScreen();
             UIScreen = screen;
 
+            var settingsButton = new UIButton("", UITheme.BaseWideButtonStyle);
+            var settingsLabel = new UILabel("", UITheme.BaseButtonLabelStyle, "Settings");
+            settingsButton.Y = 25;
+            settingsButton.AnchorRight = true;
+            settingsButton.MarginRight = 25;
+            settingsButton.MarginBottom = 5;
+            settingsButton.AddChild(settingsLabel);
+            screen.AddChild(settingsButton);
+
+            settingsButton.OnClick += (args) =>
+            {
+                var settingsContainer = UIScreen.FindChildByName<UIContainer>("SettingsContainer", true);
+                UIBuilderMenuSettings.ResetSettings();
+                settingsContainer.ShowEnable();
+            };
+
             var logoutButton = new UIButton("", UITheme.BaseWideButtonStyle);
             var logoutLabel = new UILabel("", UITheme.BaseButtonLabelStyle, "Exit Game");
             logoutButton.Y = 25;
             logoutButton.AnchorRight = true;
             logoutButton.MarginRight = 25;
+            logoutButton.MarginBottom = 5;
             logoutButton.AddChild(logoutLabel);
             screen.AddChild(logoutButton);
 
@@ -57,6 +74,7 @@ namespace FinalFrontier
             BuildChat(screen);
             BuildInventory(screen);
             BuildBuyShip(screen);
+            UIBuilderMenuSettings.Build(screen);
 
             var topBarContainerStyle = new UIContainerStyle(new UISpriteStatic(Globals.UIAtlas.GetUITexture("links_panel.png")));
             var topBarContainer = new UIContainer("TopbarContainer", topBarContainerStyle);
