@@ -1,6 +1,5 @@
 ﻿using ElementEngine;
 using FinalFrontier.Components;
-using SharpNeat.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,7 +78,7 @@ namespace FinalFrontier.GameData
 
         public ShipWeaponData(ShipWeaponSlotData slotData, ClassType classType)
         {
-            var rng = new FastRandom(MathHelper.GetSeedFromString(slotData.Seed));
+            var rng = new Random(MathHelper.GetSeedFromString(slotData.Seed));
 
             TurretData = GameDataManager.Turrets.Where(t => t.Value.Class == classType).ToList().GetRandomItem(rng).Value;
             ProjectileData = GameDataManager.Projectiles.GetRandomItem(rng);

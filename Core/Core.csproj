@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>FinalFrontier</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ElementEngine\ElementEngine.csproj" />
+    <ProjectReference Include="..\..\ElementEngine\Engine\ElementEngine.csproj" />
   </ItemGroup>
 
   <ItemGroup>

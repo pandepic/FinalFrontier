@@ -1,6 +1,5 @@
 ﻿using ElementEngine;
 using ElementEngine.TexturePacker;
-using SharpNeat.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +48,7 @@ namespace FinalFrontier
         public static float ALIEN_WAVE_SPAWN_TIMER = 5f * 60f; // 5 minutes
         #endregion
 
-        public static FastRandom RNG = new FastRandom();
+        public static Random RNG = new();
 
         public static List<DamageType> DamageTypes = Enum.GetValues<DamageType>().ToList();
 
@@ -118,8 +117,8 @@ namespace FinalFrontier
 
         public static void Load()
         {
-            UIAtlas = AssetManager.LoadTexturePackerAtlas("Textures/ui_atlas.png", "Textures/ui_atlas.json");
-            EntityAtlas = AssetManager.LoadTexturePackerAtlas(EntityAtlasTexture, EntityAtlasData);
+            UIAtlas = AssetManager.Instance.LoadTexturePackerAtlas("Textures/ui_atlas.png", "Textures/ui_atlas.json");
+            EntityAtlas = AssetManager.Instance.LoadTexturePackerAtlas(EntityAtlasTexture, EntityAtlasData);
 
 #if DEBUG
             ServerAddress = "localhost";

@@ -2,7 +2,6 @@
 using ElementEngine.ECS;
 using FinalFrontier.Components;
 using FinalFrontier.GameData;
-using SharpNeat.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +37,7 @@ namespace FinalFrontier
 
             if (!serverMode)
             {
-                var texture = AssetManager.LoadTexture2D(data.Sprite);
+                var texture = AssetManager.Instance.LoadTexture2D(data.Sprite);
 
                 entity.TryAddComponent(new Drawable()
                 {
@@ -58,7 +57,7 @@ namespace FinalFrontier
 
         } // Star
 
-        public static Entity Planet(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbit, PlanetData data, FastRandom rng, int drawLayer, bool serverMode)
+        public static Entity Planet(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbit, PlanetData data, Random rng, int drawLayer, bool serverMode)
         {
             var entity = registry.CreateEntity();
 
@@ -87,7 +86,7 @@ namespace FinalFrontier
 
             if (!serverMode)
             {
-                var texture = AssetManager.LoadTexture2D(data.Sprite);
+                var texture = AssetManager.Instance.LoadTexture2D(data.Sprite);
 
                 entity.TryAddComponent(new Drawable()
                 {
@@ -95,7 +94,7 @@ namespace FinalFrontier
                     Origin = texture.SizeF / 2f,
                     Scale = new Vector2(data.Scale),
                     Texture = data.Sprite,
-                    TextureReference = AssetManager.LoadTexture2D(data.Sprite),
+                    TextureReference = AssetManager.Instance.LoadTexture2D(data.Sprite),
                     Layer = drawLayer,
                     MinSize = new Vector2(2),
                     MaxZoomLevel = Globals.MAX_ZOOM_PLANET,
@@ -107,7 +106,7 @@ namespace FinalFrontier
 
         } // Planet
 
-        public static Entity Moon(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbit, MoonData data, FastRandom rng, int drawLayer, bool serverMode)
+        public static Entity Moon(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbit, MoonData data, Random rng, int drawLayer, bool serverMode)
         {
             var entity = registry.CreateEntity();
 
@@ -133,7 +132,7 @@ namespace FinalFrontier
 
             if (!serverMode)
             {
-                var texture = AssetManager.LoadTexture2D(data.Sprite);
+                var texture = AssetManager.Instance.LoadTexture2D(data.Sprite);
 
                 entity.TryAddComponent(new Drawable()
                 {
@@ -141,7 +140,7 @@ namespace FinalFrontier
                     Origin = texture.SizeF / 2f,
                     Scale = new Vector2(data.Scale),
                     Texture = data.Sprite,
-                    TextureReference = AssetManager.LoadTexture2D(data.Sprite),
+                    TextureReference = AssetManager.Instance.LoadTexture2D(data.Sprite),
                     Layer = drawLayer,
                     MinSize = new Vector2(2),
                     MaxZoomLevel = Globals.MAX_ZOOM_MOON,
@@ -153,7 +152,7 @@ namespace FinalFrontier
 
         } // BuildMoon
 
-        public static Entity Asteroid(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbitStart, float orbit, AsteroidData data, FastRandom rng, int drawLayer, bool serverMode)
+        public static Entity Asteroid(Registry registry, string id, Vector2I sectorPosition, Entity parent, float orbitStart, float orbit, AsteroidData data, Random rng, int drawLayer, bool serverMode)
         {
             var entity = registry.CreateEntity();
 
@@ -190,7 +189,7 @@ namespace FinalFrontier
                     Origin = atlasRect.SizeF / 2f,
                     Scale = new Vector2(data.Scale),
                     Texture = data.Sprite,
-                    TextureReference = AssetManager.LoadTexture2D(Globals.EntityAtlas.TextureAsset),
+                    TextureReference = AssetManager.Instance.LoadTexture2D(Globals.EntityAtlas.TextureAsset),
                     Layer = drawLayer,
                     MinSize = new Vector2(1),
                     MaxZoomLevel = Globals.MAX_ZOOM_ASTEROID,

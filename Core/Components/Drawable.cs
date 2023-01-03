@@ -63,7 +63,7 @@ namespace FinalFrontier.Components
             drawable.MinSize = reader.ReadVector2();
             drawable.MaxZoomLevel = reader.ReadInt32();
 
-            drawable.TextureReference = AssetManager.LoadTexture2D(drawable.Texture);
+            drawable.TextureReference = AssetManager.Instance.LoadTexture2D(drawable.Texture);
 
             if (drawable.AtlasRect.IsZero)
                 drawable.AtlasRect = new Rectangle(new Vector2I(0), drawable.TextureReference.Size);
@@ -111,7 +111,7 @@ namespace FinalFrontier.Components
             worldIcon.Layer = reader.ReadInt32();
             worldIcon.Scale = reader.ReadVector2();
 
-            worldIcon.TextureReference = AssetManager.LoadTexture2D(worldIcon.Texture);
+            worldIcon.TextureReference = AssetManager.Instance.LoadTexture2D(worldIcon.Texture);
 
             if (worldIcon.AtlasRect.IsZero)
                 worldIcon.AtlasRect = new Rectangle(new Vector2I(0), worldIcon.TextureReference.Size);

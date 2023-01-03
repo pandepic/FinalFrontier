@@ -57,7 +57,7 @@ namespace FinalFrontier.Components
                 {
                     ref var worldIcon = ref entity.GetComponent<WorldIcon>();
                     worldIcon.Texture = "Markers/player_marker.png";
-                    worldIcon.TextureReference = AssetManager.LoadTexture2D(worldIcon.Texture);
+                    worldIcon.TextureReference = AssetManager.Instance.LoadTexture2D(worldIcon.Texture);
                     worldIcon.AtlasRect = new Rectangle(new Vector2I(0), worldIcon.TextureReference.Size);
                     worldIcon.Origin = worldIcon.AtlasRect.SizeF / 2;
                 }

@@ -21,14 +21,14 @@ namespace FinalFrontier
 
         public static void Load()
         {
-            Stars = AssetManager.LoadJSON<Dictionary<string, StarData>>("Data/Stars.json");
-            Planets = AssetManager.LoadJSON<Dictionary<string, PlanetData>>("Data/Planets.json");
-            Moons = AssetManager.LoadJSON<Dictionary<string, MoonData>>("Data/Moons.json");
-            Asteroids = AssetManager.LoadJSON<Dictionary<string, AsteroidData>>("Data/Asteroids.json");
+            Stars = AssetManager.Instance.LoadJSON<Dictionary<string, StarData>>("Data/Stars.json");
+            Planets = AssetManager.Instance.LoadJSON<Dictionary<string, PlanetData>>("Data/Planets.json");
+            Moons = AssetManager.Instance.LoadJSON<Dictionary<string, MoonData>>("Data/Moons.json");
+            Asteroids = AssetManager.Instance.LoadJSON<Dictionary<string, AsteroidData>>("Data/Asteroids.json");
 
-            Ships = AssetManager.LoadJSON<Dictionary<string, ShipData>>("Data/Ships.json");
-            Turrets = AssetManager.LoadJSON<Dictionary<string, TurretData>>("Data/Turrets.json");
-            Projectiles = AssetManager.LoadJSON<Dictionary<string, ProjectileData>>("Data/Projectiles.json");
+            Ships = AssetManager.Instance.LoadJSON<Dictionary<string, ShipData>>("Data/Ships.json");
+            Turrets = AssetManager.Instance.LoadJSON<Dictionary<string, TurretData>>("Data/Turrets.json");
+            Projectiles = AssetManager.Instance.LoadJSON<Dictionary<string, ProjectileData>>("Data/Projectiles.json");
         }
 
     } // GameDataManager

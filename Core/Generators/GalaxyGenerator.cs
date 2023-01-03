@@ -1,7 +1,6 @@
 ﻿using ElementEngine;
 using ElementEngine.ECS;
 using FinalFrontier.GameData;
-using SharpNeat.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -114,7 +113,7 @@ namespace FinalFrontier
         {
             GalaxyStars.Clear();
 
-            var rng = new FastRandom(MathHelper.GetSeedFromString(Seed));
+            var rng = new Random(MathHelper.GetSeedFromString(Seed));
             var galaxyGrid = new bool[Globals.GalaxyGridSize * Globals.GalaxyGridSize];
             var stars = 0;
 
@@ -239,7 +238,7 @@ namespace FinalFrontier
         {
             var data = GalaxyStars[sectorPosition];
 
-            var rng = new FastRandom(MathHelper.GetSeedFromString(Seed + sectorPosition.X.ToString() + sectorPosition.Y.ToString()));
+            var rng = new Random(MathHelper.GetSeedFromString(Seed + sectorPosition.X.ToString() + sectorPosition.Y.ToString()));
             var star = GalaxyPrefabs.Star(Registry, data.ID, sectorPosition, sectorPosition.ToVector2() + new Vector2(Globals.GalaxySectorScale / 2), _randomStarList.GetRandomItem(rng), _currentDrawLayer, ServerMode);
             _currentDrawLayer += 1;
 
@@ -316,7 +315,7 @@ namespace FinalFrontier
 
         } // GenerateSolarSystem
 
-        public void GenerateAsteroidBelt(string baseID, Vector2I sector, Entity parent, FastRandom rng, float orbit, int asteroids, int thickness, GalaxySectorData data)
+        public void GenerateAsteroidBelt(string baseID, Vector2I sector, Entity parent, Random rng, float orbit, int asteroids, int thickness, GalaxySectorData data)
         {
             _tempVector2List.Clear();
             thickness = thickness / 2;

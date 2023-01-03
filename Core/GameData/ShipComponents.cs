@@ -1,6 +1,5 @@
 ﻿using ElementEngine;
 using FinalFrontier.Components;
-using SharpNeat.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +32,7 @@ namespace FinalFrontier.GameData
 
         public ShipEngineData(ShipComponentSlotData data) : base(data)
         {
-            var rng = new FastRandom(MathHelper.GetSeedFromString(data.Seed));
+            var rng = new Random(MathHelper.GetSeedFromString(data.Seed));
 
             switch (data.Quality)
             {
@@ -110,7 +109,7 @@ namespace FinalFrontier.GameData
 
         public ShipShieldData(ShipComponentSlotData data) : base(data)
         {
-            var rng = new FastRandom(MathHelper.GetSeedFromString(data.Seed));
+            var rng = new Random(MathHelper.GetSeedFromString(data.Seed));
 
             switch (data.Quality)
             {
@@ -157,7 +156,7 @@ namespace FinalFrontier.GameData
 
         public ShipArmourData(ShipComponentSlotData data) : base(data)
         {
-            var rng = new FastRandom(MathHelper.GetSeedFromString(data.Seed));
+            var rng = new Random(MathHelper.GetSeedFromString(data.Seed));
 
             switch (data.Quality)
             {

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>FinalFrontier</RootNamespace>
 
     <PublishReadyToRun>false</PublishReadyToRun>
@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ElementEngine\ElementEngine.csproj" />
+    <ProjectReference Include="..\..\ElementEngine\Engine\ElementEngine.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 

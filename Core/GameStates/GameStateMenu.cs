@@ -42,7 +42,7 @@ namespace FinalFrontier
 
             if (!_musicPlaying)
             {
-                SoundManager.Play(AssetManager.LoadAudioSourceByExtension("Audio/Bold - Full.ogg"), (int)AudioType.Music, true);
+                SoundManager.Play(AssetManager.Instance.LoadAudioSourceByExtension("Audio/Bold - Full.ogg"), (int)AudioType.Music, true);
                 _musicPlaying = true;
             }
         }

@@ -48,10 +48,10 @@ namespace FinalFrontier
             SetupWindow(windowRect, "SERVER: Final Frontier", vsync: true, windowState: Veldrid.WindowState.Normal);
             Window.Resizable = false;
 
-            AssetManager.Load("Content", LoadAssetsMode.AutoPrependDir | LoadAssetsMode.AutoFind);
+            AssetManager.Instance.Load("Content", LoadAssetsMode.AutoPrependDir | LoadAssetsMode.AutoFind);
             GameDataManager.Load();
 
-            SpriteAtlasData = AssetManager.LoadJSON<TexturePackerAtlasData>("Textures/entity_atlas.json");
+            SpriteAtlasData = AssetManager.Instance.LoadJSON<TexturePackerAtlasData>("Textures/entity_atlas.json");
 
             ServerWorldManager = new ServerWorldManager(this);
             Registry = new Registry();

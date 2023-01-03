@@ -67,7 +67,7 @@ namespace FinalFrontier
             SetupWindow(windowRect, "Final Frontier", vsync: vsync, windowState: windowState);
             Window.Resizable = false;
 
-            AssetManager.Load("Content", LoadAssetsMode.AutoPrependDir | LoadAssetsMode.AutoFind);
+            AssetManager.Instance.Load("Content", LoadAssetsMode.AutoPrependDir | LoadAssetsMode.AutoFind);
             InputManager.LoadGameControls();
 
             Globals.Load();
