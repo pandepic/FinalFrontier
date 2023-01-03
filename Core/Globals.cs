@@ -100,7 +100,9 @@ namespace FinalFrontier
 
         public static void SetLanguage(string language)
         {
-            LocalisationManager.SetLanguage($"Languages/{language}.json");
+            LocalisationManager.LoadLanguage(language, $"Languages/{language}.json");
+            LocalisationManager.SetLanguage(language);
+
             SettingsManager.UpdateSetting("UI", "Language", language);
             CurrentLanguage = language;
         }
