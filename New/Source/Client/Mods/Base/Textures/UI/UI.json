@@ -1,0 +1,268 @@
+{"frames": [
+
+{
+	"filename": "AvatarPanel.png",
+	"frame": {"x":1154,"y":125,"w":297,"h":81},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":297,"h":81},
+	"sourceSize": {"w":297,"h":81}
+},
+{
+	"filename": "ChatPanel.png",
+	"frame": {"x":386,"y":343,"w":281,"h":378},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":281,"h":378},
+	"sourceSize": {"w":281,"h":378}
+},
+{
+	"filename": "ChatPanel_ButtonSend.png",
+	"frame": {"x":782,"y":1,"w":56,"h":31},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":56,"h":31},
+	"sourceSize": {"w":56,"h":31}
+},
+{
+	"filename": "CheckBox01.png",
+	"frame": {"x":282,"y":1,"w":20,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":20,"h":20},
+	"sourceSize": {"w":20,"h":20}
+},
+{
+	"filename": "CheckBox02.png",
+	"frame": {"x":304,"y":1,"w":20,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":20,"h":20},
+	"sourceSize": {"w":20,"h":20}
+},
+{
+	"filename": "GameSlotBtnHover.png",
+	"frame": {"x":198,"y":59,"w":782,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":782,"h":64},
+	"sourceSize": {"w":782,"h":64}
+},
+{
+	"filename": "GameSlotBtnNormal.png",
+	"frame": {"x":982,"y":59,"w":782,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":782,"h":64},
+	"sourceSize": {"w":782,"h":64}
+},
+{
+	"filename": "GameSlotPanel01.png",
+	"frame": {"x":1037,"y":343,"w":244,"h":400},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":244,"h":400},
+	"sourceSize": {"w":244,"h":400}
+},
+{
+	"filename": "GameSlotsTitlePanel01.png",
+	"frame": {"x":1,"y":125,"w":782,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":782,"h":64},
+	"sourceSize": {"w":782,"h":64}
+},
+{
+	"filename": "IconCheck.png",
+	"frame": {"x":265,"y":1,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "MenuPanel01.png",
+	"frame": {"x":1,"y":221,"w":509,"h":95},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":509,"h":95},
+	"sourceSize": {"w":509,"h":95}
+},
+{
+	"filename": "MenuPanel02.png",
+	"frame": {"x":512,"y":221,"w":1336,"h":120},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":46,"y":0,"w":1336,"h":120},
+	"sourceSize": {"w":1382,"h":120}
+},
+{
+	"filename": "MenuPanelButton01.png",
+	"frame": {"x":851,"y":125,"w":301,"h":76},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":301,"h":76},
+	"sourceSize": {"w":301,"h":76}
+},
+{
+	"filename": "MenuPanelButton02.png",
+	"frame": {"x":851,"y":125,"w":301,"h":76},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":301,"h":76},
+	"sourceSize": {"w":301,"h":76}
+},
+{
+	"filename": "MenuPanelLogo01.png",
+	"frame": {"x":785,"y":125,"w":64,"h":68},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":68},
+	"sourceSize": {"w":64,"h":68}
+},
+{
+	"filename": "SelectItem01.png",
+	"frame": {"x":326,"y":1,"w":205,"h":21},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":205,"h":21},
+	"sourceSize": {"w":205,"h":21}
+},
+{
+	"filename": "SelectItem01_icon.png",
+	"frame": {"x":1,"y":1,"w":11,"h":6},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":11,"h":6},
+	"sourceSize": {"w":11,"h":6}
+},
+{
+	"filename": "SelectItem02.png",
+	"frame": {"x":533,"y":1,"w":205,"h":21},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":205,"h":21},
+	"sourceSize": {"w":205,"h":21}
+},
+{
+	"filename": "SliderBar02.png",
+	"frame": {"x":740,"y":1,"w":40,"h":26},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":26},
+	"sourceSize": {"w":40,"h":26}
+},
+{
+	"filename": "SliderBar02B.png",
+	"frame": {"x":14,"y":1,"w":249,"h":10},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":249,"h":10},
+	"sourceSize": {"w":249,"h":10}
+},
+{
+	"filename": "WindowSettings02.png",
+	"frame": {"x":1,"y":745,"w":782,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":782,"h":533},
+	"sourceSize": {"w":782,"h":533}
+},
+{
+	"filename": "WindowSettings02_Button.png",
+	"frame": {"x":1551,"y":1,"w":393,"h":56},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":393,"h":56},
+	"sourceSize": {"w":393,"h":56}
+},
+{
+	"filename": "WindowSettings02_ButtonTopCategory.png",
+	"frame": {"x":1,"y":59,"w":195,"h":56},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":195,"h":56},
+	"sourceSize": {"w":195,"h":56}
+},
+{
+	"filename": "WindowSettings02_PanelKey.png",
+	"frame": {"x":840,"y":1,"w":682,"h":31},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":682,"h":31},
+	"sourceSize": {"w":682,"h":31}
+},
+{
+	"filename": "WindowSettings02_Slider.png",
+	"frame": {"x":369,"y":343,"w":15,"h":368},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":368},
+	"sourceSize": {"w":15,"h":368}
+},
+{
+	"filename": "WindowSettings02_SliderB.png",
+	"frame": {"x":1524,"y":1,"w":25,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":25,"h":41},
+	"sourceSize": {"w":25,"h":41}
+},
+{
+	"filename": "WindowSettings03_NoPanels.png",
+	"frame": {"x":1,"y":745,"w":782,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":782,"h":533},
+	"sourceSize": {"w":782,"h":533}
+},
+{
+	"filename": "WindowSettings03_Panel01.png",
+	"frame": {"x":1,"y":343,"w":366,"h":135},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":366,"h":135},
+	"sourceSize": {"w":366,"h":135}
+},
+{
+	"filename": "WindowSettings03_Panel02.png",
+	"frame": {"x":1,"y":343,"w":366,"h":135},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":366,"h":135},
+	"sourceSize": {"w":366,"h":135}
+},
+{
+	"filename": "WindowSettings03_Panel03.png",
+	"frame": {"x":669,"y":343,"w":366,"h":387},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":366,"h":387},
+	"sourceSize": {"w":366,"h":387}
+},
+{
+	"filename": "WindowSettings03_Panel04.png",
+	"frame": {"x":1453,"y":125,"w":366,"h":94},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":366,"h":94},
+	"sourceSize": {"w":366,"h":94}
+},
+{
+	"filename": "WindowSettings03_Panels.png",
+	"frame": {"x":785,"y":745,"w":782,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":782,"h":533},
+	"sourceSize": {"w":782,"h":533}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "UI.png",
+	"format": "RGBA8888",
+	"size": {"w":1945,"h":1279},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:1727e68ac22011809733542c87b7dd64:4ed141f2294241d84fa6920b7c0fe4dd:4b774b923918ecd961888279dba3ffad$"
+}
+}

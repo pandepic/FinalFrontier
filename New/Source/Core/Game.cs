@@ -1,5 +1,4 @@
 ﻿using ElementEngine;
-using Newtonsoft.Json;
 using Veldrid;
 
 namespace FinalFrontier.Core;
@@ -30,17 +29,26 @@ public class Game : BaseGame
         var assetsPath = "Mods";
         var graphicsDeviceDebugMode = false;
 
+        var windowRect = new Rectangle();
+        var windowState = _settings.BorderlessFullscreen ? WindowState.BorderlessFullScreen : WindowState.Normal;
+
 #if DEBUG
         //var displays = Veldrid.Sdl2.Sdl2Native.SDL_GetNumVideoDisplays();
 
-        //if (displays == 3)
-        //    windowPosition.X += 2600;
+        //if (displays == 2 && _settings.BorderlessFullscreen)
+        //{
+        //    unsafe
+        //    {
+        //        var bounds = new Veldrid.Rectangle();
+        //        Veldrid.Sdl2.Sdl2Native.SDL_GetDisplayBounds(1, &bounds);
+
+        //        windowRect.X = bounds.X;
+        //        windowRect.Y = bounds.Y;
+        //    }
+        //}
 
         graphicsDeviceDebugMode = true;
 #endif
-
-        var windowRect = new Rectangle();
-        var windowState = _settings.BorderlessFullscreen ? WindowState.BorderlessFullScreen : WindowState.Normal;
 
         if (_settings.BorderlessFullscreen)
         {
@@ -80,9 +88,9 @@ public class Game : BaseGame
         Globals.GameSettings = System.Text.Json.JsonSerializer.Deserialize<GameSettings>(
             File.ReadAllText("Settings.json"),
             new System.Text.Json.JsonSerializerOptions()
-        {
-            IncludeFields = true,
-        })!;
+            {
+                IncludeFields = true,
+            })!;
     }
 
     private void SaveSettings()
@@ -90,15 +98,15 @@ public class Game : BaseGame
         var json = System.Text.Json.JsonSerializer.Serialize(
             _settings,
             new System.Text.Json.JsonSerializerOptions()
-        {
-            IncludeFields = true,
-        });
+            {
+                IncludeFields = true,
+                WriteIndented = true,
+            });
 
         File.WriteAllText("Settings.json", json);
     }
 
     public override void Draw(GameTimer gameTimer)
     {
-        
     }
 }

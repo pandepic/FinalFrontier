@@ -1,0 +1,11 @@
+﻿{
+  "Resolution": {
+    "X": 1920,
+    "Y": 1080
+  },
+  "BorderlessFullscreen": false,
+  "Vsync": true,
+  "Gameplay": {
+    "ZoomToCursor": true
+  }
+}

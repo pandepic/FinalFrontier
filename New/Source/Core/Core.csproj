@@ -10,7 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\ElementEngine\Engine\ElementEngine.csproj" />
+    <ProjectReference Include="..\..\..\..\ElementEngine\Engine\ElementEngine.csproj" />
   </ItemGroup>
-
 </Project>

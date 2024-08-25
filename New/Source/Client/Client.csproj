@@ -28,6 +28,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
